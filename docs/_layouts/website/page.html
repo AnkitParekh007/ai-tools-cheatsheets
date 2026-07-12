@@ -92,11 +92,6 @@
 <div class="book honkit-cloak">
     <div class="book-summary">
         {% block book_sidebar %}
-            {% block search_input %}
-            <div id="book-search-input" role="search">
-                <input type="text" placeholder="Type to search" />
-            </div>
-            {% endblock %}
             {% block book_summary %}
                 <nav role="navigation">
                 {% include "website/summary.html" %}
@@ -106,6 +101,51 @@
     </div>
 
     <div class="book-body">
+        <div id="book-search-input" role="search" aria-hidden="true">
+            <input type="text" placeholder="Type to search" tabindex="-1" />
+        </div>
+
+        <div class="ai-search-palette" data-search-palette hidden>
+            <button class="ai-search-palette-backdrop" type="button" data-search-close tabindex="-1" aria-label="Close search"></button>
+            <section class="ai-search-dialog" role="dialog" aria-modal="true" aria-labelledby="ai-search-title">
+                <div class="ai-search-shell">
+                    <div class="ai-search-shell-bar">
+                        <div class="ai-search-shell-icon" aria-hidden="true">/</div>
+                        <input
+                            id="ai-search-title"
+                            class="ai-search-shell-input"
+                            type="text"
+                            placeholder="Search docs, tools, prompts, workflows..."
+                            autocomplete="off"
+                            spellcheck="false"
+                            data-search-palette-input
+                        />
+                        <button class="ai-search-shell-close" type="button" data-search-close aria-label="Close search">Esc</button>
+                    </div>
+                    <div id="book-search-results" class="ai-search-results-host">
+                        <div class="search-results">
+                            <div class="search-results-title">
+                                <span class="search-results-label">Results</span>
+                                <span class="search-results-count"></span>
+                                <span class="search-query"></span>
+                            </div>
+                            <div class="search-results-panel has-results">
+                                <ul class="search-results-list"></ul>
+                            </div>
+                            <div class="search-results-panel no-results">
+                                <p>No results yet. Try a tool name, prompt, config file, or workflow.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-search-hintbar">
+                        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+                        <span><kbd>Enter</kbd> open</span>
+                        <span><kbd>Esc</kbd> close</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
         {% block book_body %}
             <div class="body-inner">
                 {% block book_inner %}

@@ -2,6 +2,12 @@
   var storageKey = "ai-tools-docs-theme";
   var root = document.documentElement;
   var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var paletteState = {
+    root: null,
+    input: null,
+    hiddenInput: null,
+    resultList: null
+  };
 
   function getSavedTheme() {
     var urlTheme = new URLSearchParams(window.location.search).get("theme");
@@ -52,17 +58,51 @@
     }
   }
 
-  function focusSearch() {
-    var summary = document.querySelector(".book");
-    if (summary && !summary.classList.contains("with-summary")) {
-      summary.classList.add("with-summary");
-    }
+  function syncSearchInput(value) {
+    if (!paletteState.hiddenInput) return;
 
-    var searchInput = document.querySelector("#book-search-input input");
-    if (searchInput) {
-      searchInput.focus();
-      searchInput.select();
+    paletteState.hiddenInput.value = value;
+    paletteState.hiddenInput.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function moveSearchSelection(step) {
+    if (!paletteState.resultList) return;
+
+    var items = Array.prototype.slice.call(
+      paletteState.resultList.querySelectorAll(".search-results-item a")
+    );
+
+    if (!items.length) return;
+
+    var currentIndex = items.findIndex(function (item) {
+      return item === document.activeElement;
+    });
+
+    var nextIndex = currentIndex + step;
+    if (nextIndex < 0) nextIndex = items.length - 1;
+    if (nextIndex >= items.length) nextIndex = 0;
+    items[nextIndex].focus();
+  }
+
+  function closeSearchPalette(clearQuery) {
+    if (!paletteState.root) return;
+
+    paletteState.root.hidden = true;
+    document.body.classList.remove("search-palette-open");
+
+    if (clearQuery && paletteState.input) {
+      paletteState.input.value = "";
+      syncSearchInput("");
     }
+  }
+
+  function openSearchPalette() {
+    if (!paletteState.root || !paletteState.input) return;
+
+    paletteState.root.hidden = false;
+    document.body.classList.add("search-palette-open");
+    paletteState.input.focus();
+    paletteState.input.select();
   }
 
   function bindThemeSwitcher() {
@@ -83,8 +123,37 @@
 
   function bindSearchTrigger() {
     document.querySelectorAll("[data-search-trigger]").forEach(function (button) {
-      button.addEventListener("click", focusSearch);
+      button.addEventListener("click", openSearchPalette);
     });
+
+    document.querySelectorAll("[data-search-close]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        closeSearchPalette(true);
+      });
+    });
+
+    if (paletteState.input) {
+      paletteState.input.addEventListener("input", function () {
+        syncSearchInput(paletteState.input.value);
+      });
+
+      paletteState.input.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          moveSearchSelection(1);
+        }
+
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          moveSearchSelection(-1);
+        }
+
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeSearchPalette(true);
+        }
+      });
+    }
 
     document.addEventListener("keydown", function (event) {
       var isCommandK = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
@@ -94,9 +163,30 @@
 
       if ((isCommandK || isSlash) && !isTypingContext) {
         event.preventDefault();
-        focusSearch();
+        openSearchPalette();
+      }
+
+      if (event.key === "Escape" && document.body.classList.contains("search-palette-open")) {
+        event.preventDefault();
+        closeSearchPalette(true);
       }
     });
+
+    document.addEventListener("click", function (event) {
+      var target = event.target;
+      if (!(target instanceof Element)) return;
+
+      if (target.closest(".search-results-item a")) {
+        closeSearchPalette(false);
+      }
+    });
+  }
+
+  function bindSearchPalette() {
+    paletteState.root = document.querySelector("[data-search-palette]");
+    paletteState.input = document.querySelector("[data-search-palette-input]");
+    paletteState.hiddenInput = document.querySelector("#book-search-input input");
+    paletteState.resultList = document.querySelector("#book-search-results .search-results-list");
   }
 
   function decorateHomepage() {
@@ -109,6 +199,7 @@
 
   function init() {
     applyTheme(getSavedTheme());
+    bindSearchPalette();
     bindThemeSwitcher();
     bindSearchTrigger();
     decorateHomepage();
