@@ -1,0 +1,17 @@
+{
+  "name": "ai-coding-tools-cheat-sheet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A practical team handbook and HonKit documentation site for AI coding tools, CLIs, agents, MCP, prompts, and workflows.",
+  "scripts": {
+    "docs:init": "honkit init ./docs",
+    "docs:serve": "honkit serve",
+    "docs:build": "honkit build",
+    "docs:debug": "honkit build ./ --log=debug --debug",
+    "links:check": "node scripts/verify-links.js",
+    "index:generate": "node scripts/generate-index.js"
+  },
+  "devDependencies": {
+    "honkit": "latest"
+  }
+}

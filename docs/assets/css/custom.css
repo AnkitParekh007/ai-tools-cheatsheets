@@ -1,0 +1,29 @@
+.book .book-body .page-wrapper .page-inner {
+  max-width: 920px;
+}
+
+.markdown-section h1,
+.markdown-section h2,
+.markdown-section h3 {
+  color: #111827;
+}
+
+.markdown-section table {
+  display: table;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.markdown-section pre {
+  border-radius: 8px;
+}
+
+.markdown-section blockquote {
+  border-left: 4px solid #2563eb;
+  background: #f8fbff;
+  padding: 0.75rem 1rem;
+}
+
+.book-summary {
+  font-size: 14px;
+}

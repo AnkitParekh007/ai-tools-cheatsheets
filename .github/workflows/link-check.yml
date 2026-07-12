@@ -1,0 +1,13 @@
+name: link-check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/verify-links.sh
