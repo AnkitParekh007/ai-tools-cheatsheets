@@ -5,7 +5,7 @@ Practical GitHub repository and HonKit documentation site for AI coding tools, c
 Documentation site:
 
 - local HonKit source: [`docs/`](docs/README.md)
-- GitHub Pages target: `https://<your-org-or-user>.github.io/ai-coding-tools-cheat-sheet/`
+- GitHub Pages target: `https://ankitparekh007.github.io/ai-tools-cheatsheets/`
 
 ## What This Repo Is
 
