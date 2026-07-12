@@ -1,8 +1,8 @@
 {
-  "name": "ai-coding-tools-cheat-sheet",
+  "name": "ai-tools-cheatsheets",
   "version": "1.0.0",
   "private": true,
-  "description": "A practical team handbook and HonKit documentation site for AI coding tools, CLIs, agents, MCP, prompts, and workflows.",
+  "description": "Open-source cheat sheets and team handbook for Claude Code, OpenAI Codex, Cursor, GitHub Copilot, Grok, MCP, prompts, config files, and AI coding workflows.",
   "scripts": {
     "docs:init": "honkit init ./docs",
     "docs:serve": "honkit serve",

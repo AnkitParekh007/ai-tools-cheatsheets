@@ -1,0 +1,50 @@
+name: New tool
+description: Propose a new tool page or guide
+title: "[New Tool] "
+labels: ["documentation", "tool-page", "help wanted"]
+body:
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Why it belongs here
+      description: Explain how it fits the repo scope
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official source link
+    validations:
+      required: true
+  - type: textarea
+    id: expected_change
+    attributes:
+      label: Expected page scope
+      description: What sections or examples should the page include?
+    validations:
+      required: true
+  - type: dropdown
+    id: verification_status
+    attributes:
+      label: Verification status
+      options:
+        - Official docs available
+        - Needs verification
+        - Experimental / preview
+    validations:
+      required: true
+  - type: dropdown
+    id: pr_willingness
+    attributes:
+      label: Willing to submit a PR?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true

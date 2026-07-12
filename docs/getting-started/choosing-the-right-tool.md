@@ -23,3 +23,7 @@ As a model or integration option unless official CLI support is confirmed.
 ## Use Cline, Roo Code, Continue, Aider, Or OpenCode
 
 When the team wants open-source or editor-based alternatives with more provider flexibility.
+
+> Verification note: Treat xAI as a model/integration path unless official first-party CLI guidance is confirmed in xAI docs.
+
+> Team tip: Most teams should standardize one primary terminal tool and one primary IDE tool rather than approving every option.

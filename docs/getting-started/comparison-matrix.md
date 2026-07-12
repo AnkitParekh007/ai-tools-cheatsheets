@@ -14,3 +14,5 @@
 | Aider | CLI | git-centric terminal coding | yes | integrations | provider-dependent | strong | strong | moderate | moderate | indirect | `.aider.conf.yml` | medium | API keys and shell discipline matter | Confirmed |
 | Continue | CLI / IDE | YAML-driven open workflows | yes | yes | limited | strong | strong | moderate | strong | yes | `config.yaml` | medium | config and provider review needed | Confirmed |
 | OpenCode | CLI / desktop / IDE | open-source hybrid workflows | yes | yes | yes | strong | strong | moderate | moderate | yes | `opencode.json` | medium | WSL recommended on Windows | Confirmed |
+
+> Verification note: Re-check vendor docs before standardizing install commands, plan entitlements, or enterprise feature claims.

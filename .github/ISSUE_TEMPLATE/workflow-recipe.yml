@@ -1,0 +1,48 @@
+name: Workflow recipe
+description: Propose or improve a workflow page
+title: "[Workflow] "
+labels: ["documentation", "workflow", "help wanted"]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: Affected file
+      description: Example `docs/workflows/code-review.md`
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What workflow should be added or improved?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official or primary source link
+      description: Optional but recommended for tool-specific workflows
+  - type: textarea
+    id: expected_change
+    attributes:
+      label: Expected change
+    validations:
+      required: true
+  - type: dropdown
+    id: verification_status
+    attributes:
+      label: Verification status
+      options:
+        - Confirmed
+        - Needs verification
+        - Experimental / preview
+    validations:
+      required: true
+  - type: dropdown
+    id: pr_willingness
+    attributes:
+      label: Willing to submit a PR?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true

@@ -1,0 +1,42 @@
+name: Broken link
+description: Report a broken or stale internal/external link
+title: "[Broken Link] "
+labels: ["documentation", "broken-link", "good first issue"]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: Affected file
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Broken link
+    validations:
+      required: true
+  - type: textarea
+    id: expected_change
+    attributes:
+      label: Expected fix
+      description: Replacement link or note
+    validations:
+      required: true
+  - type: dropdown
+    id: verification_status
+    attributes:
+      label: Verification status
+      options:
+        - Confirmed broken
+        - Needs verification
+    validations:
+      required: true
+  - type: dropdown
+    id: pr_willingness
+    attributes:
+      label: Willing to submit a PR?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true

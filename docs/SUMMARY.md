@@ -3,11 +3,14 @@
 ## Start Here
 
 * [Home](README.md)
+* [Why This Repo Exists](getting-started/why-this-repo.md)
 * [Quick Start](getting-started/quick-start.md)
 * [How to Use This Site](getting-started/how-to-use-this-site.md)
 * [Choosing the Right Tool](getting-started/choosing-the-right-tool.md)
 * [Comparison Matrix](getting-started/comparison-matrix.md)
 * [Terminology](getting-started/terminology.md)
+* [Fork for Your Team](getting-started/fork-for-your-team.md)
+* [Social Preview and Promotion](getting-started/social-preview-and-promotion.md)
 
 ## Tools
 
@@ -105,6 +108,7 @@
 * [Approved Tools Policy](governance/approved-tools-policy.md)
 * [Prompt Review Policy](governance/prompt-review-policy.md)
 * [MCP Approval Policy](governance/mcp-approval-policy.md)
+* [Customize for Your Team](governance/customize-for-your-team.md)
 * [Troubleshooting](governance/troubleshooting.md)
 
 ## Reference

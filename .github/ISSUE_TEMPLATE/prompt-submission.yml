@@ -1,0 +1,48 @@
+name: Prompt submission
+description: Add or improve a prompt page
+title: "[Prompt] "
+labels: ["documentation", "prompt", "good first issue"]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: Affected file
+      description: Example `docs/prompts/master-prompts.md`
+    validations:
+      required: true
+  - type: textarea
+    id: prompt_text
+    attributes:
+      label: Proposed prompt or prompt improvement
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source link
+      description: Optional if inspired by official docs or a verified workflow
+  - type: textarea
+    id: expected_change
+    attributes:
+      label: Expected change
+    validations:
+      required: true
+  - type: dropdown
+    id: verification_status
+    attributes:
+      label: Verification status
+      options:
+        - Confirmed
+        - Needs verification
+        - Experimental / preview
+    validations:
+      required: true
+  - type: dropdown
+    id: pr_willingness
+    attributes:
+      label: Willing to submit a PR?
+      options:
+        - Yes
+        - No
+    validations:
+      required: true

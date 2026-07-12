@@ -1,7 +1,7 @@
 {
   "root": "./docs",
-  "title": "AI Coding Tools Cheat Sheet",
-  "description": "A practical handbook for Claude Code, OpenAI Codex, Cursor, Grok, GitHub Copilot, MCP, prompts, workflows, and team AI coding standards.",
+  "title": "AI Tools Cheatsheets",
+  "description": "One open-source handbook for Claude Code, OpenAI Codex, Cursor, GitHub Copilot, Grok, MCP, prompts, templates, and team AI coding workflows.",
   "author": "Engineering Team",
   "language": "en",
   "plugins": [],
