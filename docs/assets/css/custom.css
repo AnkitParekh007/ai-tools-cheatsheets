@@ -15,6 +15,10 @@
   --ai-grid: rgba(104, 227, 233, 0.06);
   --ai-code: #0d1825;
   --ai-code-border: rgba(103, 159, 219, 0.18);
+  --ai-scrollbar-track: rgba(8, 18, 29, 0.42);
+  --ai-scrollbar-thumb: linear-gradient(180deg, rgba(104, 227, 233, 0.5), rgba(73, 184, 255, 0.44));
+  --ai-scrollbar-thumb-solid: rgba(92, 196, 233, 0.7);
+  --ai-scrollbar-thumb-hover-solid: rgba(124, 219, 239, 0.86);
   --ai-radius-xl: 24px;
   --ai-radius-lg: 18px;
   --ai-radius-md: 12px;
@@ -38,6 +42,10 @@
   --ai-grid: rgba(32, 108, 240, 0.05);
   --ai-code: #f6f9fc;
   --ai-code-border: rgba(16, 42, 71, 0.08);
+  --ai-scrollbar-track: rgba(207, 223, 238, 0.82);
+  --ai-scrollbar-thumb: linear-gradient(180deg, rgba(13, 168, 187, 0.54), rgba(32, 108, 240, 0.46));
+  --ai-scrollbar-thumb-solid: rgba(42, 137, 221, 0.58);
+  --ai-scrollbar-thumb-hover-solid: rgba(23, 117, 214, 0.78);
 }
 
 html,
@@ -49,6 +57,67 @@ body {
     var(--ai-bg);
   color: var(--ai-text);
   font-family: var(--ai-font);
+}
+
+html,
+body,
+.book-summary,
+.book-body,
+.page-wrapper,
+#book-search-results {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ai-scrollbar-thumb-solid) var(--ai-scrollbar-track);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.book-summary::-webkit-scrollbar,
+.book-body::-webkit-scrollbar,
+.page-wrapper::-webkit-scrollbar,
+#book-search-results::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.book-summary::-webkit-scrollbar-track,
+.book-body::-webkit-scrollbar-track,
+.page-wrapper::-webkit-scrollbar-track,
+#book-search-results::-webkit-scrollbar-track {
+  background: var(--ai-scrollbar-track);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.book-summary::-webkit-scrollbar-thumb,
+.book-body::-webkit-scrollbar-thumb,
+.page-wrapper::-webkit-scrollbar-thumb,
+#book-search-results::-webkit-scrollbar-thumb {
+  background: var(--ai-scrollbar-thumb);
+  background-color: var(--ai-scrollbar-thumb-solid);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+.book-summary::-webkit-scrollbar-thumb:hover,
+.book-body::-webkit-scrollbar-thumb:hover,
+.page-wrapper::-webkit-scrollbar-thumb:hover,
+#book-search-results::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ai-scrollbar-thumb-hover-solid);
+}
+
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+.book-summary::-webkit-scrollbar-corner,
+.book-body::-webkit-scrollbar-corner,
+.page-wrapper::-webkit-scrollbar-corner,
+#book-search-results::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 .book {
@@ -445,6 +514,51 @@ body {
   margin: 0;
 }
 
+.ai-comparison-page {
+  display: grid;
+  gap: 22px;
+}
+
+.ai-comparison-page > p,
+.ai-comparison-page > ul,
+.ai-comparison-page > ol {
+  font-size: 20px;
+  line-height: 1.7;
+  max-width: 980px;
+}
+
+.ai-comparison-page h2 {
+  font-size: 42px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-top: 18px;
+}
+
+.ai-comparison-page h3 {
+  font-size: 28px;
+  line-height: 1.16;
+}
+
+.ai-comparison-page .ai-pick-card p,
+.ai-comparison-page .ai-mini-card p {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.ai-comparison-page table {
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.ai-comparison-page table th,
+.ai-comparison-page table td {
+  padding: 15px 14px;
+}
+
+.ai-comparison-page .ai-page-nav-title {
+  font-size: 24px;
+}
+
 .markdown-section h2 + .ai-three-up {
   margin-top: 12px;
 }
@@ -535,6 +649,16 @@ body {
 
 .markdown-section table tr:nth-child(2n) {
   background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.markdown-section .ai-comparison-page table {
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.markdown-section .ai-comparison-page table th,
+.markdown-section .ai-comparison-page table td {
+  padding: 15px 14px;
 }
 
 .markdown-section pre {
@@ -734,6 +858,16 @@ body.is-home .markdown-section > blockquote:first-of-type {
   .ai-comparison-grid {
     grid-template-columns: 1fr;
   }
+
+  .ai-comparison-page > p,
+  .ai-comparison-page > ul,
+  .ai-comparison-page > ol {
+    font-size: 18px;
+  }
+
+  .ai-comparison-page h2 {
+    font-size: 36px;
+  }
 }
 
 @media (max-width: 960px) {
@@ -780,6 +914,14 @@ body.is-home .markdown-section > blockquote:first-of-type {
     text-align: left;
     align-items: flex-start;
   }
+
+  .ai-comparison-page table {
+    font-size: 15px;
+  }
+
+  .markdown-section .ai-comparison-page table {
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 680px) {
@@ -821,6 +963,38 @@ body.is-home .markdown-section > blockquote:first-of-type {
   .ai-pick-card,
   .ai-mini-card {
     padding: 20px;
+  }
+
+  .ai-comparison-page > p,
+  .ai-comparison-page > ul,
+  .ai-comparison-page > ol {
+    font-size: 17px;
+  }
+
+  .ai-comparison-page h2 {
+    font-size: 30px;
+  }
+
+  .ai-comparison-page h3 {
+    font-size: 24px;
+  }
+
+  .ai-comparison-page table {
+    font-size: 14px;
+  }
+
+  .ai-comparison-page table th,
+  .ai-comparison-page table td {
+    padding: 13px 12px;
+  }
+
+  .markdown-section .ai-comparison-page table {
+    font-size: 14px;
+  }
+
+  .markdown-section .ai-comparison-page table th,
+  .markdown-section .ai-comparison-page table td {
+    padding: 13px 12px;
   }
 }
 
