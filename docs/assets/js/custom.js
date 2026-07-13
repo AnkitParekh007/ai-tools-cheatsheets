@@ -2,6 +2,8 @@
   var storageKey = "ai-tools-docs-theme";
   var root = document.documentElement;
   var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var hasBoundKeyboardEvents = false;
+  var hasBoundThemeMedia = false;
   var paletteState = {
     root: null,
     input: null,
@@ -59,6 +61,7 @@
   }
 
   function syncSearchInput(value) {
+    bindSearchPalette();
     if (!paletteState.hiddenInput) return;
 
     paletteState.hiddenInput.value = value;
@@ -66,6 +69,7 @@
   }
 
   function moveSearchSelection(step) {
+    bindSearchPalette();
     if (!paletteState.resultList) return;
 
     var items = Array.prototype.slice.call(
@@ -85,6 +89,7 @@
   }
 
   function closeSearchPalette(clearQuery) {
+    bindSearchPalette();
     if (!paletteState.root) return;
 
     paletteState.root.hidden = true;
@@ -97,6 +102,7 @@
   }
 
   function openSearchPalette() {
+    bindSearchPalette();
     if (!paletteState.root || !paletteState.input) return;
 
     paletteState.root.hidden = false;
@@ -107,6 +113,9 @@
 
   function bindThemeSwitcher() {
     document.querySelectorAll("[data-theme-choice]").forEach(function (button) {
+      if (button.dataset.aiBoundTheme === "true") return;
+
+      button.dataset.aiBoundTheme = "true";
       button.addEventListener("click", function () {
         var choice = button.getAttribute("data-theme-choice");
         saveTheme(choice);
@@ -114,6 +123,9 @@
       });
     });
 
+    if (hasBoundThemeMedia) return;
+
+    hasBoundThemeMedia = true;
     prefersDark.addEventListener("change", function () {
       if (getSavedTheme() === "system") {
         applyTheme("system");
@@ -123,21 +135,40 @@
 
   function bindSearchTrigger() {
     document.querySelectorAll("[data-search-trigger]").forEach(function (button) {
-      button.addEventListener("click", openSearchPalette);
+      if (button.dataset.aiBoundSearchTrigger === "true") return;
+
+      button.dataset.aiBoundSearchTrigger = "true";
+      button.addEventListener("click", function () {
+        openSearchPalette();
+      });
     });
 
     document.querySelectorAll("[data-search-close]").forEach(function (button) {
+      if (button.dataset.aiBoundSearchClose === "true") return;
+
+      button.dataset.aiBoundSearchClose = "true";
       button.addEventListener("click", function () {
         closeSearchPalette(true);
       });
     });
 
-    if (paletteState.input) {
-      paletteState.input.addEventListener("input", function () {
-        syncSearchInput(paletteState.input.value);
+    if (paletteState.resultList && paletteState.resultList.dataset.aiBoundSearchResults !== "true") {
+      paletteState.resultList.dataset.aiBoundSearchResults = "true";
+      paletteState.resultList.addEventListener("click", function (event) {
+        var target = event.target;
+        if (!(target instanceof Element)) return;
+        if (target.closest(".search-results-item a")) {
+          closeSearchPalette(false);
+        }
       });
+    }
 
-      paletteState.input.addEventListener("keydown", function (event) {
+    if (paletteState.input) {
+      paletteState.input.oninput = function () {
+        syncSearchInput(paletteState.input.value);
+      };
+
+      paletteState.input.onkeydown = function (event) {
         if (event.key === "ArrowDown") {
           event.preventDefault();
           moveSearchSelection(1);
@@ -152,9 +183,12 @@
           event.preventDefault();
           closeSearchPalette(true);
         }
-      });
+      };
     }
 
+    if (hasBoundKeyboardEvents) return;
+
+    hasBoundKeyboardEvents = true;
     document.addEventListener("keydown", function (event) {
       var isCommandK = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
       var isSlash = event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey;
@@ -169,15 +203,6 @@
       if (event.key === "Escape" && document.body.classList.contains("search-palette-open")) {
         event.preventDefault();
         closeSearchPalette(true);
-      }
-    });
-
-    document.addEventListener("click", function (event) {
-      var target = event.target;
-      if (!(target instanceof Element)) return;
-
-      if (target.closest(".search-results-item a")) {
-        closeSearchPalette(false);
       }
     });
   }
@@ -209,5 +234,15 @@
     document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
+  }
+
+  if (window.gitbook && window.gitbook.events) {
+    window.gitbook.events.on("page.change", function () {
+      bindSearchPalette();
+      bindThemeSwitcher();
+      bindSearchTrigger();
+      applyTheme(getSavedTheme());
+      decorateHomepage();
+    });
   }
 })();
