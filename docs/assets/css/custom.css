@@ -686,8 +686,29 @@ body::-webkit-scrollbar-corner,
 .markdown-section blockquote {
   border-left: 4px solid var(--ai-accent);
   background: rgba(73, 184, 255, 0.08);
-  padding: 0.9rem 1rem;
+  padding: 1rem 1.1rem;
   border-radius: 0 14px 14px 0;
+  display: grid;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.markdown-section blockquote > * {
+  margin: 0;
+}
+
+.markdown-section blockquote p + p {
+  margin-top: 0.7rem;
+}
+
+.markdown-section blockquote ul,
+.markdown-section blockquote ol {
+  padding-left: 1.2rem;
+}
+
+.markdown-section blockquote * + ul,
+.markdown-section blockquote * + ol {
+  margin-top: 0.7rem;
 }
 
 .page-inner section.normal > h1:first-child {
