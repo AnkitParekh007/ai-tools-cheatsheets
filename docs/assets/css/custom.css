@@ -546,13 +546,13 @@ body::-webkit-scrollbar-corner,
 }
 
 .ai-comparison-page table {
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 1.08em;
+  line-height: 1.65;
 }
 
 .ai-comparison-page table th,
 .ai-comparison-page table td {
-  padding: 15px 14px;
+  padding: 16px 16px;
 }
 
 .ai-comparison-page .ai-page-nav-title {
@@ -622,7 +622,8 @@ body::-webkit-scrollbar-corner,
 .markdown-section table {
   display: table;
   width: 100%;
-  font-size: 0.94rem;
+  font-size: 1.02em;
+  line-height: 1.65;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--ai-border);
   border-radius: 18px;
@@ -632,6 +633,8 @@ body::-webkit-scrollbar-corner,
 .markdown-section table th,
 .markdown-section table td {
   border-color: var(--ai-border) !important;
+  padding: 15px 16px;
+  vertical-align: top;
 }
 
 .markdown-section table th {
@@ -652,13 +655,13 @@ body::-webkit-scrollbar-corner,
 }
 
 .markdown-section .ai-comparison-page table {
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 1.08em;
+  line-height: 1.65;
 }
 
 .markdown-section .ai-comparison-page table th,
 .markdown-section .ai-comparison-page table td {
-  padding: 15px 14px;
+  padding: 16px 16px;
 }
 
 .markdown-section pre {
@@ -916,15 +919,24 @@ body.is-home .markdown-section > blockquote:first-of-type {
   }
 
   .ai-comparison-page table {
-    font-size: 15px;
+    font-size: 1em;
   }
 
   .markdown-section .ai-comparison-page table {
-    font-size: 15px;
+    font-size: 1em;
   }
 }
 
 @media (max-width: 680px) {
+  .markdown-section table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    table-layout: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .book .book-body .page-wrapper .page-inner {
     padding: 26px 20px 56px;
   }
@@ -980,21 +992,33 @@ body.is-home .markdown-section > blockquote:first-of-type {
   }
 
   .ai-comparison-page table {
-    font-size: 14px;
+    font-size: 0.96em;
   }
 
   .ai-comparison-page table th,
   .ai-comparison-page table td {
-    padding: 13px 12px;
+    padding: 14px 14px;
   }
 
   .markdown-section .ai-comparison-page table {
-    font-size: 14px;
+    font-size: 0.96em;
   }
 
   .markdown-section .ai-comparison-page table th,
   .markdown-section .ai-comparison-page table td {
-    padding: 13px 12px;
+    padding: 14px 14px;
+  }
+
+  .markdown-section table th,
+  .markdown-section table td,
+  .ai-overview-table th,
+  .ai-overview-table td {
+    padding: 14px 14px;
+  }
+
+  .markdown-section table th,
+  .markdown-section table td {
+    min-width: 168px;
   }
 }
 
@@ -1016,14 +1040,14 @@ body.is-home .markdown-section > blockquote:first-of-type {
 .ai-overview-table th,
 .ai-overview-table td {
   text-align: left;
-  padding: 14px 12px;
+  padding: 15px 16px;
   border-bottom: 1px solid var(--ai-border);
   color: var(--ai-text-muted);
   vertical-align: top;
 }
 
 .ai-overview-table th {
-  font-size: 12px;
+  font-size: 0.88em;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ai-text);
