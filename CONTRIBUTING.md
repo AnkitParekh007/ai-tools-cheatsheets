@@ -2,6 +2,8 @@
 
 This repository is intentionally strict about verification because AI coding tool docs age quickly.
 
+For the full maintainer-facing page standard, see [CONTRIBUTING_CONTENT.md](./CONTRIBUTING_CONTENT.md).
+
 ## Contribute in 10 Minutes
 
 Fast ways to help:

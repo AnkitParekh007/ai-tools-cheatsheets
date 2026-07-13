@@ -222,12 +222,21 @@
     document.body.classList.toggle("is-home", isHome);
   }
 
+  function decorateSpecialPages() {
+    var content = document.querySelector(".markdown-section");
+    if (!content) return;
+
+    var isComparisonMatrix = /\/getting-started\/comparison-matrix\.html?$/.test(window.location.pathname);
+    content.classList.toggle("ai-comparison-page", isComparisonMatrix);
+  }
+
   function init() {
     applyTheme(getSavedTheme());
     bindSearchPalette();
     bindThemeSwitcher();
     bindSearchTrigger();
     decorateHomepage();
+    decorateSpecialPages();
   }
 
   if (document.readyState === "loading") {
@@ -243,6 +252,7 @@
       bindSearchTrigger();
       applyTheme(getSavedTheme());
       decorateHomepage();
+      decorateSpecialPages();
     });
   }
 })();

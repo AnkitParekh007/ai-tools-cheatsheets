@@ -1,7 +1,5 @@
 # Comparison Matrix
 
-<div class="ai-comparison-page">
-
 Use this page to narrow a tool shortlist quickly, then jump into the dedicated setup page for the exact install, config, and workflow details.
 
 <div class="ai-comparison-grid">
@@ -108,5 +106,3 @@ Use this page to narrow a tool shortlist quickly, then jump into the dedicated s
 - Re-check tools marked `Needs verification` before adding them to a default engineering stack.
 
 > Verification note: Re-check vendor docs before standardizing install commands, plan entitlements, or enterprise feature claims.
-
-</div>

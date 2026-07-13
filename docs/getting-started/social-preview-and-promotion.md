@@ -1,34 +1,48 @@
 # Social Preview and Promotion
 
-## Recommended social preview size
+Use this page when you want to make the repository easier to discover, easier to understand at a glance, and easier to share with other engineers or teams.
 
-- `1280x640`
+## What Good Promotion Looks Like For This Repository
 
-## Recommended social preview content
+Good promotion for this project should:
 
-- repo logo
-- tagline
-- tool names or handbook angle
+- explain what the repo is actually for
+- set accurate expectations about verification and safety
+- help the right contributors discover it
+- avoid exaggerating tool coverage or support quality
 
-## How to set GitHub social preview
+## Social Preview Image
 
-1. Open repository settings
-2. Go to General
-3. Upload the social preview image manually
+- Recommended size: `1280x640`
+- Recommended content:
+  - repository logo
+  - one-line handbook positioning
+  - tool-family signal such as coding tools, MCP, prompts, and governance
+- Avoid:
+  - tiny unreadable tool lists
+  - screenshots that look like product endorsements
+  - version-specific claims that will age quickly
 
-## Recommended repo About text
+## How To Set GitHub Social Preview
+
+1. Open the repository on GitHub.
+2. Open `Settings`.
+3. Find the repository social preview setting.
+4. Upload the image you want GitHub and social platforms to use when the repository URL is shared.
+
+## Recommended Repository About Text
 
 Open-source cheat sheets for Claude Code, Codex, Cursor, Copilot, Grok, MCP, AGENTS.md, CLAUDE.md, prompts, and team AI coding workflows.
 
-## Recommended website URL
+## Recommended Website URL
 
 https://ankitparekh007.github.io/ai-tools-cheatsheets/
 
-## Recommended topics
+## Recommended Topics
 
 ai-tools, ai-coding, coding-agents, developer-tools, cheatsheet, claude-code, openai-codex, cursor, github-copilot, grok, gemini-cli, mcp, model-context-protocol, agents-md, claude-md, prompt-engineering, honkit, github-pages, documentation, awesome-list
 
-## Launch checklist
+## Launch Checklist
 
 - [ ] README refreshed
 - [ ] GitHub Pages enabled
@@ -37,7 +51,7 @@ ai-tools, ai-coding, coding-agents, developer-tools, cheatsheet, claude-code, op
 - [ ] About text updated
 - [ ] first starter issues created
 
-## Example LinkedIn/X post copy
+## Copy-Ready Launch Post
 
 ```text
 I built an open-source cheat sheet for Claude Code, Codex, Cursor, Copilot, Grok, MCP, AGENTS.md, CLAUDE.md, prompts, and team AI coding workflows.
@@ -46,3 +60,22 @@ It is designed to be forked by engineering teams as their internal AI coding han
 
 GitHub: https://github.com/AnkitParekh007/ai-tools-cheatsheets
 ```
+
+## Credibility Guardrails
+
+- Do not claim tool support that the docs do not currently verify.
+- Do not present prompts or templates as production-ready without context.
+- Do not imply the repo replaces vendor docs, security review, or team policy.
+- Do not market `Needs verification` pages as settled guidance.
+
+## Verification
+
+- Status: Documentation verified
+- Last reviewed: 2026-07-13
+- Scope: GitHub social preview, topic classification, and Pages publishing references were reviewed against current GitHub Docs
+
+## Sources
+
+- [Customizing your repository's social media preview](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview)
+- [Classifying your repository with topics](https://docs.github.com/articles/classifying-your-repository-with-topics)
+- [Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)

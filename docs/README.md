@@ -121,6 +121,25 @@ npm run links:check</code>
 
 > Safety note: Treat coding agents, MCP servers, and repo write access as privileged. Start with [Security and Permissions](governance/security-and-permissions.md).
 
+## Recommended Reader Paths
+
+- Evaluating tools for yourself:
+  Read [Why This Repo Exists](getting-started/why-this-repo.md), [Choosing the Right Tool](getting-started/choosing-the-right-tool.md), [Comparison Matrix](getting-started/comparison-matrix.md), then one terminal-tool page and one IDE-tool page.
+- Setting a team default:
+  Read [Quick Start](getting-started/quick-start.md), [Fork for Your Team](getting-started/fork-for-your-team.md), [Security and Permissions](governance/security-and-permissions.md), and [MCP Approval Policy](governance/mcp-approval-policy.md) before approving broad access.
+- Looking for reusable task guidance:
+  Start with [Workflow Overview](workflows/README.md), then go to [Code Review](workflows/code-review.md), [Bug Fixing](workflows/bug-fixing.md), [Test Generation](workflows/test-generation.md), or [Migration and Upgrade](workflows/migration-upgrade.md).
+- Standardizing prompts or repo instructions:
+  Start with [Prompt Library](prompts/README.md), [AGENTS.md](configs/agents-md.md), [CLAUDE.md](configs/claude-md.md), and [Templates](templates/README.md).
+
+## How To Read Verification Status
+
+- `Confirmed` means the current page or linked tool page has been reviewed against primary documentation, but not every workflow claim is necessarily locally tested.
+- `Needs verification` means the repo keeps the page because it is directionally useful, but you should not standardize on it without checking the latest official docs first.
+- `Experimental`, `Requires account`, `Requires paid plan`, and similar labels should be read as adoption constraints, not footnotes.
+- `Last verified` dates matter most on tool pages because product names, install flows, permissions, IDE support, and pricing models change quickly.
+- When a page includes a `Sources` section, use those links as the evidence boundary for the claims on that page.
+
 ## Contribute and Fork
 
 - GitHub repo: [AnkitParekh007/ai-tools-cheatsheets](https://github.com/AnkitParekh007/ai-tools-cheatsheets)
