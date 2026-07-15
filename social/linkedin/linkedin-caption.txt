@@ -1,0 +1,20 @@
+I built an open-source handbook for developers and engineering teams working with AI coding tools.
+
+It brings AI coding-tool comparisons, AGENTS.md guidance, code review workflows, MCP security notes, and team rollout practices into one command-first reference.
+
+This carousel highlights:
+- how to choose the right coding workflow
+- how to give agents durable repository instructions
+- how to keep AI review advisory under human approval
+- how to treat MCP access with least privilege
+- how to move from ad hoc usage to governed team adoption
+
+Live handbook:
+https://ankitparekh007.github.io/ai-tools-cheatsheets/
+
+GitHub:
+https://github.com/AnkitParekh007/ai-tools-cheatsheets
+
+What should I expand next?
+
+#OpenSource #SoftwareEngineering #DeveloperTools #AICoding #CodingAgents #OpenAICodex #ClaudeCode #GitHubCopilot #MCP #DeveloperExperience
