@@ -53,12 +53,49 @@
   </div>
   <div class="ai-panel ai-command-panel">
     <h2>Local Setup</h2>
-    <code class="ai-command-code">npm install
+    <code class="ai-command-code">npm ci
+npm run docs:validate
+npm run seo:validate
 npm run docs:serve
 npm run docs:build
 npm run links:check</code>
     <a class="ai-panel-link" href="https://github.com/AnkitParekh007/ai-tools-cheatsheets">Open repository README</a>
   </div>
+</div>
+
+<div class="ai-panel">
+  <h2>Audience Paths</h2>
+  <table class="ai-overview-table">
+    <thead>
+      <tr>
+        <th>Audience</th>
+        <th>Best starting page</th>
+        <th>Why it exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Developers</strong></td>
+        <td><a href="for-developers/README.md">For Developers</a></td>
+        <td>Find tools, repo instructions, workflows, prompts, and safer next steps quickly.</td>
+      </tr>
+      <tr>
+        <td><strong>Teams</strong></td>
+        <td><a href="for-teams/README.md">For Teams</a></td>
+        <td>Standardize tools, prompts, MCP usage, and team rollout practices.</td>
+      </tr>
+      <tr>
+        <td><strong>Engineering Leaders</strong></td>
+        <td><a href="for-engineering-leaders/README.md">For Engineering Leaders</a></td>
+        <td>Evaluate adoption, governance, business value, and internal handbook strategy.</td>
+      </tr>
+      <tr>
+        <td><strong>Platform and Security</strong></td>
+        <td><a href="for-platform-and-security/README.md">For Platform and Security</a></td>
+        <td>Review permissions, MCP risk, least privilege, and approval controls.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="ai-panel">
@@ -124,9 +161,13 @@ npm run links:check</code>
 ## Recommended Reader Paths
 
 - Evaluating tools for yourself:
-  Read [Why This Repo Exists](getting-started/why-this-repo.md), [Choosing the Right Tool](getting-started/choosing-the-right-tool.md), [Comparison Matrix](getting-started/comparison-matrix.md), then one terminal-tool page and one IDE-tool page.
+  Read [For Developers](for-developers/README.md), [Choosing the Right Tool](getting-started/choosing-the-right-tool.md), [Comparison Matrix](getting-started/comparison-matrix.md), then one terminal-tool page and one IDE-tool page.
 - Setting a team default:
-  Read [Quick Start](getting-started/quick-start.md), [Fork for Your Team](getting-started/fork-for-your-team.md), [Security and Permissions](governance/security-and-permissions.md), and [MCP Approval Policy](governance/mcp-approval-policy.md) before approving broad access.
+  Read [For Teams](for-teams/README.md), [Quick Start](getting-started/quick-start.md), [Security and Permissions](governance/security-and-permissions.md), and [MCP Approval Policy](governance/mcp-approval-policy.md) before approving broad access.
+- Planning internal rollout or governance:
+  Read [For Engineering Leaders](for-engineering-leaders/README.md), [Team Rollout Guide](governance/team-rollout-guide.md), [Approved Tools Policy](governance/approved-tools-policy.md), and [Tool Evaluation Template](templates/tool-evaluation-template.md).
+- Reviewing permissions and MCP risk:
+  Read [For Platform and Security](for-platform-and-security/README.md), [What is MCP?](mcp/overview.md), [GitHub MCP](mcp/github-mcp.md), and [Security Checklist Template](templates/security-checklist-template.md).
 - Looking for reusable task guidance:
   Start with [Workflow Overview](workflows/README.md), then go to [Code Review](workflows/code-review.md), [Bug Fixing](workflows/bug-fixing.md), [Test Generation](workflows/test-generation.md), or [Migration and Upgrade](workflows/migration-upgrade.md).
 - Standardizing prompts or repo instructions:
@@ -146,3 +187,4 @@ npm run links:check</code>
 - Contribution guide: [CONTRIBUTING.md](https://github.com/AnkitParekh007/ai-tools-cheatsheets/blob/main/CONTRIBUTING.md)
 - Forking guide: [Fork for Your Team](getting-started/fork-for-your-team.md)
 - Promotion guide: [Social Preview and Promotion](getting-started/social-preview-and-promotion.md)
+- SEO planning docs: [SEO Audit](seo/seo-audit.md), [Topic Map](seo/topic-map.md), [90-Day Roadmap](seo/90-day-roadmap.md)

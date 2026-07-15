@@ -3,6 +3,7 @@
 ## Start Here
 
 * [Home](README.md)
+* [Getting Started Overview](getting-started/README.md)
 * [Why This Repo Exists](getting-started/why-this-repo.md)
 * [Quick Start](getting-started/quick-start.md)
 * [How to Use This Site](getting-started/how-to-use-this-site.md)
@@ -11,6 +12,13 @@
 * [Terminology](getting-started/terminology.md)
 * [Fork for Your Team](getting-started/fork-for-your-team.md)
 * [Social Preview and Promotion](getting-started/social-preview-and-promotion.md)
+
+## Audience Paths
+
+* [For Developers](for-developers/README.md)
+* [For Teams](for-teams/README.md)
+* [For Engineering Leaders](for-engineering-leaders/README.md)
+* [For Platform and Security](for-platform-and-security/README.md)
 
 ## Tools
 
@@ -114,5 +122,14 @@
 ## Reference
 
 * [Glossary](GLOSSARY.md)
+* [SEO Audit](seo/seo-audit.md)
+* [Audience and Search Intent](seo/audience-and-search-intent.md)
+* [Topic Map](seo/topic-map.md)
+* [Search Console Setup](seo/search-console-setup.md)
+* [Analytics Plan](seo/analytics-plan.md)
+* [SEO Scorecard](seo/seo-scorecard.md)
+* [Distribution and Backlink Plan](seo/distribution-and-backlink-plan.md)
+* [90-Day Roadmap](seo/90-day-roadmap.md)
+* [Implementation Report](seo/implementation-report.md)
 * [Content Audit](content-audit.md)
 * [Launch Readiness Audit](launch-readiness-audit.md)

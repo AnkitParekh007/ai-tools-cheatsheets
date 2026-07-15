@@ -51,9 +51,18 @@ This repository is not:
 | [Quick Start](./docs/getting-started/quick-start.md) | choose a safe first workflow |
 | [Choosing the Right Tool](./docs/getting-started/choosing-the-right-tool.md) | select by task, host, and risk |
 | [Comparison Matrix](./docs/getting-started/comparison-matrix.md) | compare AI coding tools side by side |
+| [For Developers](./docs/for-developers/README.md) | follow the developer path to setup, workflows, and prompts |
+| [For Teams](./docs/for-teams/README.md) | standardize tools, instructions, and rollout practices |
 | [Workflow Overview](./docs/workflows/README.md) | pick a repeatable engineering workflow |
 | [MCP Overview](./docs/mcp/README.md) | understand privileged integrations before enabling them |
 | [Templates Overview](./docs/templates/README.md) | copy reusable repo standards and review artifacts |
+
+## Audience Guides
+
+- [For Developers](./docs/for-developers/README.md)
+- [For Teams](./docs/for-teams/README.md)
+- [For Engineering Leaders](./docs/for-engineering-leaders/README.md)
+- [For Platform and Security](./docs/for-platform-and-security/README.md)
 
 ## Project Maturity
 
@@ -92,6 +101,7 @@ Read [SECURITY.md](./SECURITY.md) and [Security and Permissions](./docs/governan
 ```bash
 npm ci
 npm run docs:validate
+npm run seo:validate
 npm run docs:serve
 ```
 
@@ -99,6 +109,7 @@ Additional commands:
 
 ```bash
 npm run docs:build
+npm run seo:sitemap
 npm run docs:links
 npm run docs:navigation
 npm run docs:metadata
@@ -132,6 +143,13 @@ Start with [Fork for Your Team](./docs/getting-started/fork-for-your-team.md) an
 - improve MCP evaluation coverage and least-privilege guidance
 - add stronger company-fork examples for policies and templates
 - keep validation automation strict and lightweight
+
+## SEO and Discoverability
+
+- SEO audit and roadmap: [docs/seo/seo-audit.md](./docs/seo/seo-audit.md)
+- Search-intent map: [docs/seo/topic-map.md](./docs/seo/topic-map.md)
+- Measurement plan: [docs/seo/seo-scorecard.md](./docs/seo/seo-scorecard.md)
+- Social preview asset for GitHub and sharing: [docs/assets/images/social/social-repo-preview.png](./docs/assets/images/social/social-repo-preview.png)
 
 ## License
 
