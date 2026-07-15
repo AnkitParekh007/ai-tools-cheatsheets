@@ -1,22 +1,58 @@
 # Customize for Your Team
 
-Use this repo as the base layer for an internal engineering playbook.
+Use this page when forking the repository into an internal engineering handbook.
 
-## How to customize it
+## Policy Objective
 
-- fork the repo
-- replace approved tools
-- update governance pages
-- add internal MCP allowlist
-- add company prompt library
-- publish with GitHub Pages or a private docs host
+Turn the public handbook into a team-specific source of truth without losing the verification model.
 
-## Suggested order
+## Scope
 
-1. fork the repo
-2. update approved tools and governance
-3. add internal prompts and templates
-4. add internal MCP policy
-5. publish as the team playbook
+- internal forks
+- private company prompts
+- approved tool lists
+- internal MCP and policy records
 
-> Team tip: Keep public vendor docs generic and move company-specific policy into the governance and template sections.
+## Audience
+
+- maintainers of a private fork
+- platform or developer-experience teams
+
+## Mandatory Requirements
+
+- keep public-source citations where they still apply
+- replace placeholder approvals with real owners and dates
+- remove examples that do not match your stack or policy
+
+## Recommended Controls
+
+- keep public and internal content clearly separated
+- add company-specific examples instead of rewriting every page
+- maintain one internal approval matrix for tools and MCP
+
+## Adoption Steps
+
+1. Copy the repo.
+2. Define owners.
+3. Replace policy starters with real approvals.
+4. Add internal prompts, templates, and stack examples.
+5. Keep validation automation enabled.
+
+## Exception Process
+
+If a public page conflicts with internal policy, replace it in the fork and document the reason.
+
+## Audit Evidence
+
+- internal README or handbook index
+- approval matrix
+- internal policy pages
+
+## Verification Note
+
+Fork guidance only. Internal examples and approvals must come from your organization.
+
+## Sources
+
+- [Fork for Your Team](../getting-started/fork-for-your-team.md)
+- [Templates Overview](../templates/README.md)

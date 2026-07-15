@@ -1,5 +1,23 @@
 # Scripts
 
+## Validation
+
+Run the full docs validation pipeline locally with:
+
+```bash
+npm run docs:validate
+```
+
+This currently includes:
+
+- forbidden local-path detection
+- navigation validation
+- metadata validation
+- markdown linting
+- HonKit build
+- internal link, anchor, and generated-route validation
+- external-link warnings where network checks are practical
+
 ## Community issue creation
 
 Use `create-community-issues.sh` to create labels and starter issues for public contribution.

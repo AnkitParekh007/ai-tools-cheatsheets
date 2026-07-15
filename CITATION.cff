@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: AI Tools Cheatsheets
+message: "If this handbook helps your team, please cite the repository or link to the GitHub Pages site."
+type: dataset
+authors:
+  - family-names: Parekh
+    given-names: Ankit
+repository-code: "https://github.com/AnkitParekh007/ai-tools-cheatsheets"
+url: "https://ankitparekh007.github.io/ai-tools-cheatsheets/"
+license: MIT
+abstract: "Open-source handbook for AI coding tools, coding agents, prompts, MCP workflows, templates, and team governance."

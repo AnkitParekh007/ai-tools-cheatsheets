@@ -1,50 +1,54 @@
-name: New tool
-description: Propose a new tool page or guide
-title: "[New Tool] "
-labels: ["documentation", "tool-page", "help wanted"]
+name: New tool coverage
+description: Request a new AI coding tool page or a major expansion of an existing one.
+title: "[Tool]: "
+labels:
+  - tool
+  - documentation
 body:
   - type: input
     id: tool_name
     attributes:
-      label: Tool name
-    validations:
-      required: true
-  - type: textarea
-    id: description
-    attributes:
-      label: Why it belongs here
-      description: Explain how it fits the repo scope
+      label: Tool or model name
+      placeholder: ExampleTool CLI
     validations:
       required: true
   - type: input
-    id: source
+    id: official_docs
     attributes:
-      label: Official source link
+      label: Official docs or repository
+      placeholder: https://example.com/docs
     validations:
       required: true
   - type: textarea
-    id: expected_change
+    id: why
     attributes:
-      label: Expected page scope
-      description: What sections or examples should the page include?
+      label: Why this tool belongs here
+      description: Explain the engineering use case, host surface, or team relevance.
     validations:
       required: true
-  - type: dropdown
-    id: verification_status
+  - type: textarea
+    id: install_or_config
     attributes:
-      label: Verification status
+      label: Known installation or configuration notes
+      description: Paste official commands, supported hosts, or platform notes if available.
+  - type: dropdown
+    id: verification
+    attributes:
+      label: Verification performed
       options:
-        - Official docs available
-        - Needs verification
-        - Experimental / preview
+        - Official docs reviewed
+        - Installed locally
+        - Account-gated research only
+        - No verification yet
     validations:
       required: true
   - type: dropdown
-    id: pr_willingness
+    id: contribution
     attributes:
-      label: Willing to submit a PR?
+      label: Will you contribute content?
       options:
         - Yes
+        - Maybe
         - No
     validations:
       required: true

@@ -1,47 +1,106 @@
 # Test Generation
 
-## Goal
+Use this workflow when you want an AI assistant to add focused tests without changing unrelated production behavior.
 
-Add useful tests without encoding bad assumptions.
+## Objective
 
-## Best Tools
+Generate or tighten tests that prove behavior, catch regressions, and stay aligned with existing test conventions.
 
-- Codex
-- Claude Code
-- Continue
+## Audience
 
-## Recommended Prompt
+- engineers adding regression coverage
+- reviewers asking for missing tests
+
+## When to Use
+
+- behavior is already understood
+- the repository has established test patterns
+- a bug fix or feature patch needs coverage
+
+## When Not to Use
+
+- when the product behavior is unclear
+- when the agent cannot inspect adjacent tests
+- when broad test rewrites would hide the real change
+
+## Preconditions
+
+- target behavior is explicit
+- test framework is known
+- adjacent tests exist or conventions are documented
+
+## Required Context
+
+- production files being covered
+- related tests
+- failure or acceptance criteria
+
+## Recommended Tools
+
+- repo-aware CLI agents for finding the right test location
+- IDE assistants for assertion-level refinements
+
+## Step-by-Step Workflow
+
+1. Ask the agent to inspect adjacent tests first.
+2. Require the narrowest useful test.
+3. Prefer failing test before production fix when debugging.
+4. Keep fixtures and mocks minimal.
+
+## Reusable Prompt
 
 ```text
-Follow existing test conventions.
 Add focused tests for the affected behavior only.
+Follow local test conventions, reuse nearby fixtures, and avoid changing unrelated production code.
+Explain why each new assertion matters.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. inspect nearby tests
-2. add focused cases
-3. run the narrowest test command
+- add a regression test for an unauthorized export request
 
-## CLI Examples
+## Expected Agent Output
+
+- target test file
+- one or two focused test cases
+- explanation of the assertions
+
+## Human Review Checkpoint
+
+- ensure the new test would fail on the broken behavior
+- reject over-mocked tests with no behavioral signal
+
+## Validation Commands
 
 ```bash
-cn -p "add unit tests for the affected path using local conventions"
+npm test -- path/to/focused.test.ts
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use editor chat to inspect local test patterns before generating code
+- snapshot bloat
+- unrelated fixture churn
+- testing implementation details instead of behavior
 
-## Review Checklist
+## Rollback or Recovery
 
-- assertions are meaningful
-- edge cases covered
+- remove the generated tests and restate the behavior more clearly
 
-## Common Mistakes
+## Completion Checklist
 
-- low-signal snapshots
+- test location matches repo conventions
+- assertions map to real behavior
+- targeted test run passes
 
 ## Team Standard
 
-Prefer explicit assertions over broad snapshots.
+Prefer focused behavioral tests over broad AI-generated coverage sprawl.
+
+## Verification Note
+
+Test framework specifics vary by repository; adapt commands and file paths locally.
+
+## Sources
+
+- [Bug Fixing](./bug-fixing.md)
+- [Code Review](./code-review.md)

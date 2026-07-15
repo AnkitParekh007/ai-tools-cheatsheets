@@ -82,7 +82,6 @@ Most teams should approve:
 That is usually enough to get the benefits of standardization without turning the tool register into a free-for-all.
 
 > Verification note: Treat xAI as a model/integration path unless official first-party CLI guidance is confirmed in xAI docs.
-
 > Team tip: Most teams should standardize one primary terminal tool and one primary IDE tool rather than approving every option.
 
 ## Verification

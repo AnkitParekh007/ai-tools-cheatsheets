@@ -27,14 +27,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build HonKit site
-        run: npm run docs:build
+      - name: Validate and build docs
+        run: npm run docs:validate
 
       - name: Add nojekyll
         run: touch _book/.nojekyll

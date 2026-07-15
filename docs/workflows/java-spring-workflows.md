@@ -1,47 +1,97 @@
 # Java Spring Workflows
 
-## Goal
+Use this page to adapt the core workflows to Java and Spring repositories where dependency injection, transactional boundaries, and integration tests matter.
 
-Use coding agents safely in Spring applications with clear controller, service, and persistence boundaries.
+## Objective
 
-## Best Tools
+Apply AI assistants safely to controller, service, repository, security-config, and test layers without losing architectural context.
 
-- Claude Code
-- Codex
-- Continue
+## Audience
 
-## Recommended Prompt
+- Java backend engineers
+- maintainers of Spring Boot services
+
+## When to Use
+
+- controller or service debugging
+- repository query review
+- Spring Security or configuration changes
+- release and migration planning
+
+## When Not to Use
+
+- when the agent cannot inspect config, tests, and application wiring together
+
+## Preconditions
+
+- module boundaries are known
+- local build and test commands exist
+
+## Required Context
+
+- controller, service, repository, and config files
+- test layout
+- runtime profile assumptions
+
+## Recommended Tools
+
+- repo-aware CLI agents for cross-layer tracing
+
+## Step-by-Step Workflow
+
+1. Map the controller, service, repository, and config layers before editing.
+2. Require the agent to explain transaction, auth, and serialization impact.
+3. Validate with focused unit or integration tests.
+
+## Reusable Prompt
 
 ```text
-Follow the current Spring layering in this repo.
-Preserve transaction and validation boundaries unless the task requires changing them.
+Map the controller, service, repository, security configuration, and test layers related to this issue before proposing a fix.
+Call out transaction, authorization, and serialization risks explicitly.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. inspect layers
-2. inspect tests and config
-3. make focused changes
+- Spring controller returns the wrong status code after a service exception
 
-## CLI Examples
+## Expected Agent Output
+
+- layer map
+- root cause candidate
+- smallest safe fix
+
+## Human Review Checkpoint
+
+- verify framework assumptions against the actual codebase
+
+## Validation Commands
 
 ```bash
-cn -p "map the Spring layers involved in this bug before proposing code changes"
+./mvnw test
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use editor navigation plus chat to inspect controller-service-repository flow
+- file-local fixes that ignore configuration or transaction boundaries
 
-## Review Checklist
+## Rollback or Recovery
 
-- validation location is correct
-- transaction boundaries remain sane
+- revert the focused patch and keep the reproduction notes
 
-## Common Mistakes
+## Completion Checklist
 
-- moving business logic into controllers
+- affected layers mapped
+- focused tests passed
 
 ## Team Standard
 
-Store architecture notes in `AGENTS.md`.
+Never accept a Spring fix that ignores configuration and security wiring.
+
+## Verification Note
+
+This is a stack-specific operating pattern, not a claim that the repository itself is a Java/Spring project.
+
+## Sources
+
+- [Bug Fixing](./bug-fixing.md)
+- [Security Review](./security-review.md)

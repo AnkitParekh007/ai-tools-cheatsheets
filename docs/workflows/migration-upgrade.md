@@ -1,48 +1,104 @@
 # Migration and Upgrade
 
-## Goal
+Use this workflow for dependency, platform, or service migrations that need phased change control.
 
-Plan and execute a safe migration.
+## Objective
 
-## Best Tools
+Break a migration into inventory, compatibility review, phased execution, validation gates, and rollback checkpoints.
 
-- Claude Code
-- Codex
-- OpenCode
+## Audience
 
-## Recommended Prompt
+- maintainers planning upgrades
+- platform teams coordinating cross-repo changes
+
+## When to Use
+
+- framework upgrades
+- runtime changes
+- large dependency or host migrations
+
+## When Not to Use
+
+- for a one-file bug fix
+- when the target system is still undecided
+
+## Preconditions
+
+- current state inventoried
+- target state chosen
+- validation gates identified
+
+## Required Context
+
+- version matrix
+- lockfile
+- deployment constraints
+- rollback requirements
+
+## Recommended Tools
+
+- repo-aware CLI agents for planning
+- IDE assistants for targeted remediation after the plan is approved
+
+## Step-by-Step Workflow
+
+1. Inventory current versions and integrations.
+2. Ask for a phased plan before edits.
+3. Isolate infrastructure changes from code changes.
+4. Validate after every phase.
+5. Keep rollback points explicit.
+
+## Reusable Prompt
 
 ```text
-Plan the migration in phases.
-Include prerequisites, rollout risks, backout steps, and validation before editing.
+Plan this migration by phase.
+Include prerequisites, compatibility risks, validation gates, rollback points, and the smallest safe order of changes.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. map dependencies
-2. phase the work
-3. implement incrementally
+- move from one lint runner or test environment version to another across a monorepo
 
-## CLI Examples
+## Expected Agent Output
+
+- phased plan
+- risks
+- validation gates
+
+## Human Review Checkpoint
+
+- verify the target state and compatibility assumptions
+
+## Validation Commands
 
 ```bash
-codex
-opencode
+npm test
+npm run build
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use Cursor or Copilot to inspect impacted files after the plan is approved
+- one giant migration patch
+- no rollback points
 
-## Review Checklist
+## Rollback or Recovery
 
-- rollout plan exists
-- backout plan exists
+- revert the last phase only
 
-## Common Mistakes
+## Completion Checklist
 
-- upgrading too many layers at once
+- inventory complete
+- phases approved
+- rollback preserved
 
 ## Team Standard
 
-Use plan-first mode for migrations.
+Phase large migrations; do not batch planning, execution, and cleanup into one commit.
+
+## Verification Note
+
+This page is a generic migration pattern. See stack-specific pages for tighter examples.
+
+## Sources
+
+- [Angular Workflows](./angular-workflows.md)

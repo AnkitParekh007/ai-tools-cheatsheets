@@ -1,0 +1,56 @@
+name: Incorrect docs
+description: Report factual inaccuracies, unsupported claims, or outdated guidance.
+title: "[Docs]: "
+labels:
+  - documentation
+  - content-quality
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Affected page
+      placeholder: docs/tools/openai-codex.md
+    validations:
+      required: true
+  - type: textarea
+    id: current_problem
+    attributes:
+      label: Current problem
+      description: What is incorrect, stale, ambiguous, or unsafe?
+    validations:
+      required: true
+  - type: textarea
+    id: expected_correction
+    attributes:
+      label: Expected correction
+      description: What should the page say instead?
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Official source
+      description: Paste the official docs, repository, release notes, or spec supporting the correction.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Incorrect but low-risk
+        - Confusing onboarding guidance
+        - Unsafe command or permission guidance
+        - Broken workflow or validation advice
+    validations:
+      required: true
+  - type: dropdown
+    id: pr
+    attributes:
+      label: Will you submit a PR?
+      options:
+        - Yes
+        - Maybe
+        - No
+    validations:
+      required: true

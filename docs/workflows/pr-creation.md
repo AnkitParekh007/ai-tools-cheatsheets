@@ -1,47 +1,100 @@
 # PR Creation
 
-## Goal
+Use this workflow when an AI assistant helps turn validated local changes into a reviewable pull request.
 
-Generate a high-signal pull request summary.
+## Objective
 
-## Best Tools
+Create a PR description that is scoped, evidence-backed, and easy for human reviewers to validate.
 
-- GitHub Copilot
-- Codex
-- Claude Code
+## Audience
 
-## Recommended Prompt
+- contributors opening reviewable changes
+- maintainers standardizing PR hygiene
+
+## When to Use
+
+- local validation is already complete
+- the branch contains one coherent change set
+
+## When Not to Use
+
+- tests are still red
+- the branch mixes unrelated work
+
+## Preconditions
+
+- change scope is stable
+- commands run are recorded
+
+## Required Context
+
+- summary of changes
+- affected pages or modules
+- validation commands and results
+
+## Recommended Tools
+
+- any coding assistant that can read git diff and repo templates
+
+## Step-by-Step Workflow
+
+1. Summarize the change in plain English.
+2. Ask the agent to separate user-facing changes from internal cleanup.
+3. Include sources and validation commands.
+4. Keep risks and follow-ups explicit.
+
+## Reusable Prompt
 
 ```text
-Summarize the current branch for a PR.
-Include problem, approach, tests, risks, and follow-up work.
+Draft a PR description for the current diff.
+Keep it specific: summary, affected files, primary sources, validation commands, risks, and follow-up items.
+Do not invent tests or verification.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. inspect diff
-2. group changes
-3. write concise summary
+- docs validation pipeline added
+- issue forms refreshed
 
-## CLI Examples
+## Expected Agent Output
+
+- concise summary
+- files or sections affected
+- validation list
+
+## Human Review Checkpoint
+
+- verify the PR text matches the real diff
+
+## Validation Commands
 
 ```bash
-claude "write a PR summary for the current diff"
+git diff --stat
+npm run docs:validate
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use Copilot or Cursor on the open branch and compare output against the diff
+- inflated marketing summary
+- invented verification claims
 
-## Review Checklist
+## Rollback or Recovery
 
-- summary matches actual diff
-- risks are explicit
+- rewrite the PR body manually from the diff
 
-## Common Mistakes
+## Completion Checklist
 
-- generic PR descriptions
+- PR body matches the actual branch
+- validation list is honest
 
 ## Team Standard
 
-Use a PR template and require test notes.
+PRs should be review aids, not marketing copy.
+
+## Verification Note
+
+This page documents PR-writing standards, not host-specific merge settings.
+
+## Sources
+
+- [Code Review](./code-review.md)

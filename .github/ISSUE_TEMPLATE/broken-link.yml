@@ -1,42 +1,51 @@
 name: Broken link
-description: Report a broken or stale internal/external link
-title: "[Broken Link] "
-labels: ["documentation", "broken-link", "good first issue"]
+description: Report an internal or external documentation link that is broken, stale, or misdirected.
+title: "[Broken Link]: "
+labels:
+  - broken-link
+  - documentation
 body:
   - type: input
-    id: file
+    id: page
     attributes:
-      label: Affected file
+      label: Affected page
+      description: Source page path or public URL where you found the broken link.
+      placeholder: docs/getting-started/quick-start.md
     validations:
       required: true
   - type: input
-    id: source
+    id: link
     attributes:
-      label: Broken link
+      label: Broken link target
+      description: Paste the broken URL, path, or anchor target.
+      placeholder: https://example.com/docs
     validations:
       required: true
   - type: textarea
-    id: expected_change
+    id: behavior
     attributes:
-      label: Expected fix
-      description: Replacement link or note
+      label: What is broken
+      description: Explain the failure mode.
+      placeholder: Returns 404, redirects to the wrong page, or anchor no longer exists.
     validations:
       required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected destination
+      description: If you know the correct target, paste it here.
   - type: dropdown
-    id: verification_status
+    id: verified
     attributes:
-      label: Verification status
+      label: Verification performed
       options:
-        - Confirmed broken
-        - Needs verification
+        - I reproduced the broken link locally or on the public site
+        - I only noticed the issue while reading
+        - I have a fix ready
     validations:
       required: true
-  - type: dropdown
-    id: pr_willingness
+  - type: textarea
+    id: notes
     attributes:
-      label: Willing to submit a PR?
-      options:
-        - Yes
-        - No
-    validations:
-      required: true
+      label: Additional context
+      description: Add browser, platform, screenshots, or related pages if useful.

@@ -1,50 +1,107 @@
 # Feature Development
 
-## Goal
+Use this workflow when an AI assistant helps with a scoped feature that still needs human-owned requirements and acceptance criteria.
 
-Ship a feature with a clear plan and bounded risk.
+## Objective
 
-## Best Tools
+Move from ticket or product request to a small implementation plan, safe patch sequence, and validation checklist.
 
-- Claude Code
-- Codex
-- Cursor
+## Audience
 
-## Recommended Prompt
+- feature engineers
+- tech leads decomposing work for coding assistants
+
+## When to Use
+
+- the feature is well scoped
+- acceptance criteria are written down
+- the repository has runnable tests or smoke checks
+
+## When Not to Use
+
+- requirements are still ambiguous
+- the feature spans multiple teams with unresolved contracts
+- the agent would need production-only context to design safely
+
+## Preconditions
+
+- objective and non-goals are written
+- validation commands are known
+- rollout constraints are defined
+
+## Required Context
+
+- ticket or brief
+- relevant modules
+- edge cases
+- tests or examples of adjacent behavior
+
+## Recommended Tools
+
+- repo-aware CLI agents for planning and cross-file edits
+- IDE assistants for file-local iteration after the plan is approved
+
+## Step-by-Step Workflow
+
+1. Ask for an implementation plan before edits.
+2. Require assumptions and open questions up front.
+3. Split the work into reviewable patches.
+4. Add or update tests with each behavior change.
+5. Validate after each patch.
+
+## Reusable Prompt
 
 ```text
-Create an implementation plan first.
-Then implement with small, reviewable changes.
+Turn this feature request into a small implementation plan.
+List assumptions, files likely affected, tests to add, rollout risks, and the smallest reviewable patch order.
+Do not edit until the plan is agreed.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. plan
-2. confirm constraints
-3. implement
-4. test
+- add repository-level search shortcut help text to the docs header
 
-## CLI Examples
+## Expected Agent Output
+
+- patch sequence
+- impacted files
+- acceptance-test ideas
+
+## Human Review Checkpoint
+
+- confirm requirements and non-goals
+- approve the patch order
+
+## Validation Commands
 
 ```bash
-codex
-claude
+npm run docs:validate
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use Cursor or Copilot for editor-driven implementation after the plan is agreed
+- coding before clarifying acceptance criteria
+- mixing feature work with unrelated refactors
 
-## Review Checklist
+## Rollback or Recovery
 
-- architecture fit
-- tests added
-- docs updated if needed
+- revert the feature patch sequence one commit at a time
 
-## Common Mistakes
+## Completion Checklist
 
-- skipping the plan on multi-file work
+- plan approved
+- tests or checks updated
+- rollout notes captured if needed
 
 ## Team Standard
 
-Use high-reasoning models for architecture-heavy changes.
+Plan first, then patch in small increments.
+
+## Verification Note
+
+Repository-specific validation commands and rollout rules vary by project.
+
+## Sources
+
+- [Code Review](./code-review.md)
+- [PR Creation](./pr-creation.md)

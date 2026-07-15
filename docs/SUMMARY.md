@@ -114,3 +114,5 @@
 ## Reference
 
 * [Glossary](GLOSSARY.md)
+* [Content Audit](content-audit.md)
+* [Launch Readiness Audit](launch-readiness-audit.md)

@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const targetDirs = ["tools"];
+const targetDirs = [path.join("docs", "tools")];
 const today = new Date().toISOString().slice(0, 10);
 
 for (const dir of targetDirs) {

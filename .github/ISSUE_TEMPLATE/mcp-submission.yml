@@ -1,0 +1,57 @@
+name: MCP submission or evaluation
+description: Suggest a new MCP server category, implementation, or evaluation update.
+title: "[MCP]: "
+labels:
+  - mcp
+  - help wanted
+body:
+  - type: input
+    id: page_or_category
+    attributes:
+      label: MCP page or category
+      placeholder: docs/mcp/github-mcp.md or GitHub MCP
+    validations:
+      required: true
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation or category details
+      description: Describe the server, host support, and intended use.
+    validations:
+      required: true
+  - type: textarea
+    id: official_sources
+    attributes:
+      label: Official sources
+      description: Provide the repository, docs, registry entry, or protocol references.
+    validations:
+      required: true
+  - type: textarea
+    id: permissions
+    attributes:
+      label: Permissions and risk
+      description: What can it read, write, execute, or exfiltrate?
+    validations:
+      required: true
+  - type: dropdown
+    id: verification
+    attributes:
+      label: Verification performed
+      options:
+        - Docs or repo reviewed only
+        - Installed locally in a read-only trial
+        - Installed locally with write access
+        - Not verified yet
+    validations:
+      required: true
+  - type: dropdown
+    id: paid_or_account
+    attributes:
+      label: Access constraints
+      options:
+        - No known account requirement
+        - Requires account
+        - Requires paid plan
+        - Unknown
+    validations:
+      required: true

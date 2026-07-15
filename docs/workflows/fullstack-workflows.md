@@ -1,48 +1,99 @@
 # Fullstack Workflows
 
-## Goal
+Use this page when a change spans frontend, backend, API contracts, data, and deployment concerns.
 
-Coordinate frontend, backend, schema, tests, and docs without losing scope control.
+## Objective
 
-## Best Tools
+Keep cross-layer AI assistance coordinated so one patch does not fix the UI while breaking contracts or backend validation.
 
-- Codex
-- Claude Code
-- OpenCode
+## Audience
 
-## Recommended Prompt
+- full-stack engineers
+- maintainers of product repositories with shared frontend and backend ownership
+
+## When to Use
+
+- API contract changes
+- feature work crossing UI and server layers
+- auth or permission flows visible in multiple surfaces
+
+## When Not to Use
+
+- when one layer can be changed independently and reviewed separately
+
+## Preconditions
+
+- acceptance criteria defined
+- frontend and backend validation commands known
+
+## Required Context
+
+- UI files
+- server files
+- API schema or contract docs
+- relevant tests
+
+## Recommended Tools
+
+- repo-aware CLI agents for whole-repo mapping
+
+## Step-by-Step Workflow
+
+1. Ask for a cross-layer impact map first.
+2. Separate contract changes from implementation changes.
+3. Validate frontend and backend independently, then together.
+
+## Reusable Prompt
 
 ```text
-Plan the fullstack change by layer.
-List frontend, backend, schema, tests, and docs work separately before editing.
+Map the frontend, backend, data, and contract impact of this change before editing.
+List assumptions, integration risks, and the smallest safe patch order.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. phase by layer
-2. confirm API contract
-3. implement incrementally
+- add a new field to a settings form and persist it server-side
 
-## CLI Examples
+## Expected Agent Output
+
+- contract impact map
+- patch order
+- validation plan
+
+## Human Review Checkpoint
+
+- confirm contract compatibility and rollout order
+
+## Validation Commands
 
 ```bash
-opencode
-codex
+npm test
+npm run build
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use editor views to keep API contract files and UI callers open together
+- frontend-only patch that assumes backend support
+- backend-only change that silently breaks the UI
 
-## Review Checklist
+## Rollback or Recovery
 
-- API contract matches both ends
-- migrations are explicit
+- revert the cross-layer change or hide it behind a feature flag
 
-## Common Mistakes
+## Completion Checklist
 
-- editing frontend and backend with no shared contract review
+- contract impact reviewed
+- both layers validated
 
 ## Team Standard
 
-Use plan-first prompts and require API validation.
+Cross-layer work must name contract assumptions explicitly.
+
+## Verification Note
+
+This page is a reusable workflow pattern for private forks and application repos.
+
+## Sources
+
+- [Feature Development](./feature-development.md)
+- [Code Review](./code-review.md)

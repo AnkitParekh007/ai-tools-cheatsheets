@@ -1,107 +1,131 @@
 # Contributing
 
-This repository is intentionally strict about verification because AI coding tool docs age quickly.
+This repository is a practical handbook for AI coding tools. Contributions are welcome, but the bar is accuracy, reproducibility, and honest verification.
 
-For the full maintainer-facing page standard, see [CONTRIBUTING_CONTENT.md](./CONTRIBUTING_CONTENT.md).
+For the full page archetypes and maintainer standard, see [CONTRIBUTING_CONTENT.md](./CONTRIBUTING_CONTENT.md).
 
-## Contribute in 10 Minutes
+## Before You Open a PR
 
-Fast ways to help:
+1. Read the page you plan to change and adjacent pages in the same section.
+2. Prefer official documentation, official repositories, official release notes, and official security documentation.
+3. Keep existing public URLs stable unless a move is necessary and fully updated.
+4. Mark uncertainty explicitly instead of guessing.
 
-- verify one install command from official docs
-- add one platform note for Windows, macOS, Linux, or WSL
-- improve one comparison matrix row
-- add one workflow prompt
-- add one MCP server note
-- fix one broken internal link
+## What This Repo Accepts
 
-## Contribution Types
+- tool-page verification and refreshes
+- new tool coverage backed by primary sources
+- workflow improvements with realistic validation steps
+- prompt and template improvements tied to real engineering use cases
+- MCP evaluation guidance with clear permission and risk analysis
+- governance and security policy starters
+- HonKit UI, accessibility, and build-validation fixes
 
-- tool-page verification
-- new tool pages
-- prompt submissions
-- workflow improvements
-- MCP server pages
-- template improvements
-- governance and security docs
-- HonKit/docs-site polish
-
-## How to Verify Commands
-
-1. Check official docs first.
-2. Confirm platform support.
-3. Confirm the exact binary or install command.
-4. Confirm whether the command is stable, preview, deprecated, or community-only.
-5. If you cannot confirm it, mark it `Needs verification`.
-
-## How to Submit a New Tool Page
-
-1. Add a page under `docs/tools/`.
-2. Use the standard tool structure already used in this repo.
-3. Include:
-   - official docs
-   - last verified date
-   - status
-   - platform notes where relevant
-4. Add the page to `docs/SUMMARY.md`.
-
-## How to Submit a Prompt
-
-1. Add or update a file under `docs/prompts/`.
-2. Keep prompts copy-pasteable.
-3. Prefer real engineering use cases over generic writing prompts.
-
-## How to Submit an MCP Server
-
-1. Add or update a page under `docs/mcp/`.
-2. Include purpose, best use, permissions required, and security notes.
-3. If the server is not fully verified, mark it `Needs verification`.
-
-## How to Improve a Workflow
-
-1. Update the relevant page under `docs/workflows/`.
-2. Keep the workflow concrete and task-oriented.
-3. Include CLI examples, review checklist, and team standard guidance.
-
-## What Not to Contribute
+## What This Repo Rejects
 
 - invented CLI commands
-- unsupported model claims
-- screenshots used as the only source of truth
-- vendor pricing copied without a verification date
-- secrets, API keys, or private company data
+- unsupported pricing or plan claims
+- screenshots used as the only evidence source
+- destructive commands presented as safe defaults
+- private company instructions, secrets, or customer data
+- vendor marketing copy with no engineering value
 
-## Style Guide
+## Verification Philosophy
 
-- prefer concise, command-first writing
-- use official docs where possible
-- keep examples copy-pasteable
-- include `> Safety note:`, `> Verification note:`, or `> Team tip:` where helpful
-- avoid marketing language and unsupported superlatives
+Use the narrowest truthful label:
+
+- `Verified`
+- `Locally tested`
+- `Partially verified`
+- `Documentation verified`
+- `Not locally tested`
+- `Requires account`
+- `Requires paid plan`
+- `Platform-specific`
+- `Experimental`
+- `Deprecated`
+- `Unsupported`
+- `Unable to verify`
+- `Needs verification`
+
+If you did not run the command or workflow, do not imply that you did.
+
+## Local Setup
+
+```bash
+npm ci
+npm run docs:validate
+npm run docs:build
+```
+
+For local preview:
+
+```bash
+npm run docs:serve
+```
+
+## Validation Commands
+
+- `npm run docs:paths`
+  Blocks accidental local filesystem paths in public files.
+- `npm run docs:navigation`
+  Confirms every `docs/SUMMARY.md` target exists and has a top-level heading.
+- `npm run docs:metadata`
+  Validates required metadata on tool pages and common doc conventions.
+- `npm run docs:lint`
+  Runs Markdown linting across root docs, `.github`, and `docs/`.
+- `npm run docs:links`
+  Validates internal links, anchors, generated HonKit routes, and reports external-link warnings separately.
+- `npm run docs:validate`
+  Runs the full documentation validation pipeline, then builds the site.
+
+## Adding or Updating a Tool Page
+
+1. Add or update the page under `docs/tools/`.
+2. Keep the existing metadata block near the top of the page.
+3. Include:
+   - official docs
+   - `Last verified` in `YYYY-MM-DD`
+   - an approved `Status`
+   - an honest `Verification scope`
+   - a `Sources` section
+4. Update `docs/SUMMARY.md` if the page is new.
+
+## Adding Workflow, Prompt, Template, or Governance Content
+
+1. Follow the archetypes in [CONTRIBUTING_CONTENT.md](./CONTRIBUTING_CONTENT.md).
+2. Add a verification note.
+3. Include realistic examples, failure modes, and human review steps where the page type requires them.
+4. Prefer smaller truthful examples over broad unsupported claims.
+
+## MCP Content Rules
+
+MCP pages must clearly choose one of these modes:
+
+- verified implementation guide
+- evaluation checklist
+
+If the repository does not responsibly verify one implementation, keep the page in evaluation-checklist mode and say so plainly.
+
+## Pull Request Expectations
+
+Your PR should state:
+
+- what changed
+- which pages were affected
+- which primary sources you used
+- which commands you ran locally
+- whether URLs or headings changed
+- any remaining limitations or unverified areas
+
+Use the repository PR template. For visual site changes, include screenshots.
 
 ## Definition of Done
 
-- sources added or refreshed
-- `Last verified` updated where relevant
-- uncertain content marked `Needs verification`
-- links tested
-- `docs/SUMMARY.md` updated if new pages were added
-- no unsupported claims or hallucinated commands
-
-## Good First Contributions
-
-- verify one tool install section against official docs
-- add one Windows, macOS, Linux, or WSL note
-- improve one prompt example with a stronger engineering use case
-- add one comparison-matrix row detail with a source
-- fix one broken internal or external link
-
-## Pull Request Checklist
-
-- [ ] commands verified from official docs
-- [ ] uncertain items marked `Needs verification`
-- [ ] links updated
-- [ ] README navigation updated if needed
-- [ ] `docs/SUMMARY.md` updated if new docs pages were added
-- [ ] `Last verified` added or refreshed
-- [ ] no unsupported claims added
+- claims are sourced or clearly marked as unverified
+- verification status is honest
+- links and anchors work
+- `docs/SUMMARY.md` stays accurate
+- no local absolute paths remain in public files
+- `npm run docs:validate` passes
+- `npm run docs:build` passes

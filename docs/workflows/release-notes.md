@@ -1,47 +1,96 @@
 # Release Notes
 
-## Goal
+Use this workflow to turn commits into accurate release notes without overstating maturity.
 
-Turn merged changes into usable release notes.
+## Objective
 
-## Best Tools
+Summarize user-visible changes, validation, known limitations, and follow-up items for a release.
 
-- Codex
-- Continue
-- GitHub Copilot
+## Audience
 
-## Recommended Prompt
+- maintainers shipping public releases
+- engineers preparing internal adoption updates
+
+## When to Use
+
+- a release candidate exists
+- commit scope is understood
+
+## When Not to Use
+
+- before validation is complete
+- when the branch is still changing rapidly
+
+## Preconditions
+
+- target commits or tag are selected
+- validation status is known
+
+## Required Context
+
+- commit range
+- release goal
+- known limitations
+
+## Recommended Tools
+
+- coding assistant with git history access
+
+## Step-by-Step Workflow
+
+1. Separate features, fixes, validation, and known limitations.
+2. Keep unverified areas explicit.
+3. Avoid calling starter content “complete”.
+
+## Reusable Prompt
 
 ```text
-Summarize user-facing changes from these commits.
-Separate fixes, features, and breaking changes.
+Summarize user-facing changes from the selected commits.
+Separate features, fixes, validation improvements, known limitations, and follow-up items.
+Do not describe unfinished sections as complete.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. gather commit range
-2. classify changes
-3. write customer-safe summary
+- first public handbook launch
 
-## CLI Examples
+## Expected Agent Output
+
+- highlights
+- included sections
+- known limitations
+
+## Human Review Checkpoint
+
+- verify every claim against the actual diff
+
+## Validation Commands
 
 ```bash
-cn -p "draft release notes from the last 10 commits"
+git log --oneline <base>..HEAD
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use GitHub-centric tools against the release branch
+- release notes that describe aspirations instead of shipped work
 
-## Review Checklist
+## Rollback or Recovery
 
-- user-facing wording
-- breaking changes called out
+- regenerate notes from the exact commit range
 
-## Common Mistakes
+## Completion Checklist
 
-- leaking internal-only implementation details
+- release notes match shipped artifacts
+- limitations are explicit
 
 ## Team Standard
 
-Human owner approves final notes.
+Release notes must be honest enough for someone to decide whether to upgrade.
+
+## Verification Note
+
+This is a repository release-writing pattern, not a claim about any platform release automation.
+
+## Sources
+
+- [../launch-readiness-audit.md](../launch-readiness-audit.md)

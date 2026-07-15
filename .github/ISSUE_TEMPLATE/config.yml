@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security reporting guidance
+    url: https://github.com/AnkitParekh007/ai-tools-cheatsheets/blob/main/SECURITY.md
+    about: Review the private-reporting guidance before posting security-sensitive details.

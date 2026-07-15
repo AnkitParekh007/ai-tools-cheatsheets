@@ -1,46 +1,99 @@
 # Documentation Generation
 
-## Goal
+Use this workflow when the agent should update docs from code reality instead of drafting generic prose.
 
-Produce docs that match the implementation.
+## Objective
 
-## Best Tools
+Read the implementation first, find stale or missing docs, and patch only what the repository can support honestly.
 
-- Codex
-- Claude Code
-- Continue
+## Audience
 
-## Recommended Prompt
+- maintainers updating READMEs or developer docs
+- contributors documenting recently shipped behavior
+
+## When to Use
+
+- code changed and docs are stale
+- a public workflow, command, or config needs explanation
+
+## When Not to Use
+
+- the implementation is not yet settled
+- the agent cannot inspect the code it is documenting
+
+## Preconditions
+
+- code source of truth exists
+- target audience is known
+
+## Required Context
+
+- changed files
+- existing docs page
+- validation commands
+
+## Recommended Tools
+
+- repo-aware CLI agents for code-to-doc mapping
+
+## Step-by-Step Workflow
+
+1. Read the implementation first.
+2. Identify stale claims.
+3. Rewrite only the inaccurate or missing sections.
+4. Keep commands copy-pasteable.
+5. Run docs validation.
+
+## Reusable Prompt
 
 ```text
 Read the implementation first, identify stale docs, then patch only what is inaccurate.
+Keep commands copy-pasteable, mark uncertainty explicitly, and preserve public URLs.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. inspect code
-2. compare current docs
-3. patch stale sections
+- update README after a new validation script was added
 
-## CLI Examples
+## Expected Agent Output
+
+- stale doc list
+- targeted doc patch
+- validation commands
+
+## Human Review Checkpoint
+
+- verify docs describe the real implementation
+
+## Validation Commands
 
 ```bash
-cn -p "update docs for the changed feature based on the implementation"
+npm run docs:validate
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use editor chat after opening both the implementation and docs
+- generic docs not grounded in code
+- URLs changed unnecessarily
 
-## Review Checklist
+## Rollback or Recovery
 
-- commands are runnable
-- docs match behavior
+- restore the previous doc and restate the code evidence
 
-## Common Mistakes
+## Completion Checklist
 
-- writing docs from memory
+- docs reflect implementation
+- links pass
+- commands remain copyable
 
 ## Team Standard
 
-Verify commands before merge.
+Implementation first, prose second.
+
+## Verification Note
+
+This workflow assumes the repo itself is the source of truth for the behavior being documented.
+
+## Sources
+
+- [CONTRIBUTING_CONTENT.md](../../CONTRIBUTING_CONTENT.md)

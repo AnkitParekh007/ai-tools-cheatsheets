@@ -1,0 +1,54 @@
+name: Workflow or prompt improvement
+description: Suggest a better engineering workflow, reusable prompt, or validation pattern.
+title: "[Workflow/Prompt]: "
+labels:
+  - workflow
+  - prompt
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request type
+      options:
+        - Workflow improvement
+        - Prompt starter
+        - Master prompt
+        - Validation pattern
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Existing page if applicable
+      placeholder: docs/workflows/code-review.md
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Real engineering scenario
+      description: Describe the actual task this workflow or prompt should help with.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected output or behavior
+      description: What should the agent produce or help the engineer do?
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation and review requirements
+      description: Which checks, commands, or human review checkpoints should be included?
+    validations:
+      required: true
+  - type: dropdown
+    id: security
+    attributes:
+      label: Security sensitivity
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true

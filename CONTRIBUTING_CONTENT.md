@@ -2,9 +2,9 @@
 
 This file defines the documentation quality standard for this repository.
 
-Use it when you add, rewrite, review, or verify any page under [docs](/C:/Users/aparekh/Desktop/Projects/akki/ai-tools-cheatsheets/docs).
+Use it when you add, rewrite, review, or verify any page under [docs](./docs/README.md).
 
-For the current repository-wide gap analysis, see [docs/content-audit.md](/C:/Users/aparekh/Desktop/Projects/akki/ai-tools-cheatsheets/docs/content-audit.md).
+For the current repository-wide gap analysis, see [docs/content-audit.md](./docs/content-audit.md).
 
 ## Purpose
 
@@ -114,8 +114,8 @@ Tool pages must include this top block near the title:
 **Best for:** short practical description
 **Official docs:** https://example.com/docs
 **Last verified:** YYYY-MM-DD
-**Status:** Confirmed
-**Verification scope:** Docs reviewed on macOS and Windows install paths; CLI not locally tested
+**Status:** Documentation verified
+**Verification scope:** Docs reviewed on Windows and macOS install paths; CLI not locally tested
 ```
 
 #### MCP pages
@@ -163,7 +163,7 @@ Use only the approved status vocabulary below.
 | `Locally tested` | Tested directly on the local machine or local repo context |
 | `Partially verified` | Some claims tested, some confirmed only from docs |
 | `Documentation verified` | Confirmed from primary documentation only |
-| `Confirmed` | Acceptable when existing tool pages use it, but prefer a more specific label in new material |
+| `Confirmed` | Legacy label allowed on existing pages, but prefer a more specific label in new material |
 | `Not locally tested` | Guidance reviewed but not executed locally |
 | `Requires account` | Verification depends on account access |
 | `Requires paid plan` | Verification depends on paid access |
@@ -173,13 +173,6 @@ Use only the approved status vocabulary below.
 | `Unsupported` | Not supported by the official product or maintainer |
 | `Unable to verify` | Could not be confirmed with the available evidence or environment |
 | `Needs verification` | Current page guidance is incomplete and requires additional validation |
-
-### Status usage rules
-
-- Use the narrowest truthful label.
-- Do not claim `Verified` or `Locally tested` unless the command or workflow was actually exercised.
-- If only the docs were checked, use `Documentation verified` or `Not locally tested`.
-- If plan restrictions or account access block testing, say so explicitly.
 
 ## Source Requirements
 
@@ -194,13 +187,6 @@ Each factual page must end with a `## Sources` section when it contains:
 - pricing model statements
 - deprecation or roadmap notes
 
-### Source rules
-
-- Link only to sources that support the actual claims on the page.
-- Prefer a small number of high-quality official sources over many weak links.
-- Do not interrupt every paragraph with inline links if a final `Sources` section is clearer.
-- If a claim is still uncertain after review, label it as uncertain instead of sourcing it weakly.
-
 ## Code and Command Requirements
 
 All code and command examples must:
@@ -213,16 +199,7 @@ All code and command examples must:
 - include validation steps where useful
 - show expected output only when it materially helps the reader
 
-### Example rules
-
-- Prefer safe commands before destructive ones.
-- If a command can write, delete, deploy, or revoke access, say so explicitly.
-- If an example is illustrative and not locally tested, label it.
-- Avoid stale syntax copied from old blog posts or screenshots.
-
 ## Security Requirements
-
-Security is mandatory, not optional polish.
 
 Any page involving tools, workflows, prompts, policies, MCP servers, configs, or automation must answer the relevant parts of this list:
 
@@ -245,53 +222,7 @@ Never include:
 - customer identifiers
 - internal repository URLs unless the page is explicitly for private forks
 
-## Demonstration Requirements
-
-Important pages must include at least one realistic demonstration.
-
-A good demonstration includes:
-
-1. Scenario
-2. Repository context
-3. User request
-4. Prompt or command
-5. Expected AI behavior
-6. Example output structure
-7. Human review checkpoint
-8. Validation steps
-9. Common failure
-10. Safer corrected approach
-
-Do not stop at raw prompt text.
-
-## Accessibility Requirements
-
-Every page must:
-
-- use a valid heading hierarchy
-- keep tables readable and scoped
-- avoid oversized ungrouped matrices when smaller grouped sections would be clearer
-- use descriptive link text
-- avoid color-only meaning in notes or callouts
-- ensure code is not the only way a concept is explained
-
-## Link and Validation Rules
-
-Before merging content:
-
-- build the site
-- validate internal links
-- validate navigation if page additions or moves occurred
-- review changed anchors if headings changed
-- check representative rendered pages
-
-When validation tooling exists, run it.
-
-When it does not exist yet, do not claim validation that was not performed.
-
 ## Content Quality Checklist
-
-Use this checklist during review.
 
 - The page has a clear purpose and audience.
 - The page helps the reader make a decision or complete a task.
@@ -307,8 +238,6 @@ Use this checklist during review.
 - The page avoids generic filler and marketing language.
 
 ## Page Archetypes
-
-Different page types must follow different structures.
 
 ### Tool Page
 
@@ -336,46 +265,29 @@ Required sections:
 20. Verification status
 21. Sources
 
-### Configuration File Page
-
-Required sections:
-
-1. Purpose
-2. Scope
-3. Supported tools
-4. File discovery and precedence
-5. Recommended location
-6. Minimal example
-7. Production-grade example
-8. Explanation of every section
-9. Good and bad patterns
-10. Tool-specific differences
-11. Security boundaries
-12. Validation checklist
-13. Migration guidance
-14. Sources
-
 ### Workflow Page
 
 Required sections:
 
 1. Objective
-2. When to use
-3. When not to use
-4. Preconditions
-5. Required context
-6. Recommended tools
-7. Step-by-step workflow
-8. Reusable prompt
-9. Example input
-10. Expected agent output
-11. Human review checkpoint
-12. Validation commands
-13. Failure modes
-14. Rollback approach
-15. Completion checklist
-16. Team standard
-17. Sources
+2. Audience
+3. When to use
+4. When not to use
+5. Preconditions
+6. Required context
+7. Recommended tools
+8. Step-by-step workflow
+9. Reusable prompt
+10. Example input
+11. Expected agent output
+12. Human review checkpoint
+13. Validation commands
+14. Failure modes
+15. Rollback or recovery
+16. Completion checklist
+17. Team standard
+18. Verification note
+19. Sources
 
 ### MCP Page
 
@@ -384,24 +296,22 @@ Required sections:
 1. Purpose
 2. Typical use cases
 3. Available implementation options
-4. Recommended implementation
+4. Recommended implementation or evaluation mode
 5. Host compatibility
 6. Prerequisites
-7. Installation
+7. Installation or evaluation path
 8. Configuration example
 9. Authentication
 10. Permissions requested
 11. Read and write capabilities
-12. First working demonstration
-13. Example tools exposed
-14. Approval requirements
-15. Threat model
-16. Least-privilege setup
-17. Revocation
-18. Troubleshooting
-19. Alternatives
-20. Verification status
-21. Sources
+12. Approval requirements
+13. Threat model
+14. Least-privilege setup
+15. Revocation
+16. Troubleshooting
+17. Alternatives
+18. Verification status
+19. Sources
 
 ### Prompt Page
 
@@ -410,7 +320,7 @@ Required sections:
 1. Prompt objective
 2. When to use
 3. Required context
-4. Master prompt
+4. Prompt or starter set
 5. Variables to customize
 6. Example filled prompt
 7. Example expected output
@@ -463,38 +373,6 @@ Use normative policy language:
 - `Should`
 - `May`
 
-## Writing Style
-
-Use:
-
-- clear technical English
-- short paragraphs
-- direct recommendations
-- descriptive headings
-- explicit limits and trade-offs
-- practical examples
-
-Avoid:
-
-- marketing language
-- unsupported superlatives
-- generic AI introductions
-- vague statements such as `powerful` or `game-changing`
-- long walls of text without reader payoff
-
-## Review Checklist for Maintainers
-
-Before approving a docs change, check:
-
-- Does the page fit its archetype?
-- Is the verification scope honest?
-- Are the sources primary and relevant?
-- Would a new team member know what to do next?
-- Are permissions and security boundaries explicit?
-- Does the page show a real workflow, not just a label?
-- Are placeholders used instead of secrets?
-- Does the page preserve URL and navigation stability?
-
 ## Definition of Done
 
 A page or content batch is done only when:
@@ -508,34 +386,3 @@ A page or content batch is done only when:
 - links and headings render correctly
 - the docs site builds successfully
 - the page gives the reader a clear next step
-
-## Recommended Batch Order
-
-When improving this repository, use this order:
-
-1. Standards and automation
-2. Start Here pages
-3. Tool pages
-4. Config files
-5. Workflows
-6. MCP pages
-7. Prompt pages
-8. Template pages
-9. Governance pages
-10. Glossary and cross-links
-
-## Short Maintainer Template
-
-Use this short checklist at the top of a rewrite PR description:
-
-```md
-## Content Check
-
-- [ ] Purpose and audience are clear
-- [ ] Verification scope is honest
-- [ ] Sources are primary
-- [ ] Examples are safe and practical
-- [ ] Security boundaries are explicit
-- [ ] Links and navigation still work
-- [ ] `npm run docs:build` passes
-```

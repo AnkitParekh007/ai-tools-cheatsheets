@@ -1,0 +1,47 @@
+name: Security guidance concern
+description: Report unsafe commands, risky permission advice, or security documentation problems.
+title: "[Security Docs]: "
+labels:
+  - security
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: Do not post secrets, exploit details, or private customer data here. For sensitive disclosures, follow `SECURITY.md`.
+  - type: input
+    id: page
+    attributes:
+      label: Affected page
+      placeholder: docs/governance/security-and-permissions.md
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Security concern
+      description: What guidance is unsafe, incomplete, or misleading?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected safer guidance
+      description: What should change?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Official documentation, repo references, or internal reasoning supporting the concern.
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Risk level
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true

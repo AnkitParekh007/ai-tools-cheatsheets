@@ -1,48 +1,102 @@
 # Refactoring
 
-## Goal
+Use this workflow for non-behavioral code cleanup where the main risk is accidental regression.
 
-Improve structure without changing behavior.
+## Objective
 
-## Best Tools
+Improve structure, naming, duplication, or maintainability without changing external behavior.
 
-- Claude Code
-- Codex
-- Aider
+## Audience
 
-## Recommended Prompt
+- maintainers cleaning up legacy code
+- engineers preparing a codebase for future feature work
+
+## When to Use
+
+- behavior is already covered by tests
+- the current code is hard to work with
+- the refactor can be reviewed independently from feature work
+
+## When Not to Use
+
+- when behavior changes are mixed into the same patch
+- when there is no practical validation path
+
+## Preconditions
+
+- clear non-goal: no behavior change
+- existing tests or smoke checks available
+
+## Required Context
+
+- module boundaries
+- public interfaces
+- current tests
+
+## Recommended Tools
+
+- repo-aware CLI agents for structure changes
+- IDE tools for rename and extraction assistance
+
+## Step-by-Step Workflow
+
+1. State the invariant behavior.
+2. Ask for a refactor plan before edits.
+3. Keep interfaces stable.
+4. Run tests after each structural change.
+
+## Reusable Prompt
 
 ```text
-Refactor for readability and maintainability without changing behavior.
-Preserve public interfaces.
+Refactor this module for readability and maintainability without changing behavior or public interfaces.
+State the invariants first, then propose the smallest safe sequence of edits and tests.
 ```
 
-## Step-by-Step
+## Example Input
 
-1. identify safe scope
-2. refactor in small steps
-3. run tests
+- split a long utility module into smaller pure functions
 
-## CLI Examples
+## Expected Agent Output
+
+- invariants
+- patch sequence
+- unchanged interface list
+
+## Human Review Checkpoint
+
+- confirm no behavior change slipped in
+- inspect renamed exports and moved files carefully
+
+## Validation Commands
 
 ```bash
-aider
-claude
+npm test
 ```
 
-## IDE Examples
+## Failure Modes
 
-- use Cursor for local refactor loops with diff review
+- hidden behavior changes
+- excessive file churn
 
-## Review Checklist
+## Rollback or Recovery
+
+- revert the refactor commit and keep the plan for later
+
+## Completion Checklist
 
 - behavior preserved
-- public API unchanged
-
-## Common Mistakes
-
-- mixing refactor and feature change
+- tests green
+- diff readable
 
 ## Team Standard
 
-Separate behavior changes from refactors when possible.
+Refactors should be boring to review.
+
+## Verification Note
+
+This is a generic non-behavioral workflow pattern.
+
+## Sources
+
+- [Code Review](./code-review.md)
+- [Test Generation](./test-generation.md)

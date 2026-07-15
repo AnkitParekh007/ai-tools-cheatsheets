@@ -3,15 +3,27 @@
   "version": "1.0.0",
   "private": true,
   "description": "Open-source cheat sheets and team handbook for Claude Code, OpenAI Codex, Cursor, GitHub Copilot, Grok, MCP, prompts, config files, and AI coding workflows.",
+  "packageManager": "npm@11.9.0",
+  "engines": {
+    "node": "24.14.0",
+    "npm": "11.9.0"
+  },
   "scripts": {
     "docs:init": "honkit init ./docs",
     "docs:serve": "honkit serve",
     "docs:build": "honkit build",
     "docs:debug": "honkit build ./ --log=debug --debug",
-    "links:check": "node scripts/verify-links.js",
+    "docs:paths": "node scripts/check-local-paths.js",
+    "docs:navigation": "node scripts/validate-navigation.js",
+    "docs:metadata": "node scripts/validate-metadata.js",
+    "docs:links": "node scripts/verify-links.js",
+    "docs:lint": "markdownlint-cli2 \"README.md\" \"CONTRIBUTING*.md\" \"SECURITY.md\" \"CODE_OF_CONDUCT.md\" \"CHANGELOG.md\" \"docs/**/*.md\" \".github/**/*.md\"",
+    "docs:validate": "npm run docs:paths && npm run docs:navigation && npm run docs:metadata && npm run docs:lint && npm run docs:build && npm run docs:links",
+    "links:check": "npm run docs:links",
     "index:generate": "node scripts/generate-index.js"
   },
   "devDependencies": {
-    "honkit": "latest"
+    "honkit": "6.2.2",
+    "markdownlint-cli2": "0.14.0"
   }
 }
