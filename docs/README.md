@@ -15,7 +15,7 @@
   </div>
 </div>
 
-> Last updated: 2026-07-12
+> Last updated: 2026-07-15
 
 <div class="ai-home-grid">
   <div class="ai-panel">

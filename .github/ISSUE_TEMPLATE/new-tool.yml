@@ -2,7 +2,7 @@ name: New tool coverage
 description: Request a new AI coding tool page or a major expansion of an existing one.
 title: "[Tool]: "
 labels:
-  - tool
+  - tool-page
   - documentation
 body:
   - type: input

@@ -7,7 +7,7 @@
 </h3>
 
 <p align="center">
-  <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets/stargazers">
+  <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets">
     <img src="https://img.shields.io/github/stars/AnkitParekh007/ai-tools-cheatsheets?style=social" alt="GitHub stars" />
   </a>
   <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets/fork">

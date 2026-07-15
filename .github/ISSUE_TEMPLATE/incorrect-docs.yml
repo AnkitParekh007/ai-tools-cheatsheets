@@ -3,7 +3,7 @@ description: Report factual inaccuracies, unsupported claims, or outdated guidan
 title: "[Docs]: "
 labels:
   - documentation
-  - content-quality
+  - verification
 body:
   - type: input
     id: page

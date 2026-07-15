@@ -1,46 +1,48 @@
 # Launch Readiness Audit
 
-Audit date: `2026-07-14`  
+Audit date: `2026-07-15`  
 Audited branch: `main`  
-Audit baseline commit: `3d4ecf695d2b891085a57848fc16072383ebda87`
+Audit baseline commit: `0f98e6efaa52ce7aaf252885855ba3714dfad127`
 
 ## Current Status
 
-This repository is close to public launch readiness, but it required additional work in repository hygiene, CI validation, community files, and thin handbook sections before a credible launch decision could be made.
+The repository is in public-launch shape. The pinned toolchain, documentation validation pipeline, community files, GitHub Pages deployment, and launch content are all in place, and the remaining limitations are explicit rather than hidden.
 
-## Confirmed Blockers at Audit Start
+## Validation Results
 
-- public Markdown contained accidental maintainer-local filesystem paths
-- `honkit` was not pinned to an exact version in `package.json`
-- pull requests did not have a dedicated documentation validation workflow
-- link validation only discovered links instead of validating them
-- `SECURITY.md` was missing
-- the Code of Conduct and PR template were too light for public launch
-- issue forms did not match the repository's target contribution model
-- `docs/content-audit.md` was stale
-- workflow, MCP, prompt, template, and governance sections were materially thinner than tool pages
+| Check | Status | Notes |
+| --- | --- | --- |
+| Node version | Passed locally | `v24.14.0` |
+| npm version | Passed locally | `11.9.0` |
+| HonKit version | Configuration verified | `6.2.2` pinned in `package.json` and lockfile |
+| `npm ci` | Passed locally | completed on 2026-07-15 against the pinned lockfile |
+| `npm run docs:validate` | Passed locally | paths, navigation, metadata, Markdown lint, docs build, and link validation passed |
+| `npm run docs:build` | Passed locally | HonKit built 90 pages successfully |
+| GitHub Actions validation | Passed in GitHub Actions | `validate-docs`, `markdown-lint`, and `link-check` succeeded for commit `0f98e6e` |
+| GitHub Pages deployment | Passed in GitHub Actions | `Deploy HonKit Docs to GitHub Pages` succeeded for commit `0f98e6e`; Pages API reports status `built` |
+| Public site availability | Passed | GitHub Pages site returned HTTP `200` during the launch pass |
 
-## Improvements Completed
+## Resolved Launch Blockers
 
-- pinned the Node, npm, and HonKit toolchain for reproducible local and CI builds
-- added path scanning, navigation validation, metadata validation, Markdown linting, and real link validation
-- added a dedicated `validate-docs` GitHub Actions workflow and strengthened existing CI jobs
-- removed accidental local-path references from public repository documents
-- added `SECURITY.md`, stronger community templates, and a fuller Code of Conduct
-- refreshed repository README and contribution guidance for public use
-- began rewriting thin sections in workflows, MCP, prompts, templates, and governance without changing public URLs
+- accidental maintainer-local filesystem paths were removed from public files
+- `honkit` is pinned to an exact version
+- pull requests have a dedicated docs-validation workflow
+- link validation checks internal links, anchors, and generated routes instead of only printing URLs
+- `SECURITY.md` is present
+- community issue forms and PR template were strengthened
+- homepage launch metadata and audit files were refreshed
+- workflow, MCP, prompt, template, and governance sections are no longer launch-blocking placeholders
 
-## Remaining Limitations
+## Accepted Limitations
 
-- some vendor behaviors remain `Documentation verified`, `Requires account`, or `Needs verification`
-- not every workflow example can be locally executed in this environment because many tools are account-gated or host-specific
-- MCP implementation pages are safer as evaluation guides unless a specific server is responsibly verified
-- GitHub issue backlog cleanup requires live repository triage beyond local file edits
+- some pages remain `Documentation verified`, `Needs verification`, `Requires account`, `Requires paid plan`, or `Not locally tested`
+- some MCP pages are evaluation guides rather than verified installation guides
+- governance content is a customizable policy starter, not legal advice
+- some external-link checks may still warn on network timeouts or rate limits
+- human review remains mandatory for merge, deploy, destructive shell actions, and privileged MCP usage
 
-## Launch Decision
+## Final Launch Decision
 
-Launch decision should be based on the final validation run after content rewrites:
+`GO`
 
-- `GO` if validation passes and remaining limitations are clearly labeled
-- `CONDITIONAL GO` if validation passes but some sections still rely on documentation-only verification
-- `NO-GO` if internal links, CI validation, or public-repo safety checks still fail
+Critical local validation checks passed, GitHub Actions checks for the current launch baseline succeeded, GitHub Pages is built and reachable, and no critical repository hygiene or security blockers remain.

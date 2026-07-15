@@ -1,7 +1,7 @@
 # Content Audit
 
-Audit date: `2026-07-14`  
-Audit baseline commit: `3d4ecf695d2b891085a57848fc16072383ebda87`
+Audit date: `2026-07-15`  
+Audit baseline commit: `0f98e6efaa52ce7aaf252885855ba3714dfad127`
 
 ## Scope
 
@@ -33,6 +33,7 @@ This audit covers:
 - pinned Node/npm/HonKit toolchain documented
 - docs validation expanded beyond simple link discovery
 - dedicated docs-validation workflow added for pull requests
+- GitHub Pages deployment workflow verified in Actions and Pages API
 - `SECURITY.md`, stronger conduct policy, issue forms, and PR template added
 - workflow, MCP, prompt, template, and governance landing pages are no longer placeholders
 
