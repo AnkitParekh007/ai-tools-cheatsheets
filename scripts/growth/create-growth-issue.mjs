@@ -44,10 +44,10 @@ const missingLabels = config.reportIssueLabels.filter((label) => !desiredLabels.
 
 const title = buildIssueTitle(config.reportTitlePrefix, reportDate);
 const footerLines = [];
-if (reportUrl) {
+if (reportUrl && !report.includes(reportUrl)) {
   footerLines.push(`Report history: ${reportUrl}`);
 }
-if (runUrl) {
+if (runUrl && !report.includes(runUrl)) {
   footerLines.push(`Workflow run: ${runUrl}`);
 }
 const issueBody = `${report}${footerLines.length ? `\n\n---\n${footerLines.join("\n")}\n` : "\n"}`;
