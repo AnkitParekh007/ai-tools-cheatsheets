@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "repository": "AnkitParekh007/ai-tools-cheatsheets",
-  "collectedAt": "2026-07-16T14:00:24.561Z",
+  "collectedAt": "2026-07-16T14:20:07.940Z",
   "reportDate": "2026-07-16",
   "period": {
-    "start": "2026-07-09T14:00:24.561Z",
-    "end": "2026-07-16T14:00:24.561Z",
+    "start": "2026-07-09T14:20:07.940Z",
+    "end": "2026-07-16T14:20:07.940Z",
     "days": 7,
     "timezone": "Asia/Kolkata"
   },
   "sourceInfo": {
     "githubRestBaseUrl": "https://api.github.com",
     "githubGraphqlPath": "/graphql",
-    "trafficRetentionDays": 14
+    "trafficRetentionDays": 14,
+    "maintainerAssociations": [
+      "OWNER",
+      "MEMBER",
+      "COLLABORATOR"
+    ]
   },
   "repositoryMetrics": {
     "defaultBranch": "main",
@@ -20,10 +25,10 @@
     "forks": 0,
     "subscribers": 0,
     "watchers": 0,
-    "openIssues": 52,
+    "openIssues": 53,
     "openPullRequests": 0,
     "sizeKb": 3669,
-    "pushedAt": "2026-07-16T13:59:26Z",
+    "pushedAt": "2026-07-16T14:19:34Z",
     "latestRelease": {
       "tagName": "v1.0.0",
       "name": "v1.0.0 — Public Handbook Launch",
@@ -34,9 +39,9 @@
     "contributorCount": 2
   },
   "issueMetrics": {
-    "newIssues": 52,
+    "newIssues": 53,
     "closedIssues": 0,
-    "openIssues": 52,
+    "openIssues": 53,
     "goodFirstIssueOpen": 7,
     "helpWantedOpen": 2,
     "issueComments": 0,
@@ -100,7 +105,11 @@
         ]
       }
     ],
-    "openIssuesWithoutMaintainerResponse": null
+    "openIssuesWithoutMaintainerResponse": 1,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {
+      "OWNER": 52
+    }
   },
   "pullRequestMetrics": {
     "newPullRequests": 1,
@@ -111,6 +120,11 @@
     "repeatContributors": 0,
     "averageTimeToMergeHours": 0,
     "awaitingReview": 0,
+    "openPullRequestsWithoutMaintainerResponse": 0,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {
+      "OWNER": 1
+    },
     "mostActivePullRequests": [
       {
         "number": 1,
@@ -125,7 +139,7 @@
   },
   "contributorMetrics": {
     "currentContributorCount": 2,
-    "commitsDuringPeriod": 20,
+    "commitsDuringPeriod": 21,
     "newContributors": 1,
     "repeatContributors": 0,
     "acceptedContributors": [
@@ -141,7 +155,7 @@
     "commitAuthors": [
       {
         "login": "aparekh@bluemeteor.com",
-        "commits": 18
+        "commits": 19
       },
       {
         "login": "AnkitParekh007",
@@ -177,7 +191,7 @@
     ]
   },
   "trafficMetrics": {
-    "status": "unavailable",
+    "status": "disabled",
     "views": null,
     "clones": null,
     "topReferrers": [],
@@ -185,16 +199,146 @@
   },
   "externalMetrics": {
     "websiteAnalytics": {
-      "status": "unavailable",
-      "reason": "Not configured in the first version."
+      "status": "disabled",
+      "reason": "No website analytics adapter is configured for this repository yet."
     },
     "searchConsole": {
-      "status": "unavailable",
-      "reason": "Not configured in the first version."
+      "status": "available",
+      "adapter": "search-console-sanitized-csv",
+      "window": {
+        "startDate": "2026-07-09",
+        "endDate": "2026-07-16"
+      },
+      "totals": {
+        "clicks": 187,
+        "impressions": 6240,
+        "ctr": 0.03,
+        "averagePosition": 18.4,
+        "queries": 24,
+        "pages": 12
+      },
+      "topQueries": [
+        {
+          "query": "codex cli",
+          "clicks": 72,
+          "impressions": 1400,
+          "ctr": 0.051,
+          "position": 6.2
+        },
+        {
+          "query": "cursor ai docs",
+          "clicks": 41,
+          "impressions": 980,
+          "ctr": 0.042,
+          "position": 8.8
+        },
+        {
+          "query": "claude code cheat sheet",
+          "clicks": 33,
+          "impressions": 750,
+          "ctr": 0.044,
+          "position": 7.1
+        },
+        {
+          "query": "github copilot comparison",
+          "clicks": 21,
+          "impressions": 530,
+          "ctr": 0.04,
+          "position": 10.3
+        }
+      ],
+      "topPages": [
+        {
+          "page": "/openai-codex/",
+          "clicks": 58,
+          "impressions": 1120,
+          "ctr": 0.052,
+          "position": 5.9
+        },
+        {
+          "page": "/cursor/",
+          "clicks": 39,
+          "impressions": 930,
+          "ctr": 0.042,
+          "position": 7.4
+        },
+        {
+          "page": "/claude-code/",
+          "clicks": 34,
+          "impressions": 810,
+          "ctr": 0.042,
+          "position": 6.8
+        },
+        {
+          "page": "/getting-started/comparison-matrix.html",
+          "clicks": 27,
+          "impressions": 640,
+          "ctr": 0.042,
+          "position": 9.7
+        }
+      ],
+      "sourceFiles": {
+        "summaryPath": "growth-review/examples/search-console-summary.csv",
+        "queriesPath": "growth-review/examples/search-console-top-queries.csv",
+        "pagesPath": "growth-review/examples/search-console-top-pages.csv"
+      }
     },
     "linkedinCampaigns": {
-      "status": "unavailable",
-      "reason": "Not configured in the first version."
+      "status": "available",
+      "adapter": "linkedin-sanitized-csv",
+      "window": {
+        "startDate": "2026-07-09",
+        "endDate": "2026-07-16"
+      },
+      "totals": {
+        "postsPublished": 3,
+        "impressions": 4100,
+        "clicks": 89,
+        "reactions": 32,
+        "comments": 4,
+        "reposts": 1,
+        "engagementRate": 0.031,
+        "followersGained": 12
+      },
+      "topPosts": [
+        {
+          "publishedAt": "2026-07-12",
+          "title": "AI Coding Tools launch thread",
+          "url": "https://www.linkedin.com/posts/example-launch",
+          "impressions": 2200,
+          "clicks": 41,
+          "reactions": 18,
+          "comments": 4,
+          "reposts": 2,
+          "engagementRate": 0.038
+        },
+        {
+          "publishedAt": "2026-07-14",
+          "title": "Comparison matrix walkthrough",
+          "url": "https://www.linkedin.com/posts/example-matrix",
+          "impressions": 1300,
+          "clicks": 29,
+          "reactions": 10,
+          "comments": 0,
+          "reposts": 0,
+          "engagementRate": 0.03
+        },
+        {
+          "publishedAt": "2026-07-15",
+          "title": "MCP workflow note",
+          "url": "https://www.linkedin.com/posts/example-mcp",
+          "impressions": 600,
+          "clicks": 19,
+          "reactions": 4,
+          "comments": 0,
+          "reposts": 0,
+          "engagementRate": 0.032
+        }
+      ],
+      "sourceFiles": {
+        "summaryPath": "growth-review/examples/linkedin-summary.csv",
+        "postsPath": "growth-review/examples/linkedin-top-posts.csv"
+      }
     }
   },
   "availability": {
@@ -203,9 +347,8 @@
       "source": "github-graphql"
     },
     "trafficMetrics": {
-      "status": "unavailable",
-      "reason": "GitHub API 403: Resource not accessible by integration (https://docs.github.com/rest/metrics/traffic#get-page-views)",
-      "retentionDays": 14
+      "status": "disabled",
+      "reason": "GitHub traffic disabled in config."
     },
     "repositoryMetrics": {
       "status": "available",
@@ -213,11 +356,13 @@
     },
     "issueMetrics": {
       "status": "available",
-      "source": "github-search"
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
     },
     "pullRequestMetrics": {
       "status": "available",
-      "source": "github-search-rest"
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
     },
     "contributorMetrics": {
       "status": "available",
@@ -228,12 +373,35 @@
       "source": "github-rest"
     },
     "externalMetrics": {
-      "status": "disabled",
-      "reason": "External adapters are intentionally disabled in the first version."
+      "status": "partial",
+      "reason": "Some external analytics adapters were available, while others were missing or disabled.",
+      "adapters": {
+        "websiteAnalytics": {
+          "status": "disabled",
+          "reason": "No website analytics adapter is configured for this repository yet."
+        },
+        "searchConsole": {
+          "status": "available",
+          "reason": null,
+          "adapter": "search-console-sanitized-csv",
+          "sourceFiles": {
+            "summaryPath": "growth-review/examples/search-console-summary.csv",
+            "queriesPath": "growth-review/examples/search-console-top-queries.csv",
+            "pagesPath": "growth-review/examples/search-console-top-pages.csv"
+          }
+        },
+        "linkedinCampaigns": {
+          "status": "available",
+          "reason": null,
+          "adapter": "linkedin-sanitized-csv",
+          "sourceFiles": {
+            "summaryPath": "growth-review/examples/linkedin-summary.csv",
+            "postsPath": "growth-review/examples/linkedin-top-posts.csv"
+          }
+        }
+      }
     }
   },
-  "warnings": [
-    "Traffic metrics unavailable: GitHub API 403: Resource not accessible by integration (https://docs.github.com/rest/metrics/traffic#get-page-views)"
-  ],
+  "warnings": [],
   "errors": []
 }
