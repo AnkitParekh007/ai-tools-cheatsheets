@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "repository": "AnkitParekh007/ai-tools-cheatsheets",
+  "collectedAt": "2026-07-16T14:00:24.561Z",
+  "reportDate": "2026-07-16",
+  "period": {
+    "start": "2026-07-09T14:00:24.561Z",
+    "end": "2026-07-16T14:00:24.561Z",
+    "days": 7,
+    "timezone": "Asia/Kolkata"
+  },
+  "sourceInfo": {
+    "githubRestBaseUrl": "https://api.github.com",
+    "githubGraphqlPath": "/graphql",
+    "trafficRetentionDays": 14
+  },
+  "repositoryMetrics": {
+    "defaultBranch": "main",
+    "stars": 0,
+    "forks": 0,
+    "subscribers": 0,
+    "watchers": 0,
+    "openIssues": 52,
+    "openPullRequests": 0,
+    "sizeKb": 3669,
+    "pushedAt": "2026-07-16T13:59:26Z",
+    "latestRelease": {
+      "tagName": "v1.0.0",
+      "name": "v1.0.0 — Public Handbook Launch",
+      "publishedAt": "2026-07-15T12:47:03Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.0"
+    },
+    "totalReleases": 1,
+    "contributorCount": 2
+  },
+  "issueMetrics": {
+    "newIssues": 52,
+    "closedIssues": 0,
+    "openIssues": 52,
+    "goodFirstIssueOpen": 7,
+    "helpWantedOpen": 2,
+    "issueComments": 0,
+    "mostActiveIssues": [
+      {
+        "number": 13,
+        "title": "Add Aider install notes for Windows",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/13",
+        "comments": 0,
+        "updatedAt": "2026-07-12T17:05:03Z",
+        "labels": [
+          "documentation",
+          "verification",
+          "windows"
+        ]
+      },
+      {
+        "number": 14,
+        "title": "Add Continue configuration examples",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/14",
+        "comments": 0,
+        "updatedAt": "2026-07-12T17:05:06Z",
+        "labels": [
+          "documentation",
+          "tool-page"
+        ]
+      },
+      {
+        "number": 9,
+        "title": "Add Grok/xAI coding usage clarification",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/9",
+        "comments": 0,
+        "updatedAt": "2026-07-12T17:04:49Z",
+        "labels": [
+          "documentation",
+          "verification",
+          "tool-page"
+        ]
+      },
+      {
+        "number": 7,
+        "title": "Add Cursor rules examples for Angular projects",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/7",
+        "comments": 0,
+        "updatedAt": "2026-07-12T17:04:42Z",
+        "labels": [
+          "documentation",
+          "tool-page",
+          "workflow"
+        ]
+      },
+      {
+        "number": 8,
+        "title": "Add GitHub Copilot Chat workflow examples",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/8",
+        "comments": 0,
+        "updatedAt": "2026-07-12T17:04:45Z",
+        "labels": [
+          "documentation",
+          "workflow"
+        ]
+      }
+    ],
+    "openIssuesWithoutMaintainerResponse": null
+  },
+  "pullRequestMetrics": {
+    "newPullRequests": 1,
+    "mergedPullRequests": 1,
+    "closedWithoutMerge": 0,
+    "openPullRequests": 0,
+    "firstTimeContributors": 1,
+    "repeatContributors": 0,
+    "averageTimeToMergeHours": 0,
+    "awaitingReview": 0,
+    "mostActivePullRequests": [
+      {
+        "number": 1,
+        "title": "Add HonKit docs site for AI coding tools handbook",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/1",
+        "comments": 0,
+        "additions": 5895,
+        "deletions": 1,
+        "mergedAt": "2026-07-12T15:21:22Z"
+      }
+    ]
+  },
+  "contributorMetrics": {
+    "currentContributorCount": 2,
+    "commitsDuringPeriod": 20,
+    "newContributors": 1,
+    "repeatContributors": 0,
+    "acceptedContributors": [
+      {
+        "login": "AnkitParekh007",
+        "mergedPullRequests": 1,
+        "commits": 2,
+        "acceptedActivity": 3,
+        "firstContributionAt": "2026-07-12T11:18:01Z",
+        "isFirstTime": true
+      }
+    ],
+    "commitAuthors": [
+      {
+        "login": "aparekh@bluemeteor.com",
+        "commits": 18
+      },
+      {
+        "login": "AnkitParekh007",
+        "commits": 2
+      }
+    ]
+  },
+  "releaseMetrics": {
+    "releasesPublished": 1,
+    "latestRelease": {
+      "tagName": "v1.0.0",
+      "name": "v1.0.0 — Public Handbook Launch",
+      "publishedAt": "2026-07-15T12:47:03Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.0"
+    },
+    "totalReleases": 1,
+    "daysSinceLastRelease": 1,
+    "tagsCreated": null
+  },
+  "discussionMetrics": {
+    "newDiscussions": 1,
+    "newComments": 0,
+    "answeredDiscussions": 0,
+    "unansweredQuestions": 0,
+    "mostActiveDiscussions": [
+      {
+        "number": 54,
+        "title": "Help Build the Open-Source Handbook for AI Coding Tools",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions/54",
+        "comments": 0,
+        "isAnswered": null
+      }
+    ]
+  },
+  "trafficMetrics": {
+    "status": "unavailable",
+    "views": null,
+    "clones": null,
+    "topReferrers": [],
+    "topPaths": []
+  },
+  "externalMetrics": {
+    "websiteAnalytics": {
+      "status": "unavailable",
+      "reason": "Not configured in the first version."
+    },
+    "searchConsole": {
+      "status": "unavailable",
+      "reason": "Not configured in the first version."
+    },
+    "linkedinCampaigns": {
+      "status": "unavailable",
+      "reason": "Not configured in the first version."
+    }
+  },
+  "availability": {
+    "discussionMetrics": {
+      "status": "available",
+      "source": "github-graphql"
+    },
+    "trafficMetrics": {
+      "status": "unavailable",
+      "reason": "GitHub API 403: Resource not accessible by integration (https://docs.github.com/rest/metrics/traffic#get-page-views)",
+      "retentionDays": 14
+    },
+    "repositoryMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "issueMetrics": {
+      "status": "available",
+      "source": "github-search"
+    },
+    "pullRequestMetrics": {
+      "status": "available",
+      "source": "github-search-rest"
+    },
+    "contributorMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "releaseMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "externalMetrics": {
+      "status": "disabled",
+      "reason": "External adapters are intentionally disabled in the first version."
+    }
+  },
+  "warnings": [
+    "Traffic metrics unavailable: GitHub API 403: Resource not accessible by integration (https://docs.github.com/rest/metrics/traffic#get-page-views)"
+  ],
+  "errors": []
+}
