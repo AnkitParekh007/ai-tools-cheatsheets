@@ -1,8 +1,10 @@
 import { execFileSync } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
+import { collectExternalMetrics } from "./external-adapters.mjs";
 
 const REST_BASE_URL = "https://api.github.com";
 const GRAPHQL_PATH = "/graphql";
+export const MAINTAINER_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 
 export async function createGitHubClient({
   token = resolveGitHubToken(),
@@ -97,6 +99,9 @@ export async function createGitHubClient({
       if (since) url.searchParams.set("since", since);
       return this.paginate(url.toString());
     },
+    async listCommentsForIssue(number) {
+      return this.paginate(`${REST_BASE_URL}/repos/${owner}/${repo}/issues/${number}/comments`);
+    },
     async getIssue(number) {
       return this.getJson(`${REST_BASE_URL}/repos/${owner}/${repo}/issues/${number}`);
     },
@@ -105,6 +110,9 @@ export async function createGitHubClient({
     },
     async listPullReviews(number) {
       return this.paginate(`${REST_BASE_URL}/repos/${owner}/${repo}/pulls/${number}/reviews`);
+    },
+    async listPullReviewComments(number) {
+      return this.paginate(`${REST_BASE_URL}/repos/${owner}/${repo}/pulls/${number}/comments`);
     },
     async listPulls(state = "open") {
       return this.paginate(`${REST_BASE_URL}/repos/${owner}/${repo}/pulls?state=${state}&sort=updated&direction=desc`);
@@ -155,6 +163,9 @@ export async function createGitHubClient({
 }
 
 export function resolveGitHubToken() {
+  if (process.env.GROWTH_GITHUB_TOKEN) {
+    return process.env.GROWTH_GITHUB_TOKEN;
+  }
   if (process.env.GITHUB_TOKEN) {
     return process.env.GITHUB_TOKEN;
   }
@@ -219,7 +230,8 @@ export async function requestJson({
 export async function collectGitHubSnapshot({
   client,
   config,
-  context
+  context,
+  repoRoot = process.cwd()
 }) {
   const warnings = [];
   const errors = [];
@@ -244,6 +256,12 @@ export async function collectGitHubSnapshot({
     `${repoSearchBase} is:issue updated:${periodStart}..${periodEnd} sort:comments-desc`,
     { perPage: config.maxHighlightedItems, page: 1 }
   );
+  const indexedIssues = await client.listIssues({ state: "all" });
+  const indexedIssueItems = indexedIssues.filter((item) => !item.pull_request);
+  const indexedPullRequestItems = indexedIssues.filter((item) => item.pull_request);
+  const openIssueItems = indexedIssueItems.filter((item) => item.state === "open");
+  const issuesCreatedDuringPeriod = indexedIssueItems.filter((item) => item.created_at >= periodStart && item.created_at <= periodEnd);
+  const indexedPullMap = new Map(indexedPullRequestItems.map((item) => [item.number, item]));
 
   const createdPrSearch = await client.searchIssues(
     `${repoSearchBase} is:pr created:${periodStart}..${periodEnd} sort:created-desc`,
@@ -255,9 +273,11 @@ export async function collectGitHubSnapshot({
   const openPulls = await client.listPulls("open");
   const closedPulls = (await client.listPulls("closed")).filter((item) => item.closed_at && item.closed_at >= periodStart && item.closed_at <= periodEnd);
   const mergedPulls = createdPulls.filter((item) => item.merged_at && item.merged_at >= periodStart && item.merged_at <= periodEnd);
+  const pullsCreatedDuringPeriod = createdPulls.map((pull) => ({ ...indexedPullMap.get(pull.number), ...pull }));
+  const openPullItems = openPulls.map((pull) => ({ ...indexedPullMap.get(pull.number), ...pull }));
 
   const openPullReviewPairs = await Promise.all(
-    openPulls.slice(0, 50).map(async (pull) => ({
+    openPulls.map(async (pull) => ({
       pull,
       reviews: await client.listPullReviews(pull.number)
     }))
@@ -337,6 +357,18 @@ export async function collectGitHubSnapshot({
   }
 
   const issueComments = await collectIssueCommentCount({ client, since: periodStart });
+  const maintainerIssueMetrics = await collectMaintainerIssueMetrics({
+    client,
+    warnings,
+    openIssues: openIssueItems,
+    createdDuringPeriod: issuesCreatedDuringPeriod
+  });
+  const maintainerPullMetrics = await collectMaintainerPullMetrics({
+    client,
+    warnings,
+    openPulls: openPullItems,
+    createdDuringPeriod: pullsCreatedDuringPeriod
+  });
 
   const discussionMetrics = await collectDiscussionMetrics({
     client,
@@ -353,6 +385,12 @@ export async function collectGitHubSnapshot({
     warnings,
     availability
   });
+  const externalMetricCollection = await collectExternalMetrics({
+    config,
+    context,
+    repoRoot
+  });
+  warnings.push(...externalMetricCollection.warnings);
 
   const latestRelease = releases[0]
     ? {
@@ -364,14 +402,19 @@ export async function collectGitHubSnapshot({
     : null;
 
   availability.repositoryMetrics = { status: "available", source: "github-rest" };
-  availability.issueMetrics = { status: "available", source: "github-search" };
-  availability.pullRequestMetrics = { status: "available", source: "github-search-rest" };
+  availability.issueMetrics = {
+    status: maintainerIssueMetrics.status === "available" ? "available" : "partial",
+    source: "github-search-rest",
+    maintainerResponseSource: maintainerIssueMetrics.status
+  };
+  availability.pullRequestMetrics = {
+    status: maintainerPullMetrics.status === "available" ? "available" : "partial",
+    source: "github-search-rest",
+    maintainerResponseSource: maintainerPullMetrics.status
+  };
   availability.contributorMetrics = { status: "available", source: "github-rest" };
   availability.releaseMetrics = { status: "available", source: "github-rest" };
-  availability.externalMetrics = {
-    status: config.enableExternalAnalytics ? "unavailable" : "disabled",
-    reason: "External adapters are intentionally disabled in the first version."
-  };
+  availability.externalMetrics = externalMetricCollection.availability;
 
   return {
     schemaVersion: 1,
@@ -382,7 +425,8 @@ export async function collectGitHubSnapshot({
     sourceInfo: {
       githubRestBaseUrl: REST_BASE_URL,
       githubGraphqlPath: GRAPHQL_PATH,
-      trafficRetentionDays: 14
+      trafficRetentionDays: 14,
+      maintainerAssociations: Array.from(MAINTAINER_ASSOCIATIONS)
     },
     repositoryMetrics: {
       defaultBranch: repo.default_branch,
@@ -413,7 +457,9 @@ export async function collectGitHubSnapshot({
         updatedAt: issue.updated_at,
         labels: (issue.labels ?? []).map((label) => (typeof label === "string" ? label : label.name))
       })),
-      openIssuesWithoutMaintainerResponse: null
+      openIssuesWithoutMaintainerResponse: maintainerIssueMetrics.openItemsWithoutMaintainerResponse,
+      averageHoursToFirstMaintainerResponse: maintainerIssueMetrics.averageHoursToFirstMaintainerResponse,
+      firstMaintainerResponseByAssociation: maintainerIssueMetrics.firstResponseByAssociation
     },
     pullRequestMetrics: {
       newPullRequests: createdPrSearch.total_count ?? createdPulls.length,
@@ -425,6 +471,9 @@ export async function collectGitHubSnapshot({
       averageTimeToMergeHours:
         mergedHours.length > 0 ? Number((mergedHours.reduce((sum, value) => sum + value, 0) / mergedHours.length).toFixed(2)) : null,
       awaitingReview,
+      openPullRequestsWithoutMaintainerResponse: maintainerPullMetrics.openItemsWithoutMaintainerResponse,
+      averageHoursToFirstMaintainerResponse: maintainerPullMetrics.averageHoursToFirstMaintainerResponse,
+      firstMaintainerResponseByAssociation: maintainerPullMetrics.firstResponseByAssociation,
       mostActivePullRequests: createdPulls
         .sort((left, right) => (right.comments ?? 0) - (left.comments ?? 0))
         .slice(0, config.maxHighlightedItems)
@@ -457,11 +506,7 @@ export async function collectGitHubSnapshot({
     },
     discussionMetrics,
     trafficMetrics,
-    externalMetrics: {
-      websiteAnalytics: { status: "unavailable", reason: "Not configured in the first version." },
-      searchConsole: { status: "unavailable", reason: "Not configured in the first version." },
-      linkedinCampaigns: { status: "unavailable", reason: "Not configured in the first version." }
-    },
+    externalMetrics: externalMetricCollection.metrics,
     availability,
     warnings,
     errors
@@ -489,6 +534,175 @@ async function collectIssueCommentCount({ client, since }) {
     }
   }
   return issueCommentCount;
+}
+
+async function collectMaintainerIssueMetrics({ client, warnings, openIssues, createdDuringPeriod }) {
+  try {
+    const analyzed = await analyzeMaintainerResponses({
+      items: dedupeItemsByNumber([...openIssues, ...createdDuringPeriod]),
+      loadEvents: async (item) => {
+        const comments = await client.listCommentsForIssue(item.number);
+        return comments.map((comment) => ({
+          createdAt: comment.created_at,
+          authorAssociation: comment.author_association,
+          login: comment.user?.login ?? null
+        }));
+      }
+    });
+    return summarizeMaintainerResponseAnalysis(analyzed, {
+      openNumbers: new Set(openIssues.map((item) => item.number)),
+      createdDuringPeriodNumbers: new Set(createdDuringPeriod.map((item) => item.number))
+    });
+  } catch (error) {
+    warnings.push(`Issue maintainer-response metrics unavailable: ${error.message}`);
+    return createEmptyMaintainerResponseMetrics("unavailable");
+  }
+}
+
+async function collectMaintainerPullMetrics({ client, warnings, openPulls, createdDuringPeriod }) {
+  try {
+    const analyzed = await analyzeMaintainerResponses({
+      items: dedupeItemsByNumber([...openPulls, ...createdDuringPeriod]),
+      loadEvents: async (item) => {
+        const [issueComments, reviews, reviewComments] = await Promise.all([
+          client.listCommentsForIssue(item.number),
+          client.listPullReviews(item.number),
+          client.listPullReviewComments(item.number)
+        ]);
+        return [
+          ...issueComments.map((comment) => ({
+            createdAt: comment.created_at,
+            authorAssociation: comment.author_association,
+            login: comment.user?.login ?? null
+          })),
+          ...reviews
+            .filter((review) => review.state !== "PENDING")
+            .map((review) => ({
+              createdAt: review.submitted_at ?? review.created_at,
+              authorAssociation: review.author_association,
+              login: review.user?.login ?? null
+            })),
+          ...reviewComments.map((comment) => ({
+            createdAt: comment.created_at,
+            authorAssociation: comment.author_association,
+            login: comment.user?.login ?? null
+          }))
+        ];
+      }
+    });
+    return summarizeMaintainerResponseAnalysis(analyzed, {
+      openNumbers: new Set(openPulls.map((item) => item.number)),
+      createdDuringPeriodNumbers: new Set(createdDuringPeriod.map((item) => item.number))
+    });
+  } catch (error) {
+    warnings.push(`Pull-request maintainer-response metrics unavailable: ${error.message}`);
+    return createEmptyMaintainerResponseMetrics("unavailable");
+  }
+}
+
+async function analyzeMaintainerResponses({ items, loadEvents }) {
+  return Promise.all(
+    items.map(async (item) => {
+      const response = getFirstMaintainerResponse(item, await loadEvents(item));
+      return {
+        number: item.number,
+        response
+      };
+    })
+  );
+}
+
+export function isMaintainerAssociation(value) {
+  return MAINTAINER_ASSOCIATIONS.has(normalizeAssociation(value));
+}
+
+export function getFirstMaintainerResponse(item, events) {
+  const authorAssociation = normalizeAssociation(item.author_association);
+  const authorLogin = item.user?.login ?? null;
+  const createdAt = item.created_at;
+
+  if (isMaintainerAssociation(authorAssociation)) {
+    return {
+      responded: true,
+      authorIsMaintainer: true,
+      firstResponseAt: createdAt,
+      firstResponseAssociation: authorAssociation,
+      hoursToFirstMaintainerResponse: 0
+    };
+  }
+
+  const firstResponse = [...events]
+    .filter((event) => event.createdAt && isMaintainerAssociation(event.authorAssociation))
+    .filter((event) => !authorLogin || event.login !== authorLogin)
+    .filter((event) => new Date(event.createdAt) >= new Date(createdAt))
+    .sort((left, right) => new Date(left.createdAt) - new Date(right.createdAt))
+    .at(0);
+
+  if (!firstResponse) {
+    return {
+      responded: false,
+      authorIsMaintainer: false,
+      firstResponseAt: null,
+      firstResponseAssociation: null,
+      hoursToFirstMaintainerResponse: null
+    };
+  }
+
+  return {
+    responded: true,
+    authorIsMaintainer: false,
+    firstResponseAt: firstResponse.createdAt,
+    firstResponseAssociation: normalizeAssociation(firstResponse.authorAssociation),
+    hoursToFirstMaintainerResponse: hoursBetween(createdAt, firstResponse.createdAt)
+  };
+}
+
+export function summarizeMaintainerResponseAnalysis(analysis, { openNumbers, createdDuringPeriodNumbers }) {
+  const firstResponseByAssociation = {};
+  const respondedCreatedDuringPeriod = [];
+  let openItemsWithoutMaintainerResponse = 0;
+
+  for (const item of analysis) {
+    const isOpen = openNumbers.has(item.number);
+    const createdDuringPeriod = createdDuringPeriodNumbers.has(item.number);
+    const { response } = item;
+
+    if (isOpen && !response.responded && !response.authorIsMaintainer) {
+      openItemsWithoutMaintainerResponse += 1;
+    }
+
+    if (response.firstResponseAssociation) {
+      firstResponseByAssociation[response.firstResponseAssociation] =
+        (firstResponseByAssociation[response.firstResponseAssociation] ?? 0) + 1;
+    }
+
+    if (createdDuringPeriod && response.responded && !response.authorIsMaintainer && Number.isFinite(response.hoursToFirstMaintainerResponse)) {
+      respondedCreatedDuringPeriod.push(response.hoursToFirstMaintainerResponse);
+    }
+  }
+
+  return {
+    status: "available",
+    openItemsWithoutMaintainerResponse,
+    averageHoursToFirstMaintainerResponse:
+      respondedCreatedDuringPeriod.length > 0
+        ? Number(
+            (
+              respondedCreatedDuringPeriod.reduce((sum, value) => sum + value, 0) / respondedCreatedDuringPeriod.length
+            ).toFixed(2)
+          )
+        : null,
+    firstResponseByAssociation
+  };
+}
+
+function createEmptyMaintainerResponseMetrics(status) {
+  return {
+    status,
+    openItemsWithoutMaintainerResponse: null,
+    averageHoursToFirstMaintainerResponse: null,
+    firstResponseByAssociation: {}
+  };
 }
 
 async function collectDiscussionMetrics({ client, config, context, warnings, availability }) {
@@ -681,6 +895,18 @@ async function safeReadJson(response) {
 
 function sumDailyUniques(rows = []) {
   return rows.reduce((sum, item) => sum + (item.uniques ?? 0), 0);
+}
+
+function dedupeItemsByNumber(items) {
+  return Array.from(new Map(items.filter(Boolean).map((item) => [item.number, item])).values());
+}
+
+function normalizeAssociation(value) {
+  return String(value ?? "NONE").trim().toUpperCase();
+}
+
+function hoursBetween(from, to) {
+  return Number((((new Date(to).getTime() - new Date(from).getTime()) / (1000 * 60 * 60))).toFixed(2));
 }
 
 function minTimestamp(left, right) {

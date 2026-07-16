@@ -29,6 +29,44 @@ on:
           - none
           - openai
           - anthropic
+      enable_external_analytics:
+        description: "External analytics override"
+        required: false
+        default: "inherit"
+        type: choice
+        options:
+          - inherit
+          - true
+          - false
+      enable_github_traffic:
+        description: "GitHub traffic override"
+        required: false
+        default: "inherit"
+        type: choice
+        options:
+          - inherit
+          - true
+          - false
+      search_console_summary_path:
+        description: "Sanitized Search Console summary CSV path"
+        required: false
+        type: string
+      search_console_queries_path:
+        description: "Sanitized Search Console top queries CSV path"
+        required: false
+        type: string
+      search_console_pages_path:
+        description: "Sanitized Search Console top pages CSV path"
+        required: false
+        type: string
+      linkedin_summary_path:
+        description: "Sanitized LinkedIn summary CSV path"
+        required: false
+        type: string
+      linkedin_posts_path:
+        description: "Sanitized LinkedIn top posts CSV path"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -49,15 +87,36 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: npm
+
+      - name: Resolve runtime config
+        shell: bash
+        run: |
+          EXTERNAL_ANALYTICS="${{ github.event.inputs.enable_external_analytics }}"
+          if [ -z "$EXTERNAL_ANALYTICS" ] || [ "$EXTERNAL_ANALYTICS" = "inherit" ]; then
+            EXTERNAL_ANALYTICS="${{ vars.GROWTH_ENABLE_EXTERNAL_ANALYTICS || 'false' }}"
+          fi
+
+          GITHUB_TRAFFIC="${{ github.event.inputs.enable_github_traffic }}"
+          if [ -z "$GITHUB_TRAFFIC" ] || [ "$GITHUB_TRAFFIC" = "inherit" ]; then
+            GITHUB_TRAFFIC="${{ vars.GROWTH_ENABLE_GITHUB_TRAFFIC || 'false' }}"
+          fi
+
+          echo "GROWTH_ENABLE_EXTERNAL_ANALYTICS=$EXTERNAL_ANALYTICS" >> "$GITHUB_ENV"
+          echo "GROWTH_ENABLE_GITHUB_TRAFFIC=$GITHUB_TRAFFIC" >> "$GITHUB_ENV"
+          echo "GROWTH_SEARCH_CONSOLE_SUMMARY_PATH=${{ github.event.inputs.search_console_summary_path || vars.GROWTH_SEARCH_CONSOLE_SUMMARY_PATH }}" >> "$GITHUB_ENV"
+          echo "GROWTH_SEARCH_CONSOLE_QUERIES_PATH=${{ github.event.inputs.search_console_queries_path || vars.GROWTH_SEARCH_CONSOLE_QUERIES_PATH }}" >> "$GITHUB_ENV"
+          echo "GROWTH_SEARCH_CONSOLE_PAGES_PATH=${{ github.event.inputs.search_console_pages_path || vars.GROWTH_SEARCH_CONSOLE_PAGES_PATH }}" >> "$GITHUB_ENV"
+          echo "GROWTH_LINKEDIN_SUMMARY_PATH=${{ github.event.inputs.linkedin_summary_path || vars.GROWTH_LINKEDIN_SUMMARY_PATH }}" >> "$GITHUB_ENV"
+          echo "GROWTH_LINKEDIN_POSTS_PATH=${{ github.event.inputs.linkedin_posts_path || vars.GROWTH_LINKEDIN_POSTS_PATH }}" >> "$GITHUB_ENV"
 
       - name: Install dependencies
         run: npm ci
@@ -110,6 +169,7 @@ jobs:
         run: npm run growth:collect -- --date "${{ steps.report_date.outputs.report_date }}" --output "${{ steps.report_date.outputs.current_snapshot }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROWTH_GITHUB_TOKEN: ${{ secrets.GROWTH_GITHUB_TOKEN }}
 
       - name: Validate current snapshot
         run: npm run growth:validate -- --snapshot "${{ steps.report_date.outputs.current_snapshot }}"
@@ -174,12 +234,14 @@ jobs:
           npm run growth:issue --
           --date "${{ steps.report_date.outputs.report_date }}"
           --report "${{ steps.report_date.outputs.current_report }}"
+          --report-url "${{ steps.history_push.outputs.report_url }}"
           --run-url "${{ steps.report_date.outputs.run_url }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROWTH_GITHUB_TOKEN: ${{ secrets.GROWTH_GITHUB_TOKEN }}
 
       - name: Upload growth-review artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: weekly-growth-review-${{ steps.report_date.outputs.report_date }}
           path: |
@@ -200,5 +262,7 @@ jobs:
             echo "- History branch: \`${{ steps.history.outputs.branch }}\`"
             echo "- History pushed: \`${{ steps.history_push.outputs.pushed || 'false' }}\`"
             echo "- Report branch URL: ${{ steps.history_push.outputs.report_url || 'Not committed in this run' }}"
+            echo "- External analytics enabled: \`${GROWTH_ENABLE_EXTERNAL_ANALYTICS}\`"
+            echo "- GitHub traffic enabled: \`${GROWTH_ENABLE_GITHUB_TRAFFIC}\`"
             echo "- Workflow run: ${{ steps.report_date.outputs.run_url }}"
           } >> "$GITHUB_STEP_SUMMARY"

@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import {
   buildAiPromptInput,
   buildFallbackReport,
@@ -13,7 +16,8 @@ import {
   validateSnapshot
 } from "./lib/core.mjs";
 import { resolveProvider } from "./lib/ai.mjs";
-import { formatGitHubError, getRetryDelay } from "./lib/github.mjs";
+import { collectExternalMetrics } from "./lib/external-adapters.mjs";
+import { formatGitHubError, getFirstMaintainerResponse, getRetryDelay, summarizeMaintainerResponseAnalysis } from "./lib/github.mjs";
 
 function createSnapshot(overrides = {}) {
   return {
@@ -46,7 +50,9 @@ function createSnapshot(overrides = {}) {
       helpWantedOpen: 1,
       issueComments: 3,
       mostActiveIssues: [],
-      openIssuesWithoutMaintainerResponse: null
+      openIssuesWithoutMaintainerResponse: 1,
+      averageHoursToFirstMaintainerResponse: 12.5,
+      firstMaintainerResponseByAssociation: { OWNER: 1 }
     },
     pullRequestMetrics: {
       newPullRequests: 2,
@@ -57,6 +63,9 @@ function createSnapshot(overrides = {}) {
       repeatContributors: 1,
       averageTimeToMergeHours: 12.5,
       awaitingReview: 1,
+      openPullRequestsWithoutMaintainerResponse: 1,
+      averageHoursToFirstMaintainerResponse: 6.75,
+      firstMaintainerResponseByAssociation: { MEMBER: 1 },
       mostActivePullRequests: []
     },
     contributorMetrics: {
@@ -94,9 +103,27 @@ function createSnapshot(overrides = {}) {
       topPaths: []
     },
     externalMetrics: {
-      websiteAnalytics: { status: "unavailable" },
-      searchConsole: { status: "unavailable" },
-      linkedinCampaigns: { status: "unavailable" }
+      websiteAnalytics: { status: "disabled" },
+      searchConsole: {
+        status: "available",
+        totals: {
+          clicks: 20,
+          impressions: 400,
+          ctr: 0.05
+        },
+        topQueries: [{ query: "codex cli", clicks: 8 }],
+        topPages: []
+      },
+      linkedinCampaigns: {
+        status: "available",
+        totals: {
+          postsPublished: 2,
+          impressions: 1200,
+          clicks: 30,
+          engagementRate: 0.04
+        },
+        topPosts: [{ title: "Weekly update", impressions: 800 }]
+      }
     },
     availability: {
       repositoryMetrics: { status: "available" },
@@ -106,7 +133,7 @@ function createSnapshot(overrides = {}) {
       releaseMetrics: { status: "available" },
       discussionMetrics: { status: "unavailable", reason: "disabled for test" },
       trafficMetrics: { status: "available" },
-      externalMetrics: { status: "unavailable" }
+      externalMetrics: { status: "partial" }
     },
     warnings: [],
     errors: [],
@@ -255,4 +282,119 @@ test("empty activity weeks still generate usable fallback sections", () => {
     aiStatusNote: "No AI key configured."
   });
   assert.match(report, /Three Priorities for Next Week/);
+});
+
+test("maintainer response analysis uses collaborator-role attribution", () => {
+  const response = getFirstMaintainerResponse(
+    {
+      number: 12,
+      created_at: "2026-07-10T10:00:00.000Z",
+      author_association: "CONTRIBUTOR",
+      user: { login: "external-user" }
+    },
+    [
+      {
+        createdAt: "2026-07-10T12:30:00.000Z",
+        authorAssociation: "MEMBER",
+        login: "maintainer-1"
+      }
+    ]
+  );
+
+  assert.equal(response.responded, true);
+  assert.equal(response.firstResponseAssociation, "MEMBER");
+  assert.equal(response.hoursToFirstMaintainerResponse, 2.5);
+});
+
+test("maintainer response summary counts unanswered open items", () => {
+  const summary = summarizeMaintainerResponseAnalysis(
+    [
+      {
+        number: 10,
+        response: {
+          responded: false,
+          authorIsMaintainer: false,
+          firstResponseAssociation: null,
+          hoursToFirstMaintainerResponse: null
+        }
+      },
+      {
+        number: 11,
+        response: {
+          responded: true,
+          authorIsMaintainer: false,
+          firstResponseAssociation: "OWNER",
+          hoursToFirstMaintainerResponse: 4
+        }
+      }
+    ],
+    {
+      openNumbers: new Set([10, 11]),
+      createdDuringPeriodNumbers: new Set([11])
+    }
+  );
+
+  assert.equal(summary.openItemsWithoutMaintainerResponse, 1);
+  assert.equal(summary.averageHoursToFirstMaintainerResponse, 4);
+  assert.deepEqual(summary.firstResponseByAssociation, { OWNER: 1 });
+});
+
+test("external adapters load sanitized Search Console and LinkedIn CSV summaries", async () => {
+  const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "growth-review-"));
+  await fs.mkdir(path.join(tempRoot, "external"), { recursive: true });
+
+  await fs.writeFile(
+    path.join(tempRoot, "external", "search-console-summary.csv"),
+    ["metric,value", "start_date,2026-07-09", "end_date,2026-07-16", "clicks,187", "impressions,6240", "ctr,3.0%", "average_position,18.4"].join("\n"),
+    "utf8"
+  );
+  await fs.writeFile(
+    path.join(tempRoot, "external", "search-console-queries.csv"),
+    ["query,clicks,impressions,ctr,position", "\"codex cli\",72,1400,5.1%,6.2"].join("\n"),
+    "utf8"
+  );
+  await fs.writeFile(
+    path.join(tempRoot, "external", "linkedin-summary.csv"),
+    ["metric,value", "start_date,2026-07-09", "end_date,2026-07-16", "posts_published,3", "impressions,4100", "clicks,89", "engagement_rate,3.1%"].join("\n"),
+    "utf8"
+  );
+  await fs.writeFile(
+    path.join(tempRoot, "external", "linkedin-posts.csv"),
+    ["published_at,title,url,impressions,clicks,reactions,comments,reposts,engagement_rate", "2026-07-12,Release post,https://example.com/post,2200,41,18,4,2,3.8%"].join("\n"),
+    "utf8"
+  );
+
+  const config = {
+    ...DEFAULT_CONFIG,
+    enableExternalAnalytics: true,
+    externalAnalytics: {
+      ...DEFAULT_CONFIG.externalAnalytics,
+      searchConsole: {
+        ...DEFAULT_CONFIG.externalAnalytics.searchConsole,
+        summaryPath: "external/search-console-summary.csv",
+        queriesPath: "external/search-console-queries.csv"
+      },
+      linkedinCsv: {
+        ...DEFAULT_CONFIG.externalAnalytics.linkedinCsv,
+        summaryPath: "external/linkedin-summary.csv",
+        postsPath: "external/linkedin-posts.csv"
+      }
+    }
+  };
+
+  const result = await collectExternalMetrics({
+    config,
+    context: createSnapshot().period ? {
+      period: createSnapshot().period
+    } : { period: { start: "2026-07-09T00:00:00.000Z", end: "2026-07-16T00:00:00.000Z" } },
+    repoRoot: tempRoot
+  });
+
+  assert.equal(result.metrics.searchConsole.status, "available");
+  assert.equal(result.metrics.searchConsole.totals.clicks, 187);
+  assert.equal(result.metrics.searchConsole.topQueries[0].query, "codex cli");
+  assert.equal(result.metrics.linkedinCampaigns.status, "available");
+  assert.equal(result.metrics.linkedinCampaigns.totals.postsPublished, 3);
+  assert.equal(result.metrics.linkedinCampaigns.topPosts[0].title, "Release post");
+  assert.equal(result.availability.status, "partial");
 });

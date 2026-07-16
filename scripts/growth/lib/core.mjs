@@ -28,8 +28,19 @@ export const DEFAULT_CONFIG = {
   },
   externalAnalytics: {
     websiteAnalytics: null,
-    searchConsole: null,
-    linkedinCsv: null
+    searchConsole: {
+      adapter: "search-console-sanitized-csv",
+      summaryPath: null,
+      queriesPath: null,
+      pagesPath: null,
+      topItemLimit: 5
+    },
+    linkedinCsv: {
+      adapter: "linkedin-sanitized-csv",
+      summaryPath: null,
+      postsPath: null,
+      topItemLimit: 5
+    }
   }
 };
 
@@ -51,7 +62,9 @@ const NUMERIC_DELTA_PATHS = {
     "openIssues",
     "goodFirstIssueOpen",
     "helpWantedOpen",
-    "issueComments"
+    "issueComments",
+    "openIssuesWithoutMaintainerResponse",
+    "averageHoursToFirstMaintainerResponse"
   ],
   pullRequestMetrics: [
     "newPullRequests",
@@ -61,7 +74,9 @@ const NUMERIC_DELTA_PATHS = {
     "firstTimeContributors",
     "repeatContributors",
     "averageTimeToMergeHours",
-    "awaitingReview"
+    "awaitingReview",
+    "openPullRequestsWithoutMaintainerResponse",
+    "averageHoursToFirstMaintainerResponse"
   ],
   contributorMetrics: [
     "currentContributorCount",
@@ -81,6 +96,15 @@ const NUMERIC_DELTA_PATHS = {
     "views.uniqueDailySumApproximation",
     "clones.count",
     "clones.uniqueDailySumApproximation"
+  ],
+  externalMetrics: [
+    "searchConsole.totals.clicks",
+    "searchConsole.totals.impressions",
+    "searchConsole.totals.ctr",
+    "linkedinCampaigns.totals.postsPublished",
+    "linkedinCampaigns.totals.impressions",
+    "linkedinCampaigns.totals.clicks",
+    "linkedinCampaigns.totals.engagementRate"
   ]
 };
 
@@ -184,6 +208,19 @@ export async function loadConfig({
       anthropicModel: cli.anthropicModel ?? env.ANTHROPIC_MODEL,
       maxOutputTokens: toNumber(cli.maxOutputTokens ?? env.GROWTH_AI_MAX_OUTPUT_TOKENS, merged.ai.maxOutputTokens),
       timeoutMs: toNumber(cli.aiTimeoutMs ?? env.GROWTH_AI_TIMEOUT_MS, merged.ai.timeoutMs)
+    },
+    externalAnalytics: {
+      searchConsole: {
+        summaryPath: cli.searchConsoleSummaryPath ?? env.GROWTH_SEARCH_CONSOLE_SUMMARY_PATH,
+        queriesPath: cli.searchConsoleQueriesPath ?? env.GROWTH_SEARCH_CONSOLE_QUERIES_PATH,
+        pagesPath: cli.searchConsolePagesPath ?? env.GROWTH_SEARCH_CONSOLE_PAGES_PATH,
+        topItemLimit: toNumber(cli.searchConsoleTopItemLimit ?? env.GROWTH_SEARCH_CONSOLE_TOP_ITEM_LIMIT, merged.externalAnalytics.searchConsole?.topItemLimit)
+      },
+      linkedinCsv: {
+        summaryPath: cli.linkedinSummaryPath ?? env.GROWTH_LINKEDIN_SUMMARY_PATH,
+        postsPath: cli.linkedinPostsPath ?? env.GROWTH_LINKEDIN_POSTS_PATH,
+        topItemLimit: toNumber(cli.linkedinTopItemLimit ?? env.GROWTH_LINKEDIN_TOP_ITEM_LIMIT, merged.externalAnalytics.linkedinCsv?.topItemLimit)
+      }
     }
   }));
 
@@ -218,6 +255,16 @@ export function validateConfig(config) {
   }
   if (config.enableExternalAnalytics && !config.externalAnalytics) {
     warnings.push("enableExternalAnalytics is true, but no externalAnalytics adapters are configured");
+  }
+  if (config.enableExternalAnalytics) {
+    const searchConsole = config.externalAnalytics?.searchConsole;
+    const linkedinCsv = config.externalAnalytics?.linkedinCsv;
+    if (!searchConsole?.summaryPath && !searchConsole?.queriesPath && !searchConsole?.pagesPath) {
+      warnings.push("Search Console adapter is enabled, but no CSV paths are configured.");
+    }
+    if (!linkedinCsv?.summaryPath && !linkedinCsv?.postsPath) {
+      warnings.push("LinkedIn adapter is enabled, but no CSV paths are configured.");
+    }
   }
 
   return { valid: errors.length === 0, errors, warnings };
@@ -517,7 +564,7 @@ export function buildFallbackReport({
   lines.push("");
   lines.push("- Review the scorecard and data limitations before sharing publicly.");
   lines.push("- Confirm whether the highlighted issues and pull requests still need maintainer follow-up.");
-  lines.push("- Decide whether any external analytics adapters should be enabled before the next run.");
+  lines.push("- Refresh the sanitized external analytics CSV summaries before the next run if new campaign data is available.");
   if (runUrl) {
     lines.push(`- Workflow run: ${runUrl}`);
   }
@@ -681,6 +728,16 @@ export function buildContributorBullets(snapshot) {
   bullets.push(
     `- Accepted contributors in the period: ${snapshot.contributorMetrics.acceptedContributors?.length ?? 0}; new contributors: ${snapshot.contributorMetrics.newContributors}.`
   );
+  if (Number.isFinite(snapshot.issueMetrics.averageHoursToFirstMaintainerResponse)) {
+    bullets.push(
+      `- Maintainer first-response time for new issues averaged ${snapshot.issueMetrics.averageHoursToFirstMaintainerResponse.toFixed(2)} hours.`
+    );
+  }
+  if (Number.isFinite(snapshot.pullRequestMetrics.averageHoursToFirstMaintainerResponse)) {
+    bullets.push(
+      `- Maintainer first-response time for new pull requests averaged ${snapshot.pullRequestMetrics.averageHoursToFirstMaintainerResponse.toFixed(2)} hours.`
+    );
+  }
   const highlights = snapshot.contributorMetrics.acceptedContributors?.slice(0, 3) ?? [];
   for (const person of highlights) {
     bullets.push(
@@ -697,12 +754,32 @@ export function buildContentSignalBullets(snapshot, config) {
       `- GitHub traffic captured ${snapshot.trafficMetrics.views.count} views during the retained window; unique totals are approximate because GitHub only exposes daily unique counts.`
     );
   }
-  if (config.enableExternalAnalytics === false) {
-    bullets.push("- External analytics adapters remain disabled in this first version, so website and LinkedIn campaign metrics are unavailable.");
+  if (snapshot.availability?.externalMetrics?.status === "disabled") {
+    bullets.push("- External analytics adapters are disabled for this run, so Search Console and LinkedIn distribution signals are unavailable.");
+  }
+  if (snapshot.externalMetrics.searchConsole?.status === "available") {
+    const totals = snapshot.externalMetrics.searchConsole.totals ?? {};
+    bullets.push(
+      `- Search Console captured ${formatMetricValue(totals.clicks)} clicks from ${formatMetricValue(totals.impressions)} impressions in the imported summary window.`
+    );
+  }
+  if (snapshot.externalMetrics.linkedinCampaigns?.status === "available") {
+    const totals = snapshot.externalMetrics.linkedinCampaigns.totals ?? {};
+    bullets.push(
+      `- LinkedIn summaries captured ${formatMetricValue(totals.impressions)} impressions across ${formatMetricValue(totals.postsPublished)} posts in the imported window.`
+    );
   }
   const paths = snapshot.trafficMetrics.topPaths?.slice(0, 3) ?? [];
   for (const item of paths) {
     bullets.push(`- Popular GitHub content path: \`${item.path}\` with ${item.count} views.`);
+  }
+  const topQueries = snapshot.externalMetrics.searchConsole?.topQueries?.slice(0, 2) ?? [];
+  for (const item of topQueries) {
+    bullets.push(`- Search Console query highlight: \`${item.query}\` drove ${formatMetricValue(item.clicks)} clicks.`);
+  }
+  const topPosts = snapshot.externalMetrics.linkedinCampaigns?.topPosts?.slice(0, 2) ?? [];
+  for (const item of topPosts) {
+    bullets.push(`- LinkedIn post highlight: ${item.title} reached ${formatMetricValue(item.impressions)} impressions.`);
   }
   return bullets.length ? bullets : ["- No content or distribution metrics were available in this run."];
 }
@@ -730,6 +807,12 @@ export function buildPriorityBullets(snapshot, delta) {
       "- Action: reduce open issues with no maintainer response. Reason: response lag weakens contributor conversion. Expected signal: lower unresponded issue count next week. Measurement: `issueMetrics.openIssuesWithoutMaintainerResponse`. Suggested owner: maintainer triage. Effort: medium."
     );
   }
+  const unansweredPulls = snapshot.pullRequestMetrics.openPullRequestsWithoutMaintainerResponse;
+  if (typeof unansweredPulls === "number" && unansweredPulls > 0) {
+    bullets.push(
+      "- Action: assign a maintainer sweep for open pull requests with no maintainer response. Reason: contributor momentum drops when PRs sit without a maintainer signal. Expected signal: lower unresponded PR count and faster first-response time. Measurement: `pullRequestMetrics.openPullRequestsWithoutMaintainerResponse` and `pullRequestMetrics.averageHoursToFirstMaintainerResponse`. Suggested owner: reviewer rotation. Effort: medium."
+    );
+  }
   const mergedDelta = delta.domains.pullRequestMetrics["mergedPullRequests"];
   if (mergedDelta?.direction === "decreased") {
     bullets.push(
@@ -752,7 +835,11 @@ export function buildExperimentBullets(snapshot, delta) {
   if (delta.domains.repositoryMetrics["stars"]?.direction !== "increased") {
     bullets.push("- Publish one source-backed distribution post tied to a high-interest handbook section and measure stars, forks, and contributor clicks next week.");
   }
-  bullets.push("- Add one optional external analytics adapter after the core GitHub signal path is stable, so future reports can correlate repository activity with audience traffic.");
+  if (snapshot.externalMetrics.searchConsole?.status === "available" || snapshot.externalMetrics.linkedinCampaigns?.status === "available") {
+    bullets.push("- Compare top Search Console pages and top LinkedIn posts against the most active repository pages to find which content themes create both traffic and contribution intent.");
+  } else {
+    bullets.push("- Import at least one sanitized Search Console or LinkedIn summary before the next run so repository activity can be compared with off-platform distribution.");
+  }
   return bullets.slice(0, 3);
 }
 

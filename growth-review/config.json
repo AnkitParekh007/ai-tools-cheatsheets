@@ -25,7 +25,18 @@
   },
   "externalAnalytics": {
     "websiteAnalytics": null,
-    "searchConsole": null,
-    "linkedinCsv": null
+    "searchConsole": {
+      "adapter": "search-console-sanitized-csv",
+      "summaryPath": null,
+      "queriesPath": null,
+      "pagesPath": null,
+      "topItemLimit": 5
+    },
+    "linkedinCsv": {
+      "adapter": "linkedin-sanitized-csv",
+      "summaryPath": null,
+      "postsPath": null,
+      "topItemLimit": 5
+    }
   }
 }

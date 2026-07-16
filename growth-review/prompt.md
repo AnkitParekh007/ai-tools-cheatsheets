@@ -6,6 +6,8 @@ You will receive:
 3. Deterministic delta calculations
 4. Data availability and warnings
 5. Recent repository activity
+6. Maintainer-response metrics attributed from GitHub collaborator roles
+7. Optional sanitized Search Console and LinkedIn distribution summaries
 
 Rules:
 - Never invent missing data.

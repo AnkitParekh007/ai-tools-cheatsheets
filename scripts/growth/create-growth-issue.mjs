@@ -32,6 +32,7 @@ const reportPath = path.resolve(args.report ?? outputPaths.reportPath);
 const rawReport = await fs.readFile(reportPath, "utf8");
 const report = sanitizeMarkdown(rawReport);
 const runUrl = args["run-url"] ?? process.env.GROWTH_RUN_URL ?? null;
+const reportUrl = args["report-url"] ?? process.env.GROWTH_REPORT_URL ?? null;
 let labelNames = (await client.listLabels()).map((item) => item.name);
 
 if (config.createMissingLabels) {
@@ -39,16 +40,31 @@ if (config.createMissingLabels) {
   labelNames = (await client.listLabels()).map((item) => item.name);
 }
 const desiredLabels = filterAvailableLabels(labelNames, config.reportIssueLabels);
+const missingLabels = config.reportIssueLabels.filter((label) => !desiredLabels.includes(label));
 
 const title = buildIssueTitle(config.reportTitlePrefix, reportDate);
-const issueBody = `${report}${runUrl ? `\n\n---\nWorkflow run: ${runUrl}\n` : "\n"}`;
+const footerLines = [];
+if (reportUrl) {
+  footerLines.push(`Report history: ${reportUrl}`);
+}
+if (runUrl) {
+  footerLines.push(`Workflow run: ${runUrl}`);
+}
+const issueBody = `${report}${footerLines.length ? `\n\n---\n${footerLines.join("\n")}\n` : "\n"}`;
 const issues = await client.listIssues({ state: "all" });
 const existingIssue = findIssueByMarker(issues, reportDate);
 
 if (args["dry-run"]) {
   console.log(`Dry run: ${existingIssue ? "would update" : "would create"} issue "${title}"`);
   console.log(`Labels: ${desiredLabels.join(", ") || "(none)"}`);
+  if (missingLabels.length) {
+    console.log(`Missing labels: ${missingLabels.join(", ")}`);
+  }
   process.exit(0);
+}
+
+if (missingLabels.length) {
+  console.log(`Missing labels were skipped: ${missingLabels.join(", ")}`);
 }
 
 if (existingIssue) {

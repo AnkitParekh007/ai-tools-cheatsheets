@@ -24,7 +24,13 @@ const config = await loadConfig({
     reportingDays: args["reporting-days"],
     enableTraffic: args["enable-traffic"],
     enableDiscussions: args["enable-discussions"],
-    maxHighlightedItems: args["max-highlighted-items"]
+    enableExternalAnalytics: args["enable-external-analytics"],
+    maxHighlightedItems: args["max-highlighted-items"],
+    searchConsoleSummaryPath: args["search-console-summary-path"],
+    searchConsoleQueriesPath: args["search-console-queries-path"],
+    searchConsolePagesPath: args["search-console-pages-path"],
+    linkedinSummaryPath: args["linkedin-summary-path"],
+    linkedinPostsPath: args["linkedin-posts-path"]
   }
 });
 
@@ -47,7 +53,8 @@ const client = await createGitHubClient({
 const snapshot = await collectGitHubSnapshot({
   client,
   config,
-  context
+  context,
+  repoRoot
 });
 
 const validation = validateSnapshot(snapshot);
