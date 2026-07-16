@@ -151,6 +151,12 @@ Start with [Fork for Your Team](./docs/getting-started/fork-for-your-team.md) an
 - Measurement plan: [docs/seo/seo-scorecard.md](./docs/seo/seo-scorecard.md)
 - Social preview asset for GitHub and sharing: [docs/assets/images/social/social-repo-preview.png](./docs/assets/images/social/social-repo-preview.png)
 
+## Growth Review Automation
+
+- Weekly growth-review system: [growth-review/README.md](./growth-review/README.md)
+- Schedule: Monday 02:30 UTC, which is Monday 08:00 Asia/Kolkata
+- Delivery: versioned report and snapshot history on the `automation/weekly-growth-reports` branch plus a weekly GitHub Issue
+
 ## License
 
 [MIT](./LICENSE)

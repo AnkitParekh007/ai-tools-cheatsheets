@@ -28,7 +28,14 @@
     "seo:orphan-pages": "node scripts/find-orphan-pages.js",
     "seo:validate": "npm run seo:prepare && npm run seo:metadata && npm run seo:orphan-pages && npm run docs:build && npm run seo:canonicals && npm run seo:sitemap && npm run seo:structured-data",
     "links:check": "npm run docs:links",
-    "index:generate": "node scripts/generate-index.js"
+    "index:generate": "node scripts/generate-index.js",
+    "growth:collect": "node scripts/growth/collect-github-metrics.mjs",
+    "growth:validate": "node scripts/growth/validate-growth-data.mjs",
+    "growth:delta": "node scripts/growth/calculate-growth-deltas.mjs",
+    "growth:fallback": "node scripts/growth/generate-fallback-report.mjs",
+    "growth:ai": "node scripts/growth/generate-ai-report.mjs",
+    "growth:issue": "node scripts/growth/create-growth-issue.mjs",
+    "growth:test": "node --test scripts/growth/**/*.test.mjs"
   },
   "devDependencies": {
     "honkit": "6.2.2",

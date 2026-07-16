@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "repository": "AnkitParekh007/ai-tools-cheatsheets",
+  "timezone": "Asia/Kolkata",
+  "reportingPeriodDays": 7,
+  "reportTitlePrefix": "Weekly Growth Review",
+  "reportIssueLabels": ["growth-report", "analytics", "automation"],
+  "enableGitHubTraffic": true,
+  "enableDiscussions": true,
+  "enableExternalAnalytics": false,
+  "maxHighlightedItems": 5,
+  "maxAiInputChars": 18000,
+  "createMissingLabels": false,
+  "deliveryMode": "branch-and-issue",
+  "reportBranch": "automation/weekly-growth-reports",
+  "commitHistory": true,
+  "allowTrafficDetailsInAi": false,
+  "exposeTrafficDetailsInPublicIssue": false,
+  "ai": {
+    "provider": "auto",
+    "openaiModel": "gpt-5.2",
+    "anthropicModel": "claude-sonnet-5",
+    "maxOutputTokens": 1800,
+    "timeoutMs": 45000
+  },
+  "externalAnalytics": {
+    "websiteAnalytics": null,
+    "searchConsole": null,
+    "linkedinCsv": null
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ankitparekh007.github.io/ai-tools-cheatsheets/growth-review/schemas/growth-snapshot.schema.json",
+  "title": "Growth Snapshot",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "repository",
+    "collectedAt",
+    "reportDate",
+    "period",
+    "repositoryMetrics",
+    "issueMetrics",
+    "pullRequestMetrics",
+    "contributorMetrics",
+    "releaseMetrics",
+    "discussionMetrics",
+    "trafficMetrics",
+    "externalMetrics",
+    "availability",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[^/]+/[^/]+$"
+    },
+    "collectedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reportDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "period": {
+      "type": "object",
+      "required": ["start", "end", "days", "timezone"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timezone": {
+          "type": "string"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,204 @@
+name: weekly-growth-review
+
+on:
+  schedule:
+    - cron: "30 2 * * 1"
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: "Override report date (YYYY-MM-DD)"
+        required: false
+        type: string
+      create_issue:
+        description: "Create or update the weekly GitHub Issue"
+        required: false
+        default: true
+        type: boolean
+      commit_history:
+        description: "Commit reports and snapshots to the history branch"
+        required: false
+        default: true
+        type: boolean
+      ai_provider:
+        description: "AI provider override"
+        required: false
+        default: "auto"
+        type: choice
+        options:
+          - auto
+          - none
+          - openai
+          - anthropic
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: weekly-growth-review
+  cancel-in-progress: false
+
+jobs:
+  weekly-growth-review:
+    runs-on: ubuntu-latest
+    env:
+      GROWTH_REPORT_BRANCH: ${{ vars.GROWTH_REPORT_BRANCH || 'automation/weekly-growth-reports' }}
+      GROWTH_AI_PROVIDER: ${{ github.event.inputs.ai_provider || vars.GROWTH_AI_PROVIDER || 'auto' }}
+      GROWTH_CREATE_LABELS: ${{ vars.GROWTH_CREATE_LABELS || 'false' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Confirm schedule mapping
+        run: |
+          echo "02:30 UTC Monday = 08:00 Asia/Kolkata" >> "$GITHUB_STEP_SUMMARY"
+          echo "India does not observe daylight saving time." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Determine report date
+        id: report_date
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.report_date }}" ]; then
+            REPORT_DATE="${{ github.event.inputs.report_date }}"
+          else
+            REPORT_DATE="$(node -e "console.log(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()))")"
+          fi
+          YEAR="${REPORT_DATE%%-*}"
+          echo "report_date=$REPORT_DATE" >> "$GITHUB_OUTPUT"
+          echo "year=$YEAR" >> "$GITHUB_OUTPUT"
+          echo "current_snapshot=growth-review/snapshots/$YEAR/$REPORT_DATE.json" >> "$GITHUB_OUTPUT"
+          echo "current_report=growth-review/reports/$YEAR/$REPORT_DATE.md" >> "$GITHUB_OUTPUT"
+          echo "run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare history branch worktree
+        id: history
+        shell: bash
+        run: |
+          BRANCH="${GROWTH_REPORT_BRANCH}"
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            git fetch origin "$BRANCH":"refs/remotes/origin/$BRANCH"
+            git worktree add .growth-history "refs/remotes/origin/$BRANCH"
+          else
+            git worktree add -b "$BRANCH" .growth-history HEAD
+          fi
+          mkdir -p .growth-history/growth-review/reports .growth-history/growth-review/snapshots
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Find previous snapshot
+        id: previous
+        shell: bash
+        run: |
+          PREVIOUS="$(find .growth-history/growth-review/snapshots -type f -name '*.json' | sort | tail -n 1 || true)"
+          if [ -n "$PREVIOUS" ]; then
+            echo "path=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Collect GitHub metrics
+        run: npm run growth:collect -- --date "${{ steps.report_date.outputs.report_date }}" --output "${{ steps.report_date.outputs.current_snapshot }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate current snapshot
+        run: npm run growth:validate -- --snapshot "${{ steps.report_date.outputs.current_snapshot }}"
+
+      - name: Calculate growth deltas
+        run: >
+          npm run growth:delta --
+          --current "${{ steps.report_date.outputs.current_snapshot }}"
+          ${{ steps.previous.outputs.path && format('--previous "{0}"', steps.previous.outputs.path) || '' }}
+          --output "${{ runner.temp }}/growth-delta.json"
+
+      - name: Generate AI or fallback report
+        run: >
+          npm run growth:ai --
+          --date "${{ steps.report_date.outputs.report_date }}"
+          --current "${{ steps.report_date.outputs.current_snapshot }}"
+          ${{ steps.previous.outputs.path && format('--previous "{0}"', steps.previous.outputs.path) || '' }}
+          --delta "${{ runner.temp }}/growth-delta.json"
+          --output "${{ steps.report_date.outputs.current_report }}"
+          --provider "${{ env.GROWTH_AI_PROVIDER }}"
+          --run-url "${{ steps.report_date.outputs.run_url }}"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+
+      - name: Validate final report exists
+        shell: bash
+        run: |
+          test -s "${{ steps.report_date.outputs.current_report }}"
+          echo "Report generated at ${{ steps.report_date.outputs.current_report }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Sync report history branch
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.commit_history != 'false' }}
+        shell: bash
+        run: |
+          mkdir -p .growth-history/growth-review/reports/${{ steps.report_date.outputs.year }} .growth-history/growth-review/snapshots/${{ steps.report_date.outputs.year }}
+          cp "${{ steps.report_date.outputs.current_report }}" ".growth-history/${{ steps.report_date.outputs.current_report }}"
+          cp "${{ steps.report_date.outputs.current_snapshot }}" ".growth-history/${{ steps.report_date.outputs.current_snapshot }}"
+
+      - name: Commit and push report history
+        id: history_push
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.commit_history != 'false' }}
+        shell: bash
+        run: |
+          git -C .growth-history config user.name "github-actions[bot]"
+          git -C .growth-history config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C .growth-history add "${{ steps.report_date.outputs.current_report }}" "${{ steps.report_date.outputs.current_snapshot }}"
+          if git -C .growth-history diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git -C .growth-history commit -m "Add growth review for ${{ steps.report_date.outputs.report_date }}"
+            git -C .growth-history push origin HEAD:${{ steps.history.outputs.branch }}
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "report_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${{ steps.history.outputs.branch }}/growth-review/reports/${{ steps.report_date.outputs.year }}/${{ steps.report_date.outputs.report_date }}.md" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update weekly issue
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.create_issue != 'false' }}
+        run: >
+          npm run growth:issue --
+          --date "${{ steps.report_date.outputs.report_date }}"
+          --report "${{ steps.report_date.outputs.current_report }}"
+          --run-url "${{ steps.report_date.outputs.run_url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload growth-review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-growth-review-${{ steps.report_date.outputs.report_date }}
+          path: |
+            ${{ steps.report_date.outputs.current_report }}
+            ${{ steps.report_date.outputs.current_snapshot }}
+            ${{ runner.temp }}/growth-delta.json
+          retention-days: 30
+
+      - name: Write job summary
+        shell: bash
+        run: |
+          {
+            echo "## Weekly Growth Review"
+            echo ""
+            echo "- Report date: ${{ steps.report_date.outputs.report_date }}"
+            echo "- Snapshot: \`${{ steps.report_date.outputs.current_snapshot }}\`"
+            echo "- Report: \`${{ steps.report_date.outputs.current_report }}\`"
+            echo "- History branch: \`${{ steps.history.outputs.branch }}\`"
+            echo "- History pushed: \`${{ steps.history_push.outputs.pushed || 'false' }}\`"
+            echo "- Report branch URL: ${{ steps.history_push.outputs.report_url || 'Not committed in this run' }}"
+            echo "- Workflow run: ${{ steps.report_date.outputs.run_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
