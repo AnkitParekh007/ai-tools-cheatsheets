@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "repository": "AnkitParekh007/ai-tools-cheatsheets",
+  "collectedAt": "2026-07-27T06:02:43.231Z",
+  "reportDate": "2026-07-27",
+  "period": {
+    "start": "2026-07-20T06:02:43.231Z",
+    "end": "2026-07-27T06:02:43.231Z",
+    "days": 7,
+    "timezone": "Asia/Kolkata"
+  },
+  "sourceInfo": {
+    "githubRestBaseUrl": "https://api.github.com",
+    "githubGraphqlPath": "/graphql",
+    "trafficRetentionDays": 14,
+    "maintainerAssociations": [
+      "OWNER",
+      "MEMBER",
+      "COLLABORATOR"
+    ]
+  },
+  "repositoryMetrics": {
+    "defaultBranch": "main",
+    "stars": 0,
+    "forks": 0,
+    "subscribers": 0,
+    "watchers": 0,
+    "openIssues": 54,
+    "openPullRequests": 0,
+    "sizeKb": 3734,
+    "pushedAt": "2026-07-20T05:52:05Z",
+    "latestRelease": {
+      "tagName": "v1.0.0",
+      "name": "v1.0.0 — Public Handbook Launch",
+      "publishedAt": "2026-07-15T12:47:03Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.0"
+    },
+    "totalReleases": 1,
+    "contributorCount": 2
+  },
+  "issueMetrics": {
+    "newIssues": 0,
+    "closedIssues": 0,
+    "openIssues": 54,
+    "goodFirstIssueOpen": 7,
+    "helpWantedOpen": 2,
+    "issueComments": 0,
+    "mostActiveIssues": [],
+    "openIssuesWithoutMaintainerResponse": 2,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {
+      "OWNER": 52
+    }
+  },
+  "pullRequestMetrics": {
+    "newPullRequests": 0,
+    "mergedPullRequests": 0,
+    "closedWithoutMerge": 0,
+    "openPullRequests": 0,
+    "firstTimeContributors": 0,
+    "repeatContributors": 0,
+    "averageTimeToMergeHours": null,
+    "awaitingReview": 0,
+    "openPullRequestsWithoutMaintainerResponse": 0,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {},
+    "mostActivePullRequests": []
+  },
+  "contributorMetrics": {
+    "currentContributorCount": 2,
+    "commitsDuringPeriod": 0,
+    "newContributors": 0,
+    "repeatContributors": 0,
+    "acceptedContributors": [],
+    "commitAuthors": []
+  },
+  "releaseMetrics": {
+    "releasesPublished": 0,
+    "latestRelease": {
+      "tagName": "v1.0.0",
+      "name": "v1.0.0 — Public Handbook Launch",
+      "publishedAt": "2026-07-15T12:47:03Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.0"
+    },
+    "totalReleases": 1,
+    "daysSinceLastRelease": 11,
+    "tagsCreated": null
+  },
+  "discussionMetrics": {
+    "newDiscussions": 0,
+    "newComments": 2,
+    "answeredDiscussions": 0,
+    "unansweredQuestions": 0,
+    "mostActiveDiscussions": [
+      {
+        "number": 54,
+        "title": "Help Build the Open-Source Handbook for AI Coding Tools",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions/54",
+        "comments": 3,
+        "isAnswered": null
+      }
+    ]
+  },
+  "trafficMetrics": {
+    "status": "disabled",
+    "views": null,
+    "clones": null,
+    "topReferrers": [],
+    "topPaths": []
+  },
+  "externalMetrics": {
+    "websiteAnalytics": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    },
+    "searchConsole": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    },
+    "linkedinCampaigns": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    }
+  },
+  "availability": {
+    "discussionMetrics": {
+      "status": "available",
+      "source": "github-graphql"
+    },
+    "trafficMetrics": {
+      "status": "disabled",
+      "reason": "GitHub traffic disabled in config."
+    },
+    "repositoryMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "issueMetrics": {
+      "status": "available",
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
+    },
+    "pullRequestMetrics": {
+      "status": "available",
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
+    },
+    "contributorMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "releaseMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "externalMetrics": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config.",
+      "adapters": {
+        "websiteAnalytics": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        },
+        "searchConsole": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        },
+        "linkedinCampaigns": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "errors": []
+}
