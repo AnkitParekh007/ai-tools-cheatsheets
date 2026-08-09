@@ -1,243 +1,292 @@
 # Gemini CLI
 
-> Terminal coding agent from Google with stable, preview, and nightly channels plus skills, sandboxing, and trust controls.
+> Google-backed terminal coding agent with sandboxing, approval modes, hierarchical `GEMINI.md` context, MCP, skills, and workspace trust controls.
 
 **Type:** CLI  
-**Best for:** Google-account-backed terminal workflows, secondary-vendor coverage, and teams that want trust and sandbox controls  
-**Official docs:** https://geminicli.com/docs/get-started/installation/  
-**Last verified:** 2026-07-13  
+**Best for:** Google-backed terminal workflows, vendor diversification, sandboxed execution, and teams that want reusable context and skills  
+**Official docs:** https://geminicli.com/docs/  
+**Last verified:** 2026-08-09  
 **Status:** Documentation verified  
-**Verification scope:** Official Gemini CLI installation, authentication, configuration, commands, sandbox, trusted-folders, MCP, and skills docs were reviewed. Commands were not executed locally in this repository.
+**Verification scope:** Official Gemini CLI installation, CLI cheatsheet, `GEMINI.md`, configuration, sandboxing, trusted folders, skills, and MCP documentation were reviewed. Commands were not executed locally in this repository.
 
-## Overview
+## 60-Second Cheat Sheet
 
-Gemini CLI is Google's terminal coding agent. The official docs emphasize installation choices, account-based authentication, trusted folders, sandboxing, hierarchical context files, MCP support, and an emerging skills ecosystem.
+| Need | Command or file | Notes |
+| --- | --- | --- |
+| Install with npm | `npm install -g @google/gemini-cli` | Stable release by default |
+| Run without installing | `npx @google/gemini-cli` | Useful for quick evaluation |
+| Install with Homebrew | `brew install gemini-cli` | macOS/Linux |
+| Start interactive CLI | `gemini` | Main terminal entrypoint |
+| Run one prompt | `gemini -p "summarize README.md"` | Non-interactive output |
+| Prompt and stay interactive | `gemini -i "explain this project"` | Runs prompt, then continues session |
+| Resume latest session | `gemini -r "latest"` | Continue previous work |
+| Start sandboxed | `gemini -s` | Isolates shell/file operations |
+| Start in plan mode | `gemini --approval-mode=plan` | Analyze before acting |
+| Inspect context | `/memory show` | Shows concatenated active context |
+| Reload context | `/memory reload` | Reloads `GEMINI.md` files |
+| List skills | `/skills list` | Shows discovered Agent Skills |
+| Shared repo context | `GEMINI.md` | Hierarchical project instructions |
+| Workspace skills | `.gemini/skills/` or `.agents/skills/` | Shareable specialized workflows |
+| User settings | `~/.gemini/settings.json` | User configuration |
+| Project settings | `.gemini/settings.json` | Repository-specific configuration |
 
-## Best Suited For
+> **Safe default:** use plan mode for broad changes and `-s` when command/file isolation matters. Workspace trust is a separate optional security control and is disabled by default unless you enable it in settings.
 
-- teams that want a second major vendor option alongside Anthropic or OpenAI tools
-- developers already using Google accounts or Gemini-related subscriptions
-- terminal workflows that benefit from trust gates and sandbox controls
-- teams interested in reusable skills
+## Five Prompts Worth Bookmarking
 
-## Less Suited For
+### Understand a repository
 
-- organizations that want one single cross-vendor instruction-file standard
-- teams that do not want to manage workspace trust and sandbox policy
-- editor-first teams that expect the primary experience to live in the IDE
+```text
+Explain this repository's architecture, entry points, build/test commands, and highest-risk areas. Do not modify files.
+```
 
-## Confirmed Capabilities
+### Plan a change
 
-- interactive terminal usage
-- multiple release channels including stable, preview, and nightly
-- Google-based authentication flows
-- persistent JSON settings plus environment-variable configuration
-- trusted-folder security controls
-- sandboxing support
-- MCP server support
-- skill discovery and installation
+```text
+Read the relevant files and active GEMINI.md context, then propose a step-by-step implementation plan with tests, risks, and validation. Do not edit until approved.
+```
 
-## Limitations
+### Review code
 
-- the CLI is evolving quickly, so commands and settings need regular re-verification
-- folder trust and sandbox policy add operational choices teams need to document
-- this page is documentation-verified only; no login or local install was executed here
-- the instruction-file story is broader and more flexible than tools centered on one repo file
+```text
+Review the current changes for correctness, regressions, security issues, and missing tests. List actionable findings by severity and cite the relevant files.
+```
 
-## Supported Environments
+### Debug safely
 
-- macOS
-- Linux
-- Windows
-- WSL
-- terminal CLI
+```text
+Reproduce the failing command or test, identify the first root-cause failure, explain it, and propose the smallest fix before changing files.
+```
 
-The official install docs cover npm and other supported install paths plus release channels.
+### Create reusable project context
+
+```text
+Review this repository and draft a concise GEMINI.md containing architecture, build/test commands, coding conventions, risky paths, and completion criteria. Include only facts confirmed from the repo.
+```
+
+## What Gemini CLI Is Best At
+
+- terminal-first workflows backed by Google/Gemini accounts and models
+- teams that want a secondary major-vendor coding agent
+- sandboxed local execution
+- explicit approval modes including plan-first workflows
+- hierarchical project context with `GEMINI.md`
+- reusable Agent Skills with progressive activation
+- MCP integrations and extension-based customization
 
 ## Installation
 
-### Node-based install
+### npm
 
 ```bash
 npm install -g @google/gemini-cli
 ```
 
-### No-install execution
+### No-install evaluation
 
 ```bash
 npx @google/gemini-cli
 ```
 
-### Homebrew option
+### Homebrew
 
 ```bash
 brew install gemini-cli
 ```
 
-Use the official install guide for current system requirements and release-channel guidance.
+The current installation docs also list MacPorts, Anaconda, containerized execution, and source-based paths.
 
-## Authentication
+Gemini CLI publishes stable, preview, and nightly channels. Use stable for team defaults unless you have a deliberate testing reason to choose another channel.
 
-The official authentication guide says most users should start Gemini CLI and log in with a personal Google account.
+## First Session
 
 ```bash
+cd /path/to/your/repository
 gemini
 ```
 
-If your org uses a different account or quota path, verify it from the current authentication docs before rollout.
-
-## First Working Example
-
-```bash
-gemini
-```
-
-Inside the repository, begin with a safe read-only prompt:
+A good first request is:
 
 ```text
-Explain this repository and point out one low-risk docs improvement before changing anything.
+Explain this project, identify the build and test commands, and recommend one low-risk improvement. Do not modify files.
 ```
 
-Expected behavior:
+For higher-risk or unfamiliar work, start with:
 
-- Gemini CLI inspects the repo
-- prompts for trust or permissions when needed
-- can operate under sandbox restrictions if configured
+```bash
+gemini --approval-mode=plan
+```
 
-## Common Commands
+or use sandboxing:
 
-### CLI entry points
+```bash
+gemini -s
+```
+
+## Daily CLI Commands
 
 ```bash
 gemini
-gemini --version
-gemini -p "your prompt here"
+gemini -p "summarize README.md"
+gemini -i "explain this project"
+gemini -r "latest"
+gemini -s
+gemini --approval-mode=plan
+gemini update
 ```
 
-### Documented commands and utilities
+Useful in-session commands include:
 
 ```text
+/memory show
+/memory reload
+/skills list
 /settings
-/permissions trust
 /trust
+```
+
+Use the current CLI cheatsheet and `/help` for the exact command surface on your installed version.
+
+## Approval Modes
+
+Current Gemini CLI docs list these approval modes:
+
+- `default` — standard confirmation behavior
+- `auto_edit` — automatically approves edit operations while retaining broader controls
+- `yolo` — automatically approves actions; broad and high risk
+- `plan` — plans and analyzes before implementation
+
+Use `plan` for unfamiliar or cross-cutting work. Avoid `yolo` as a normal team default.
+
+## Sandboxing
+
+Start sandboxed execution with:
+
+```bash
+gemini -s
+```
+
+Sandboxing is designed to isolate shell commands and file modifications from the host system and can help limit file access to the project boundary.
+
+Use sandboxing together with approval policy rather than treating one as a replacement for the other.
+
+## Repository Instructions with GEMINI.md
+
+Gemini CLI uses hierarchical context files whose default name is:
+
+```text
+GEMINI.md
+```
+
+Current official context discovery includes:
+
+1. global context at `~/.gemini/GEMINI.md`
+2. project/workspace context from configured workspace directories and parents
+3. just-in-time context discovered near files the agent accesses
+
+Inspect the exact active context with:
+
+```text
+/memory show
+```
+
+After changing context files during a session, reload them with:
+
+```text
+/memory reload
+```
+
+You can configure alternate context filenames in `settings.json`, including cross-agent names such as `AGENTS.md`.
+
+## Trusted Folders
+
+Trusted Folders is an optional security feature that controls whether project-specific configuration is loaded with full capabilities.
+
+Important correction for team rollout: folder trust is **disabled by default**. Enable it deliberately in user settings if you want trust prompts and trust-root behavior to be part of your security model.
+
+Do not use `--skip-trust` as a routine shortcut if your team relies on folder trust as a boundary.
+
+## Agent Skills
+
+Gemini CLI supports Agent Skills as on-demand specialized workflows.
+
+Discovery tiers include:
+
+- built-in skills
+- extension skills
+- user skills at `~/.gemini/skills/` or `~/.agents/skills/`
+- workspace skills at `.gemini/skills/` or `.agents/skills/`
+
+Useful commands:
+
+```text
+/skills list
+/skills reload
+```
+
+and from the terminal:
+
+```bash
 gemini skills list --all
 ```
 
-The official docs also describe sandbox-related flags and skill-installation commands. Use the current command reference for exact syntax on your installed version.
+Workspace skills can be committed with the repository, but review bundled scripts and assets before approving them.
 
-## Repository Instructions
+## MCP and External Tools
 
-Gemini CLI documents hierarchical context files rather than a single mandatory repository file. The configuration docs explicitly reference context files such as `GEMINI.md`.
+Gemini CLI supports MCP servers and can restrict the allowed server set through CLI/configuration options.
 
-For teams, that means:
+Treat each server as a separate approval for:
 
-- decide whether `GEMINI.md` is your shared repo convention
-- document how it interacts with other tool-specific instruction files
-- do not assume workspace files load unless the folder is trusted
+- authentication
+- data exposure
+- tool permissions
+- write/destructive capability
+- network access
 
-## Configuration
+## Team Adoption Checklist
 
-The official configuration docs describe multiple layers:
+- [ ] standardize stable versus preview/nightly release channels
+- [ ] define whether `GEMINI.md` is the canonical project context file
+- [ ] decide whether folder trust will be enabled across the team
+- [ ] use plan mode for broad or unfamiliar work
+- [ ] use sandboxing for higher-risk local execution
+- [ ] approve skills and MCP servers separately from base CLI access
+- [ ] keep `yolo` mode out of normal developer defaults
 
-- hardcoded defaults
-- system defaults
-- user settings
-- project settings
-- system settings
-- environment variables
+## Security Notes
 
-The docs also say Gemini CLI uses JSON settings files and automatically loads environment variables from `.env` files.
-
-## Permission Model
-
-Gemini CLI documents several related controls:
-
-- user confirmation for mutating tools
-- trusted folders
-- sandboxing
-- permissions commands
-
-The tools reference explicitly says file-modifying and shell-executing tools require manual approval, while trusted folders control whether the CLI can load project-specific configuration and use full capabilities.
-
-## MCP / Integration Support
-
-Official docs confirm MCP support and provide a dedicated MCP setup guide. As with every other agent tool, each MCP server should be reviewed as an expansion of the tool and data boundary.
-
-## Real Workflow Demonstration
-
-### Scenario
-
-Your team wants a Google-backed terminal agent as a secondary approved option.
-
-### Repository context
-
-A normal software repository where local trust, config, and sandbox policy matter.
-
-### Prompt
-
-```text
-Review this repository, summarize the architecture, and recommend one small improvement before making any edits.
-```
-
-### Expected AI behavior
-
-- inspects the repository
-- may request trust or permissions depending on current settings
-- can be constrained by sandbox policy
-- can load repo-specific context files if the folder is trusted
-
-### Human review checkpoint
-
-- confirm whether the folder is trusted
-- review any mutating action before approval
-- inspect settings and sandbox configuration if behavior seems too broad
-
-### Validation step
-
-Run the repo build or tests after accepting a change.
-
-## Team Adoption Guidance
-
-- keep one documented release channel as the default
-- decide whether trusted folders are mandatory for team repos
-- standardize `GEMINI.md` usage if you adopt Gemini CLI broadly
-- approve skills and MCP servers separately from base CLI approval
-
-## Security Considerations
-
-- trust settings control whether workspace-specific config is loaded
-- sandboxing is valuable when repository command risk matters
-- review third-party skills before installation
-- keep Google or API credentials out of the repository
-
-## Troubleshooting
-
-- If the CLI does not behave as expected, inspect settings, environment variables, and trusted-folder state together.
-- If sandboxed actions fail, review the sandbox docs and any custom sandbox image configuration.
-- If workspace skills are missing, verify the folder is trusted and restart the session if needed.
+- approval mode and sandboxing are separate controls
+- trusted folders do nothing unless the feature is enabled
+- workspace `GEMINI.md` files shape behavior but do not enforce policy
+- Agent Skills can include scripts and bundled assets; review before sharing
+- MCP servers expand the tool and data boundary
+- keep Google/API credentials outside repository files
 
 ## Alternatives
 
-- [Claude Code](claude-code.md) or [OpenAI Codex](openai-codex.md) for more established terminal-agent adoption patterns
-- [Cline](cline.md) or [Continue](continue.md) for more configurable open ecosystems
+- [Claude Code](claude-code.md) for terminal-first work with mature project-memory, permission, and MCP patterns
+- [OpenAI Codex](openai-codex.md) for OpenAI-centered terminal, review, and automation workflows
+- [GitHub Copilot](github-copilot.md) for GitHub-native editor, CLI, review, and repository workflows
+- [Cursor](cursor.md) for a strongly editor-first environment with a terminal agent
+
+See the [Comparison Matrix](../getting-started/comparison-matrix.md) for a side-by-side shortlist.
 
 ## Verification Status
 
 - Status: Documentation verified
-- Last verified: 2026-07-13
-- Scope: official docs reviewed for install, authentication, configuration, permissions, sandboxing, trust, skills, and MCP
-- Not locally tested: npm install, Google sign-in flow, sandbox execution, and skills installation
+- Last verified: 2026-08-09
+- Scope: installation, release channels, CLI commands, approval modes, sandboxing, `GEMINI.md`, folder trust, skills, and MCP reviewed against current official Gemini CLI docs
+- Not locally tested: npm/Homebrew installation, Google sign-in, sandbox execution, skills installation, and enterprise account behavior
 
 ## Sources
 
+- https://geminicli.com/docs/
 - https://geminicli.com/docs/get-started/installation/
-- https://geminicli.com/docs/get-started/authentication/
+- https://geminicli.com/docs/cli/cli-reference/
+- https://geminicli.com/docs/cli/gemini-md/
 - https://geminicli.com/docs/reference/configuration/
-- https://geminicli.com/docs/reference/commands/
-- https://geminicli.com/docs/reference/tools/
-- https://geminicli.com/docs/cli/settings/
-- https://geminicli.com/docs/cli/trusted-folders/
 - https://geminicli.com/docs/cli/sandbox/
-- https://geminicli.com/docs/tools/mcp-server/
+- https://geminicli.com/docs/cli/trusted-folders/
 - https://geminicli.com/docs/cli/skills/
-- https://geminicli.com/docs/cli/using-agent-skills/
+- https://geminicli.com/docs/tools/mcp-server/
