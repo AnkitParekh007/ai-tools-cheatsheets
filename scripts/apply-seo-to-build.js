@@ -13,6 +13,8 @@ const {
 } = require("./seo-lib");
 
 const metadataPath = path.join("docs", "seo", "page-metadata.json");
+const buildSha = process.env.GITHUB_SHA || "local";
+const buildTime = new Date().toISOString();
 
 if (!fs.existsSync(metadataPath)) {
   console.error("Missing docs/seo/page-metadata.json. Run npm run seo:prepare first.");
@@ -119,6 +121,8 @@ function seoMetaBlock(row) {
     "<!-- SEO_META_START -->",
     `<meta name="description" content="${escapeHtml(row.metaDescription)}">`,
     `<meta name="robots" content="${robotsContent}">`,
+    `<meta name="ai-build-sha" content="${escapeHtml(buildSha)}">`,
+    `<meta name="ai-build-time" content="${escapeHtml(buildTime)}">`,
     `<link rel="canonical" href="${row.canonical}">`,
     `<meta property="og:site_name" content="${escapeHtml(SITE_NAME)}">`,
     `<meta property="og:type" content="${ogType}">`,
@@ -181,3 +185,4 @@ for (const row of rows) {
 }
 
 console.log(`Applied SEO metadata and structured data to ${rows.length} built pages.`);
+console.log(`Embedded build marker ${buildSha} at ${buildTime}.`);
