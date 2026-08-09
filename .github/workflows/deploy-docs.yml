@@ -65,9 +65,10 @@ jobs:
         run: |
           set -euo pipefail
           echo "Verifying ${PAGE_URL} contains build marker ${EXPECTED_SHA}"
+          marker="name=\"ai-build-sha\" content=\"${EXPECTED_SHA}\""
           for attempt in 1 2 3 4 5 6; do
             html="$(curl --fail --silent --show-error --location --max-time 20 "${PAGE_URL}" || true)"
-            if printf '%s' "$html" | grep -Fq "name=\"ai-build-sha\" content=\"${EXPECTED_SHA}\""; then
+            if grep -Fq "$marker" <<< "$html"; then
               echo "GitHub Pages is serving the expected commit."
               exit 0
             fi
