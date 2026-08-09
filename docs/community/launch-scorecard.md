@@ -4,25 +4,29 @@ Use this scorecard to measure whether public launch activity creates real develo
 
 Do not optimize for impressions alone. The primary signals are qualified handbook traffic, GitHub actions, and contributor participation.
 
+The operational snapshot for this launch is recorded in [Launch Day Execution — 2026-08-09](launch-day-2026-08-09.md).
+
 ## Baseline
 
-Capture the baseline immediately before the public launch post goes live.
+Day-0 repository/community values were captured on 2026-08-09 against launch commit `0bb1fc1fb5b08b9531fc4f0e35944d46e369f111`.
 
 | Metric | Baseline | Day 7 | Day 14 | Day 30 |
 | --- | ---: | ---: | ---: | ---: |
-| GitHub stars | capture at launch |  |  |  |
-| GitHub forks | capture at launch |  |  |  |
-| Open issues | 13 curated issues on 2026-08-09 |  |  |  |
-| Open `good first issue` items | capture at launch |  |  |  |
-| Open `help wanted` items | capture at launch |  |  |  |
-| Contributors | capture at launch |  |  |  |
+| GitHub stars | Unavailable in current connector; capture manually before first public post |  |  |  |
+| GitHub forks | Unavailable in current connector; capture manually before first public post |  |  |  |
+| Open issues | 13 curated issues |  |  |  |
+| Open `good first issue` items | 6 |  |  |  |
+| Open `help wanted` items | 7 |  |  |  |
+| Contributors | Unavailable in current connector; capture from GitHub Insights |  |  |  |
 | First-time contributor PRs | 0 for launch window |  |  |  |
 | Merged community PRs | 0 for launch window |  |  |  |
-| GitHub Pages visits | capture from analytics |  |  |  |
-| Repository click-throughs | capture from analytics/UTMs |  |  |  |
-| Search clicks | capture from Search Console |  |  |  |
-| Search impressions | capture from Search Console |  |  |  |
-| Referring domains/backlinks | capture if available |  |  |  |
+| GitHub Pages visits | No launch analytics value available through current connector |  |  |  |
+| Repository click-throughs | 0 launch-attributed results recorded yet |  |  |  |
+| Search clicks | No current Search Console snapshot available through current connector |  |  |  |
+| Search impressions | No current Search Console snapshot available through current connector |  |  |  |
+| Referring domains/backlinks | No launch snapshot available through current connector |  |  |  |
+
+Do not substitute older growth-review values for unavailable Day-0 measurements. Capture fresh dashboard values when the relevant analytics surface is available.
 
 ## Flagship Page Scorecard
 
