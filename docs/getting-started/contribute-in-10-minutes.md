@@ -68,8 +68,8 @@ Documentation corrections, reproducible examples, testing notes, accessibility i
 
 ## Next Steps
 
-- Read the full [Contributing Guide](../../CONTRIBUTING.md).
-- Read the [Content Contribution Standard](../../CONTRIBUTING_CONTENT.md) for page archetypes and verification rules.
+- Read the full [Contributing Guide](https://github.com/AnkitParekh007/ai-tools-cheatsheets/blob/main/CONTRIBUTING.md).
+- Read the [Content Contribution Standard](https://github.com/AnkitParekh007/ai-tools-cheatsheets/blob/main/CONTRIBUTING_CONTENT.md) for page archetypes and verification rules.
 - Browse [open good first issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 - Browse [help wanted issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
