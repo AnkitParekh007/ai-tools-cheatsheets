@@ -1,62 +1,75 @@
 # OpenAI Codex
 
-> OpenAI coding agent across CLI, IDE, desktop, web, and cloud workflows.
+> OpenAI coding agent for terminal, IDE, desktop, web, cloud, review, automation, skills, plugins, and MCP workflows.
 
 **Type:** CLI / IDE / desktop / web / cloud agent  
-**Best for:** Terminal coding, local review, shared `AGENTS.md` guidance, and OpenAI-centered workflows  
-**Official docs:** https://learn.chatgpt.com/docs/codex/cli  
-**Last verified:** 2026-07-13  
+**Best for:** Terminal coding, local review, repeatable automation, shared `AGENTS.md` guidance, and OpenAI-centered workflows  
+**Official docs:** https://developers.openai.com/codex/cli/  
+**Last verified:** 2026-08-09  
 **Status:** Documentation verified  
-**Verification scope:** Official OpenAI Codex CLI, configuration, `AGENTS.md`, MCP, approvals, permissions, and sandboxing docs were reviewed. Commands were not executed locally in this repository.
+**Verification scope:** Official Codex CLI, AGENTS.md, permissions, MCP, review, and automation docs plus the official OpenAI Codex repository were reviewed. Commands were not executed locally in this repository.
 
-## Overview
+## 60-Second Cheat Sheet
 
-Codex CLI is OpenAI's local coding agent for terminal workflows. Official docs describe it as a tool that can inspect files, make edits, run commands, and automate repeatable work from within a project directory. The broader Codex documentation also documents IDE, desktop, web, and cloud surfaces.
+| Need | Command or file | Notes |
+| --- | --- | --- |
+| Install on macOS/Linux | `curl -fsSL https://chatgpt.com/codex/install.sh \| sh` | Standalone installer |
+| Install with npm | `npm install -g @openai/codex` | Cross-platform package path |
+| Install with Homebrew | `brew install --cask codex` | macOS/Linux Homebrew path |
+| Start interactive Codex | `codex` | Run from a project directory |
+| Run non-interactively | `codex exec "run tests and summarize failures"` | Useful for scripts and CI |
+| Resume prior work | `codex resume` | Return to a saved local chat |
+| Create repo instructions | `/init` | Creates a starter `AGENTS.md` |
+| Inspect session state | `/status` | Shows current configuration |
+| Review permissions | `/permissions` | Choose active local boundaries |
+| Review changes | `/review` | Dedicated review without editing the working tree |
+| Connect MCP tools | `codex mcp` | Add/list/login to MCP servers |
+| Shared repo instructions | `AGENTS.md` | Root and nested instructions are layered |
+| User configuration | `~/.codex/config.toml` | User defaults and permission profiles |
+| Project configuration | `.codex/config.toml` | Repository-specific configuration |
 
-## Best Suited For
+> **Safe default:** use `:read-only` for repository exploration and review, `:workspace` for normal edits, and reserve `:danger-full-access` for cases where broad local access is genuinely intentional.
 
-- terminal-first OpenAI workflows
-- repository exploration and explanation
-- local code review before commit or PR creation
-- repeatable command-line or CI-style tasks
-- teams that want shared `AGENTS.md` instructions across Codex surfaces
+## Five Prompts Worth Bookmarking
 
-## Less Suited For
+### Understand a repository
 
-- purely editor-first teams that do not want a terminal loop
-- organizations that need zero command execution risk
-- teams that have not decided how sandboxing and approvals should work
+```text
+Inspect this repository and explain the architecture, entry points, build/test commands, and risky areas. Do not modify files.
+```
 
-## Confirmed Capabilities
+### Plan an implementation
 
-- reads and edits files in the current repository
-- runs commands inside the selected directory
-- supports interactive and programmatic usage
-- supports `AGENTS.md` for project instructions
-- supports configuration files at user and project scope
-- supports MCP for access to external tools and context
-- supports permission and sandbox controls
+```text
+Read the relevant code and tests, propose the smallest implementation plan, list files to change and validation commands, and wait for approval before editing.
+```
 
-## Limitations
+### Review current changes
 
-- useful operation depends on correct sandbox and approval choices
-- not every surface has the same features or setup path
-- local command execution is powerful but expands risk immediately
-- advanced configuration such as rules is still marked experimental in the OpenAI docs
+```text
+Review the current changes for bugs, regressions, security issues, and missing tests. List findings by severity and cite the affected files. Do not modify the working tree.
+```
 
-## Supported Environments
+### Fix a failure
 
-- macOS
-- Linux
-- Windows
-- WSL
-- terminal CLI
-- IDE extension
-- ChatGPT desktop app
-- ChatGPT web
-- Codex cloud
+```text
+Reproduce the failing test or build step, identify the root cause, implement the smallest correct fix, and rerun the narrowest validation before broader checks.
+```
 
-The CLI quickstart specifically documents macOS/Linux standalone installer, Windows, npm, and Homebrew tabs.
+### Prepare a PR
+
+```text
+Review the final diff, confirm the relevant tests and lint checks, identify any remaining risks, and draft a factual PR summary with validation results and known limitations.
+```
+
+## What Codex Is Best At
+
+- terminal-first repository exploration, editing, and local command execution
+- local code review before commit or pull request creation
+- repeatable non-interactive tasks through `codex exec`
+- shared repository guidance through hierarchical `AGENTS.md`
+- focused permission profiles for read-only and workspace-editing workflows
+- extending workflows with skills, plugins, subagents, web search, cloud tasks, and MCP
 
 ## Installation
 
@@ -66,50 +79,48 @@ The CLI quickstart specifically documents macOS/Linux standalone installer, Wind
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```
 
-### Update Codex
+### npm
 
 ```bash
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+npm install -g @openai/codex
 ```
 
-### Other documented install tabs
-
-The official quickstart also includes Windows, npm, and Homebrew installation paths. Use the official page for the currently supported syntax rather than copying old screenshots.
-
-## Authentication
-
-Run `codex` from a project directory and follow the sign-in flow. The official quickstart says the first run offers `Sign in with ChatGPT` and may present other available methods depending on the surface and account.
-
-## First Working Example
+### Homebrew
 
 ```bash
+brew install --cask codex
+```
+
+### Windows
+
+The official OpenAI Codex repository documents a PowerShell installer for native Windows and the Codex docs include dedicated Windows sandbox and WSL guidance. Use the current official install page for the exact Windows path on your environment.
+
+## First Session
+
+```bash
+cd /path/to/your/repository
 codex
 ```
 
-From the repository root, start with a scoped prompt such as:
+On first run, select an available sign-in method. A safe first prompt is:
 
 ```text
-Tell me about this project and identify the safest first improvement before editing anything.
+Tell me what this project does, identify its build and test commands, and point out the most important files. Do not make changes.
 ```
 
-Expected behavior:
+Create Git checkpoints before and after non-trivial tasks so changes are easy to inspect or revert.
 
-- Codex inspects the local repo
-- explains structure before changing files
-- keeps the work inside the current directory
-- lets you review commands and diffs as they appear
-
-## Common Commands
-
-### CLI entry points
+## Daily CLI Commands
 
 ```bash
 codex
-codex --version
 codex exec "run the test suite and summarize failures"
+codex resume
+codex --search
+codex mcp list
 ```
 
-### In-session commands documented by OpenAI
+Useful in-session commands include:
 
 ```text
 /init
@@ -119,124 +130,110 @@ codex exec "run the test suite and summarize failures"
 /review
 ```
 
-The OpenAI CLI docs explicitly list these commands in the interactive surface.
+The current CLI also supports cloud handoff, image inputs, subagents, shell completion, skills, and plugins. Use the official CLI reference for the exact current command surface.
 
-## Repository Instructions
+## Repository Instructions with AGENTS.md
 
-OpenAI documents `AGENTS.md` as the project guidance file for Codex. The official `AGENTS.md` page states that Codex reads these files before doing any work and layers global and project-specific guidance together.
+Codex layers instructions from global and project scopes.
 
-Use `AGENTS.md` for:
+Current official behavior:
 
-- build and test commands
-- repo structure notes
-- coding conventions
+1. Global scope checks `~/.codex/AGENTS.override.md`, then `~/.codex/AGENTS.md`.
+2. Project scope walks from the project root toward the current working directory.
+3. At each directory, `AGENTS.override.md` takes precedence over `AGENTS.md`.
+4. Files closer to the working directory appear later and can override broader guidance.
+
+Use root `AGENTS.md` for:
+
+- build, test, lint, and format commands
+- architecture and repository conventions
 - review expectations
-- safety constraints that should be visible on every task
+- security or deployment constraints
 
-## Configuration
-
-OpenAI documents both user-level and project-level configuration:
-
-- user config: `~/.codex/config.toml`
-- project config: `.codex/config.toml`
-
-The configuration docs say the CLI and IDE extension share these configuration layers, and command-line `-c key=value` overrides take precedence for a single invocation.
+Use nested files only when a subdirectory genuinely needs different instructions.
 
 ## Permission Model
 
-OpenAI documents approvals, sandboxing, and permission profiles separately.
+Current Codex docs define three built-in local permission profiles:
 
-Important points:
+- `:read-only` — local command execution remains read-only
+- `:workspace` — allows writes inside active workspace roots and system temp directories
+- `:danger-full-access` — removes local sandbox restrictions
 
-- approvals determine when Codex pauses before a local action
-- sandboxing determines which files and network destinations commands can access
-- named permission profiles are available, including documented built-ins such as `:read-only`, `:workspace`, and `:danger-full-access`
-- the docs recommend using the project boundary as the default and widening access only when necessary
+Custom profiles can extend `:read-only`, `:workspace`, or another named profile and can independently control filesystem and network access.
 
-This should be treated as a team policy surface, not just a convenience feature.
+A practical team baseline:
 
-## MCP / Integration Support
+- use read-only for exploration and review
+- use workspace editing for normal implementation
+- deny sensitive files such as `.env` even when the workspace is writable
+- keep network access disabled or domain-scoped unless required
+- avoid unrestricted access as a convenience default
 
-OpenAI documents MCP as a way to give Codex access to third-party documentation, browser tools, Figma, and other systems. The docs also note that local Codex clients can connect directly to MCP servers and share configuration with other local Codex surfaces.
+## MCP and External Tools
 
-Use MCP only when pasted context is clearly insufficient and after you review the server's permission surface.
+Codex supports local and remote MCP servers.
 
-## Real Workflow Demonstration
+Useful commands include:
 
-### Scenario
-
-You want a terminal-native assistant to explore a repository, propose a plan, then make one safe focused change.
-
-### Repository context
-
-A local git repository with build tools already installed.
-
-### Prompt
-
-```text
-Review this repository, summarize the architecture, propose one low-risk documentation or test improvement, and wait for approval before editing files.
+```bash
+codex mcp list
+codex mcp --help
+codex mcp login <server-name>
 ```
 
-### Expected AI behavior
+MCP configuration can define enabled/disabled tools, startup and tool timeouts, authentication, and server-specific settings.
 
-- reads files in the current repo
-- summarizes project structure
-- proposes a scoped task
-- pauses for approval before editing if your permissions require it
-- lets you inspect diffs before continuing
+Treat each MCP server as a separate approval because it can add both data access and mutation tools.
 
-### Human review checkpoint
+## Local Review Workflow
 
-- confirm the suggested task is actually low risk
-- inspect the diff before accepting it
-- verify that the current sandbox and approval settings match the task
+Codex includes a dedicated review flow for:
 
-### Validation step
+- uncommitted changes
+- a commit
+- a base branch / PR-style comparison
+- custom review instructions
 
-Run the build, test, or docs command yourself after the change.
+This is a strong low-risk entry point for teams because review can report prioritized findings without modifying the working tree.
 
-## Team Adoption Guidance
+## Team Adoption Checklist
 
-- standardize a minimal `AGENTS.md` template before broad rollout
-- define default sandbox and approval expectations for local work
-- keep MCP optional until the local CLI loop is trusted
-- use local review and planning tasks before allowing broader automation
+- [ ] add and review a concise root `AGENTS.md`
+- [ ] select a default permission profile for normal development
+- [ ] deny secrets and environment files explicitly
+- [ ] document whether network access is disabled, allowlisted, or open
+- [ ] approve MCP servers and plugins separately from base Codex access
+- [ ] validate `codex exec` automation with least privilege before using it in CI
 
-## Security Considerations
+## Security Notes
 
-- Codex can inspect, edit, and run code locally, so the risk boundary is the current repository plus whatever the sandbox allows
-- approvals and sandboxing are separate controls; widening one should not imply widening the other
-- every MCP server adds more context and more surface area; OpenAI's pricing docs also note that extra MCP context increases usage
-- experimental rules should not be treated as a mature enforcement mechanism yet
-
-## Troubleshooting
-
-- If behavior differs from examples, re-check the current CLI reference because command and flag coverage evolves quickly.
-- If repository behavior is inconsistent, inspect `AGENTS.md`, user config, project config, and command-line overrides together.
-- If a task needs broader access than expected, review `/permissions` and sandbox settings before retrying.
+- permissions and sandboxing determine the real local execution boundary
+- `AGENTS.md` improves consistency but is not an enforcement mechanism
+- broad network access should be a deliberate choice
+- MCP servers and plugins expand the tool/data boundary
+- keep secrets out of prompts, instructions, and repository configuration
 
 ## Alternatives
 
-- [Claude Code](claude-code.md) for another terminal-first agent with a different memory and permission model
-- [GitHub Copilot](github-copilot.md) for GitHub-centric CLI and editor usage
-- [Cursor](cursor.md) for stronger IDE-first usage
+- [Claude Code](claude-code.md) for another terminal-first agent with strong permission and project-memory patterns
+- [Cursor](cursor.md) for an IDE-first experience with a capable terminal agent
+- [GitHub Copilot](github-copilot.md) for GitHub-native CLI, review, and repository workflows
+- [Gemini CLI](gemini-cli.md) for a Google-backed terminal option with sandbox and context controls
+
+See the [Comparison Matrix](../getting-started/comparison-matrix.md) for a side-by-side shortlist.
 
 ## Verification Status
 
 - Status: Documentation verified
-- Last verified: 2026-07-13
-- Scope: official OpenAI docs reviewed for CLI install, permissions, config, `AGENTS.md`, MCP, and supported surfaces
-- Not locally tested: installer execution, sign-in flow, IDE extension behavior, and cloud-task behavior
+- Last verified: 2026-08-09
+- Scope: install, CLI workflow, `AGENTS.md`, permission profiles, review, automation, and MCP reviewed against current official sources
+- Not locally tested: installer execution, sign-in, native Windows behavior, IDE/app/cloud behavior, plugins, and enterprise rollout
 
 ## Sources
 
-- https://learn.chatgpt.com/docs/codex/cli
-- https://learn.chatgpt.com/docs/developer-commands?surface=cli
-- https://learn.chatgpt.com/docs/config-file/config-basic
-- https://learn.chatgpt.com/docs/config-file/config-reference
-- https://learn.chatgpt.com/docs/agent-configuration/agents-md
-- https://learn.chatgpt.com/docs/agent-approvals-security
+- https://developers.openai.com/codex/cli/
+- https://developers.openai.com/codex/guides/agents-md/
 - https://learn.chatgpt.com/docs/permissions
-- https://learn.chatgpt.com/docs/sandboxing
-- https://learn.chatgpt.com/docs/extend/mcp
-- https://learn.chatgpt.com/docs/customization/overview
+- https://learn.chatgpt.com/docs/extend/mcp?surface=cli
+- https://github.com/openai/codex
