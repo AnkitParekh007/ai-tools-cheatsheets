@@ -132,6 +132,7 @@
 ## Community
 
 * [Community Hub](community/README.md)
+* [Ecosystem Contribution Map](community/ecosystem-contribution-map.md)
 * [Contributor Recognition](community/contributors.md)
 * [Launch and Sharing Kit](community/launch-kit.md)
 * [2026.08 Launch Edition](community/release-2026-08.md)

@@ -11,11 +11,11 @@
 <p align="center">
   <a href="https://ankitparekh007.github.io/ai-tools-cheatsheets/"><strong>Read the docs</strong></a>
   ·
-  <a href="./docs/getting-started/quick-start.md"><strong>Quick start</strong></a>
+  <a href="./docs/architecture-path/README.md"><strong>Architecture path</strong></a>
   ·
   <a href="./docs/getting-started/comparison-matrix.md"><strong>Compare tools</strong></a>
   ·
-  <a href="./docs/prompts/README.md"><strong>Copy prompts</strong></a>
+  <a href="./docs/community/ecosystem-contribution-map.md"><strong>Choose a contribution</strong></a>
   ·
   <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets"><strong>Star this repo</strong></a>
 </p>
@@ -32,11 +32,15 @@
   <img src="https://img.shields.io/github/license/AnkitParekh007/ai-tools-cheatsheets" alt="License" />
 </p>
 
-> Stop searching across dozens of AI coding docs. This repository organizes practical cheat sheets, comparisons, repo instruction files, MCP guidance, prompts, templates, security notes, and repeatable engineering workflows in one source-backed handbook.
+> Stop searching across dozens of AI coding docs. This repository organizes practical cheat sheets, comparisons, repo instruction files, MCP guidance, prompts, templates, security notes, repeatable engineering workflows, and an architecture learning path in one source-backed handbook.
 
 **2026.08 Launch Edition:** [Release notes](./docs/community/release-2026-08.md) · [Public launch playbook](./docs/community/public-launch-playbook.md) · [30-day scorecard](./docs/community/launch-scorecard.md) · [Good first issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
-## Start With the Most Useful Pages
+## Two Ways To Use This Repository
+
+### 1. Learn and use AI coding tools
+
+Start with the practical handbook:
 
 | Need | Start here |
 | --- | --- |
@@ -50,7 +54,27 @@
 | Copy reusable prompts | [Prompt Library](./docs/prompts/README.md) and [Master Prompts](./docs/prompts/master-prompts.md) |
 | Run real engineering tasks | [Workflow Library](./docs/workflows/README.md) |
 | Adopt AI across a team | [For Teams](./docs/for-teams/README.md) |
-| Contribute a small improvement | [Contribute in 10 Minutes](./docs/getting-started/contribute-in-10-minutes.md) |
+
+### 2. Move from tool usage into AI application architecture
+
+Follow the [Architecture Path](./docs/architecture-path/README.md).
+
+Architecture progression: AI coding tools → trustworthy frontend state → runnable Angular copilot UX → full-stack copilot platform → governed agent lifecycle → enterprise agent workspace.
+
+That path connects the handbook to runnable public architecture projects without duplicating their implementation docs.
+
+## Learn → Pattern → Run → Platform → Govern → Operate
+
+| Layer | Public project | What it proves |
+| --- | --- | --- |
+| Learn | **AI Tools Cheatsheets** | AI coding tools, MCP, prompts, workflows, governance |
+| Pattern | [Frontend AI Patterns](https://github.com/AnkitParekh007/frontend-ai-patterns) | trustworthy AI UI contracts, grounding, approvals, recovery |
+| Run | [Angular AI Copilot Starter](https://github.com/AnkitParekh007/angular-ai-copilot-starter) | polished runnable Angular AI UX and deterministic failure states |
+| Platform | [ngx-copilot-platform](https://github.com/AnkitParekh007/ngx-copilot-platform) | Angular SDK + backend trust boundary + failure contracts |
+| Govern | [Agent Studio](https://github.com/AnkitParekh007/agent-studio) | immutable versions, approvals, provisioning, publication, revocation |
+| Operate | [Org AI Force](https://github.com/AnkitParekh007/org-ai-force) | enterprise agent workspace, orchestration, readiness, resilience |
+
+Want to contribute rather than just read? Use the [Ecosystem Contribution Map](./docs/community/ecosystem-contribution-map.md) to choose the repo that matches the problem you want to solve.
 
 ## What You Get
 
@@ -60,6 +84,7 @@
 - **MCP evaluation guides** for GitHub, Jira, Bitbucket, Playwright, Figma, filesystem, databases, Supabase/Postgres, Slack/Teams, and security tooling
 - **Copy-ready prompts and templates** for review, testing, migration, documentation, task briefs, tool evaluation, and security checks
 - **Team adoption guidance** for permissions, rollout, cost management, approved tools, prompt review, MCP approval, and internal customization
+- **Architecture bridges** from AI tool usage into production-minded frontend, platform, governance, and enterprise agent systems
 
 ## Why This Repo Is Different
 
@@ -105,7 +130,7 @@ When a claim is not locally exercised, the page should say so.
 
 **GitHub Pages:** [ankitparekh007.github.io/ai-tools-cheatsheets](https://ankitparekh007.github.io/ai-tools-cheatsheets/)
 
-The site includes search, dark/light themes, curated navigation, comparison pages, and source-backed reference material.
+The site includes search, dark/light themes, curated navigation, comparison pages, source-backed reference material, and the architecture path.
 
 ## Fork It for Your Engineering Team
 
@@ -127,8 +152,9 @@ Read [SECURITY.md](./SECURITY.md) and [Security and Permissions](./docs/governan
 
 ## Contribute
 
-A useful first PR can be a single corrected command, official source, validation step, prompt improvement, accessibility fix, or clearer example.
+A useful first PR can be a single corrected command, official source, validation step, prompt improvement, accessibility fix, clearer example, or focused improvement in one of the linked implementation repositories.
 
+- [Choose the right ecosystem repo](./docs/community/ecosystem-contribution-map.md)
 - [Contribute in 10 Minutes](./docs/getting-started/contribute-in-10-minutes.md)
 - [Contribution Guide](./CONTRIBUTING.md)
 - [Content Standard](./CONTRIBUTING_CONTENT.md)
@@ -142,11 +168,11 @@ If this repository saves you time, **star it** so you can find it again and so m
 The public issue backlog is intentionally kept small and contributor-ready. `good first issue` means a focused task with a concrete file, acceptance criteria, primary-source expectations, and a validation command.
 
 - [Community Hub](./docs/community/README.md)
+- [Ecosystem Contribution Map](./docs/community/ecosystem-contribution-map.md)
 - [Contributor Recognition](./docs/community/contributors.md)
 - [Launch and Sharing Kit](./docs/community/launch-kit.md)
 - [Public Launch Playbook](./docs/community/public-launch-playbook.md)
 - [GitHub Discussions](https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions)
-- [Good First Issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 Small, source-backed contributions count. The project uses GitHub's native history as the source of truth for contributor attribution and highlights meaningful community work in releases and launch updates.
 
@@ -172,7 +198,7 @@ npm run docs:paths
 
 ## Project Maturity
 
-Core tool guides and config-file guidance are the most mature parts of the handbook. Workflow, MCP, prompt, template, and governance sections are practical today, but some pages remain `Documentation verified`, `Requires account`, or `Needs verification`. Treat those labels as decision support, not proof of local execution.
+Core tool guides and config-file guidance are the most mature parts of the handbook. Workflow, MCP, prompt, template, governance, and architecture-path sections are practical today, but some pages remain `Documentation verified`, `Requires account`, or `Needs verification`. Treat those labels as decision support, not proof of local execution.
 
 ## SEO and Discoverability
 
