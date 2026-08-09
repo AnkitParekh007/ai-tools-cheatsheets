@@ -4,6 +4,10 @@ The handbook is the discovery layer for a wider set of open-source AI engineerin
 
 The ecosystem follows one progression: Learn → Pattern → Run → Platform → Govern → Operate.
 
+![AI architecture ecosystem contribution path](../assets/images/social/ecosystem-architecture.png)
+
+Use the [Architecture Path](../architecture-path/README.md) to understand why each layer exists, then choose the matching repository below. The visual is also available as an [editable SVG](../assets/images/social/ecosystem-architecture.svg).
+
 ## Choose by the problem you want to solve
 
 | You want to improve… | Best repository | Typical contribution |

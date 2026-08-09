@@ -30,6 +30,9 @@ jobs:
           npm install --no-audit --no-fund playwright@1.54.2
           npx playwright install --with-deps chromium
 
+      - name: Install social-card renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin pngquant
+
       - name: Capture deployed handbook proof surfaces
         env:
           NODE_PATH: /tmp/public-proof-playwright/node_modules
@@ -37,10 +40,23 @@ jobs:
           CAPTURE_OUTPUT_DIR: ${{ runner.temp }}/public-proof-captures
         run: node scripts/capture-public-proof.cjs
 
-      - name: Upload public proof captures
+      - name: Render optimized ecosystem social card
+        shell: bash
+        run: |
+          set -euo pipefail
+          svg='docs/assets/images/social/ecosystem-architecture.svg'
+          png='${{ runner.temp }}/ecosystem-architecture.png'
+          rsvg-convert -w 1200 -h 630 "$svg" > "$png"
+          pngquant --force --skip-if-larger --quality=70-90 --speed 1 --output "$png" -- "$png" || true
+          test -s "$png"
+          test "$(stat -c%s "$png")" -lt 1000000
+
+      - name: Upload public proof captures and rendered social card
         uses: actions/upload-artifact@v4
         with:
           name: ai-tools-cheatsheets-public-proof
-          path: ${{ runner.temp }}/public-proof-captures
+          path: |
+            ${{ runner.temp }}/public-proof-captures
+            ${{ runner.temp }}/ecosystem-architecture.png
           if-no-files-found: error
           retention-days: 30

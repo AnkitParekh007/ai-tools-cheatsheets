@@ -36,6 +36,25 @@
 
 **2026.08 Launch Edition:** [Release notes](./docs/community/release-2026-08.md) · [Public launch playbook](./docs/community/public-launch-playbook.md) · [30-day scorecard](./docs/community/launch-scorecard.md) · [Good first issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
+## Learn → Pattern → Run → Platform → Govern → Operate
+
+<p align="center">
+  <img src="./docs/assets/images/social/ecosystem-architecture.png" alt="AI frontend and agent systems architecture ecosystem from Learn through Operate" width="1000" />
+</p>
+
+<p align="center"><em>One public learning-to-operations path with explicit demo, mock, and hosting boundaries. <a href="./docs/architecture-path/README.md">Follow the architecture path</a> · <a href="./docs/community/ecosystem-contribution-map.md">Choose a contribution</a> · <a href="./docs/assets/images/social/ecosystem-architecture.svg">Edit the source SVG</a></em></p>
+
+| Layer | Public project | What it proves |
+| --- | --- | --- |
+| Learn | **AI Tools Cheatsheets** | AI coding tools, MCP, prompts, workflows, governance |
+| Pattern | [Frontend AI Patterns](https://github.com/AnkitParekh007/frontend-ai-patterns) | trustworthy AI UI contracts, grounding, approvals, recovery |
+| Run | [Angular AI Copilot Starter](https://github.com/AnkitParekh007/angular-ai-copilot-starter) | polished runnable Angular AI UX and deterministic failure states |
+| Platform | [ngx-copilot-platform](https://github.com/AnkitParekh007/ngx-copilot-platform) | Angular SDK + backend trust boundary + failure contracts |
+| Govern | [Agent Studio](https://github.com/AnkitParekh007/agent-studio) | immutable versions, approvals, provisioning, publication, revocation |
+| Operate | [Org AI Force](https://github.com/AnkitParekh007/org-ai-force) | enterprise agent workspace, orchestration, readiness, resilience |
+
+Want to contribute rather than just read? Use the [Ecosystem Contribution Map](./docs/community/ecosystem-contribution-map.md) to choose the repo that matches the problem you want to solve.
+
 ## Two Ways To Use This Repository
 
 ### 1. Learn and use AI coding tools
@@ -62,19 +81,6 @@ Follow the [Architecture Path](./docs/architecture-path/README.md).
 Architecture progression: AI coding tools → trustworthy frontend state → runnable Angular copilot UX → full-stack copilot platform → governed agent lifecycle → enterprise agent workspace.
 
 That path connects the handbook to runnable public architecture projects without duplicating their implementation docs.
-
-## Learn → Pattern → Run → Platform → Govern → Operate
-
-| Layer | Public project | What it proves |
-| --- | --- | --- |
-| Learn | **AI Tools Cheatsheets** | AI coding tools, MCP, prompts, workflows, governance |
-| Pattern | [Frontend AI Patterns](https://github.com/AnkitParekh007/frontend-ai-patterns) | trustworthy AI UI contracts, grounding, approvals, recovery |
-| Run | [Angular AI Copilot Starter](https://github.com/AnkitParekh007/angular-ai-copilot-starter) | polished runnable Angular AI UX and deterministic failure states |
-| Platform | [ngx-copilot-platform](https://github.com/AnkitParekh007/ngx-copilot-platform) | Angular SDK + backend trust boundary + failure contracts |
-| Govern | [Agent Studio](https://github.com/AnkitParekh007/agent-studio) | immutable versions, approvals, provisioning, publication, revocation |
-| Operate | [Org AI Force](https://github.com/AnkitParekh007/org-ai-force) | enterprise agent workspace, orchestration, readiness, resilience |
-
-Want to contribute rather than just read? Use the [Ecosystem Contribution Map](./docs/community/ecosystem-contribution-map.md) to choose the repo that matches the problem you want to solve.
 
 ## What You Get
 
@@ -205,7 +211,8 @@ Core tool guides and config-file guidance are the most mature parts of the handb
 - [SEO Audit and Roadmap](./docs/seo/seo-audit.md)
 - [Search Intent Map](./docs/seo/topic-map.md)
 - [Measurement Plan](./docs/seo/seo-scorecard.md)
-- [Social Preview Asset](./docs/assets/images/social/social-repo-preview.png)
+- [Repository Social Preview Asset](./docs/assets/images/social/social-repo-preview.png)
+- [Ecosystem Architecture Social Card](./docs/assets/images/social/ecosystem-architecture.png) · [editable SVG](./docs/assets/images/social/ecosystem-architecture.svg)
 
 ## Growth Review Automation
 
