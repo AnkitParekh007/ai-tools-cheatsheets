@@ -124,7 +124,7 @@ https://github.com/AnkitParekh007/ai-tools-cheatsheets
 
 ## Hacker News — Suggested Submission
 
-### Title
+### Hacker News title
 
 ```text
 Show HN: An open-source handbook for Claude Code, Codex, Cursor, Copilot, Gemini CLI and MCP
@@ -176,7 +176,7 @@ I maintain the handbook. Curious whether teams are keeping one canonical set of 
 
 ## GitHub Discussion — Release Announcement
 
-### Title
+### GitHub Discussion title
 
 ```text
 2026.08 Launch Edition: flagship cheat sheets, comparison matrix and contributor-ready backlog
