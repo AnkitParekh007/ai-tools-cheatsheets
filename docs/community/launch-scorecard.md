@@ -12,21 +12,21 @@ Day-0 repository/community values were captured on 2026-08-09 against launch com
 
 | Metric | Baseline | Day 7 | Day 14 | Day 30 |
 | --- | ---: | ---: | ---: | ---: |
-| GitHub stars | Unavailable in current connector; capture manually before first public post |  |  |  |
-| GitHub forks | Unavailable in current connector; capture manually before first public post |  |  |  |
+| GitHub stars | 0 |  |  |  |
+| GitHub forks | 0 |  |  |  |
 | Open issues | 13 curated issues |  |  |  |
 | Open `good first issue` items | 6 |  |  |  |
 | Open `help wanted` items | 7 |  |  |  |
-| Contributors | Unavailable in current connector; capture from GitHub Insights |  |  |  |
+| Contributors returned by GitHub contributors API | 2 |  |  |  |
 | First-time contributor PRs | 0 for launch window |  |  |  |
 | Merged community PRs | 0 for launch window |  |  |  |
-| GitHub Pages visits | No launch analytics value available through current connector |  |  |  |
+| GitHub Pages visits | No Day-0 analytics value captured yet |  |  |  |
 | Repository click-throughs | 0 launch-attributed results recorded yet |  |  |  |
-| Search clicks | No current Search Console snapshot available through current connector |  |  |  |
-| Search impressions | No current Search Console snapshot available through current connector |  |  |  |
-| Referring domains/backlinks | No launch snapshot available through current connector |  |  |  |
+| Search clicks | No fresh Day-0 Search Console snapshot captured yet |  |  |  |
+| Search impressions | No fresh Day-0 Search Console snapshot captured yet |  |  |  |
+| Referring domains/backlinks | No Day-0 launch snapshot captured yet |  |  |  |
 
-Do not substitute older growth-review values for unavailable Day-0 measurements. Capture fresh dashboard values when the relevant analytics surface is available.
+Repository stars, forks, contributor count, metadata, topics, and release state were captured from the GitHub REST API by a GitHub-hosted Actions runner. Do not substitute older growth-review values for analytics that were not captured on Day 0.
 
 ## Flagship Page Scorecard
 
