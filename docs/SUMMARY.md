@@ -125,6 +125,10 @@
 * [Community Hub](community/README.md)
 * [Contributor Recognition](community/contributors.md)
 * [Launch and Sharing Kit](community/launch-kit.md)
+* [2026.08 Launch Edition](community/release-2026-08.md)
+* [Public Launch Playbook](community/public-launch-playbook.md)
+* [30-Day Launch Scorecard](community/launch-scorecard.md)
+* [Wave 1 Campaign Copy](community/launch-wave-1-copy.md)
 
 ## Reference
 
