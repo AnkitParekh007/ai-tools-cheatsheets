@@ -135,6 +135,18 @@ A useful first PR can be a single corrected command, official source, validation
 
 If this repository saves you time, **star it** so you can find it again and so more developers can discover it.
 
+## Community
+
+The public issue backlog is intentionally kept small and contributor-ready. `good first issue` means a focused task with a concrete file, acceptance criteria, primary-source expectations, and a validation command.
+
+- [Community Hub](./docs/community/README.md)
+- [Contributor Recognition](./docs/community/contributors.md)
+- [Launch and Sharing Kit](./docs/community/launch-kit.md)
+- [GitHub Discussions](https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions)
+- [Good First Issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
+Small, source-backed contributions count. The project uses GitHub's native history as the source of truth for contributor attribution and highlights meaningful community work in releases and launch updates.
+
 ## Maintainer Setup
 
 ```bash
