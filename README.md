@@ -17,7 +17,7 @@
   ·
   <a href="./docs/prompts/README.md"><strong>Copy prompts</strong></a>
   ·
-  <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets/stargazers"><strong>Star this repo</strong></a>
+  <a href="https://github.com/AnkitParekh007/ai-tools-cheatsheets"><strong>Star this repo</strong></a>
 </p>
 
 <p align="center">
