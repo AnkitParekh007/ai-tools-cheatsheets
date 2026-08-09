@@ -10,9 +10,9 @@ on:
         required: false
         type: string
       create_issue:
-        description: "Create or update the weekly GitHub Issue"
+        description: "Optionally publish this run as a GitHub Issue"
         required: false
-        default: true
+        default: false
         type: boolean
       commit_history:
         description: "Commit reports and snapshots to the history branch"
@@ -228,8 +228,8 @@ jobs:
           fi
           echo "report_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${{ steps.history.outputs.branch }}/growth-review/reports/${{ steps.report_date.outputs.year }}/${{ steps.report_date.outputs.report_date }}.md" >> "$GITHUB_OUTPUT"
 
-      - name: Create or update weekly issue
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.create_issue != 'false' }}
+      - name: Optionally publish growth report as issue
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.create_issue == 'true' }}
         run: >
           npm run growth:issue --
           --date "${{ steps.report_date.outputs.report_date }}"
