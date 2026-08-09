@@ -1,108 +1,170 @@
-# Comparison Matrix
+# AI Coding Tools Comparison: Claude Code vs Codex vs Cursor vs Copilot vs Gemini CLI
 
-Use this page to narrow a tool shortlist quickly, then jump into the dedicated setup page for the exact install, config, and workflow details.
+Use this page to shortlist an AI coding tool in minutes. The first table focuses on the five flagship tools most developers ask about; the broader ecosystem tables below cover additional terminal and editor options.
+
+> **Last flagship verification:** 2026-08-09. Tool capabilities change quickly, so open the dedicated cheat sheet before standardizing installation, permissions, or automation.
+
+## 60-Second Decision Matrix
+
+| Tool | Start here when you want... | Primary surface | Shared repo instructions | Plan-first workflow | MCP | Automation path |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Claude Code](../tools/claude-code.md) | terminal-first repo work with granular permissions | CLI + IDE/web/desktop | `CLAUDE.md` | `--permission-mode plan` | Yes | `claude -p`, plugins, skills, hooks |
+| [OpenAI Codex](../tools/openai-codex.md) | terminal work, local review, and OpenAI-centered automation | CLI + IDE/app/web/cloud | `AGENTS.md` | permissions/read-only workflow + planning prompts | Yes | `codex exec`, skills, plugins, cloud |
+| [Cursor](../tools/cursor.md) | editor-first development with a capable terminal agent | IDE + CLI | `.cursor/rules/`, `AGENTS.md`, `CLAUDE.md` | prompt-level planning / rules | Yes | `agent -p`, headless mode, GitHub Actions |
+| [GitHub Copilot](../tools/github-copilot.md) | GitHub-native editor, CLI, review, and repo workflows | IDE + CLI + GitHub.com | `.github/copilot-instructions.md` plus agent files | `/plan` | Yes | `copilot -p`, plugins, skills, hooks |
+| [Gemini CLI](../tools/gemini-cli.md) | Google-backed terminal work with sandbox/context controls | CLI | `GEMINI.md` | `--approval-mode=plan` | Yes | `gemini -p`, skills, extensions |
+
+## Pick by Developer Workflow
+
+| If this sounds like you... | Start with | Why |
+| --- | --- | --- |
+| "I live in the terminal and want explicit permission controls" | Claude Code or Codex | Both center the local repository/terminal loop and expose detailed local access controls |
+| "I want AI to live in my editor first" | Cursor or GitHub Copilot | Both support deep editor workflows while also offering terminal agents |
+| "My organization already runs on GitHub" | GitHub Copilot | GitHub policy, repo instructions, review, CLI, and GitHub.com workflows share one ecosystem |
+| "I want a dedicated local review workflow before shipping" | Codex | Current Codex CLI includes a dedicated review flow that can inspect changes without editing the working tree |
+| "I want strong project memory/instructions around a terminal agent" | Claude Code | `CLAUDE.md`, memory commands, rules, permissions, skills, plugins, and MCP form a mature local customization stack |
+| "I want multi-model editor workflows" | Cursor | Cursor centers an AI-native editor and exposes multiple model choices through the editor and CLI |
+| "I want Google-backed terminal tooling and sandboxing" | Gemini CLI | Gemini CLI documents sandbox mode, approval modes, hierarchical context, skills, and MCP |
+| "I need a second approved vendor" | Gemini CLI, Copilot, Cursor, Claude Code, or Codex | Choose based on your existing identity, editor, hosting, and security controls rather than model preference alone |
+
+## Flagship Tool Cards
 
 <div class="ai-comparison-grid">
   <div class="ai-pick-card">
-    <h2>Best for terminal-first repo work</h2>
-    <p><strong>Claude Code</strong> and <strong>OpenAI Codex</strong> are the strongest default picks when your team wants command-first, multi-file editing, repo understanding, and agent-style execution.</p>
+    <h2>Claude Code</h2>
+    <p><strong>Start here for:</strong> terminal-first deep repo work, reusable project instructions, and granular permissions.</p>
+    <p><a href="../tools/claude-code.md">Open the 60-second Claude Code cheat sheet</a></p>
   </div>
   <div class="ai-pick-card">
-    <h2>Best for IDE-first teams</h2>
-    <p><strong>Cursor</strong>, <strong>GitHub Copilot</strong>, and <strong>Windsurf</strong> fit best when adoption starts inside the editor and the team wants lower switching cost.</p>
+    <h2>OpenAI Codex</h2>
+    <p><strong>Start here for:</strong> OpenAI-centered terminal work, local code review, scripting, and hierarchical AGENTS.md guidance.</p>
+    <p><a href="../tools/openai-codex.md">Open the 60-second Codex cheat sheet</a></p>
   </div>
   <div class="ai-pick-card">
-    <h2>Best for open provider flexibility</h2>
-    <p><strong>Cline</strong>, <strong>Continue</strong>, <strong>Roo Code</strong>, and <strong>Aider</strong> are strong when you want to control model routing, providers, and custom MCP-style workflows.</p>
+    <h2>Cursor</h2>
+    <p><strong>Start here for:</strong> an AI-native editor with rules, multi-model workflows, MCP, and a terminal agent.</p>
+    <p><a href="../tools/cursor.md">Open the 60-second Cursor cheat sheet</a></p>
   </div>
   <div class="ai-pick-card">
-    <h2>Best as backup vendor paths</h2>
-    <p><strong>Gemini CLI</strong> and <strong>Grok/xAI</strong> are useful for provider redundancy, but they usually need more host-tool validation before team standardization.</p>
+    <h2>GitHub Copilot</h2>
+    <p><strong>Start here for:</strong> GitHub-heavy teams that want IDE, CLI, repository instructions, review, MCP, plugins, and skills in one platform.</p>
+    <p><a href="../tools/github-copilot.md">Open the 60-second Copilot cheat sheet</a></p>
+  </div>
+  <div class="ai-pick-card">
+    <h2>Gemini CLI</h2>
+    <p><strong>Start here for:</strong> Google-backed terminal workflows with sandboxing, approval modes, hierarchical context, and Agent Skills.</p>
+    <p><a href="../tools/gemini-cli.md">Open the 60-second Gemini CLI cheat sheet</a></p>
   </div>
 </div>
 
-## Fast Filters
+## Security and Control Snapshot
 
-| If your team needs... | Start with | Why |
+| Tool | Safer exploration pattern | Local write/command controls | Instruction anchor | External-tool expansion |
+| --- | --- | --- | --- | --- |
+| Claude Code | `claude --permission-mode plan` | allow/ask/deny rules + permission modes + Bash sandbox | `CLAUDE.md` | MCP, plugins, skills, hooks |
+| OpenAI Codex | `:read-only` permission profile | permission profiles + filesystem/network policies | `AGENTS.md` hierarchy | MCP, plugins, skills, cloud |
+| Cursor | interactive mode + "do not write code" | CLI allow/deny permission tokens; `--force` is higher risk | `.cursor/rules/` + agent files | MCP + automation/headless workflows |
+| GitHub Copilot | `/plan` + narrow tool approvals | interactive approvals + allow/deny CLI flags | `.github/copilot-instructions.md` + merged agent files | MCP, plugins, skills, hooks |
+| Gemini CLI | `--approval-mode=plan` and/or `-s` | approval modes + sandboxing + optional folder trust | `GEMINI.md` hierarchy | MCP, skills, extensions |
+
+## Repository Instruction Files
+
+| File / directory | Best known fit | Use it for |
 | --- | --- | --- |
-| Deep agentic terminal workflows | Claude Code, OpenAI Codex | Strong repo understanding, multi-step execution, and command-first ergonomics |
-| Editor-native rollout with minimal behavior change | Cursor, GitHub Copilot | Familiar IDE workflow, easier pilot motion for larger teams |
-| Git-heavy pair-programming in terminal | Aider | Strong git-centric workflow and simple terminal loop |
-| Provider-flexible VS Code workflows | Cline, Continue, Roo Code | More control over models, prompts, and MCP-style integrations |
-| Vendor diversification | Gemini CLI, Grok/xAI | Useful as secondary paths when you do not want single-provider dependence |
+| `CLAUDE.md` | Claude Code; also read by some other agents | shared repository conventions and Claude-oriented project context |
+| `AGENTS.md` | Codex; also supported by several cross-agent tools | tool-neutral build/test/convention guidance |
+| `.cursor/rules/` | Cursor | Cursor-specific scoped project rules |
+| `.github/copilot-instructions.md` | GitHub Copilot | GitHub/Copilot repository-wide guidance |
+| `.github/instructions/**/*.instructions.md` | GitHub Copilot | path-specific Copilot instructions |
+| `GEMINI.md` | Gemini CLI | hierarchical Gemini project context |
 
-## Recommended Shortlist by Team Shape
+If your team uses several agents, prefer one cross-agent source of truth for shared facts and keep tool-specific files small. Duplicated instructions drift quickly.
 
-<div class="ai-three-up">
-  <div class="ai-mini-card">
-    <h3>Platform or infra team</h3>
-    <p><strong>Claude Code</strong>, <strong>OpenAI Codex</strong>, <strong>Aider</strong></p>
-    <p>Best when engineers live in terminals, work across large repos, and care about explicit command execution.</p>
-  </div>
-  <div class="ai-mini-card">
-    <h3>Product engineering team</h3>
-    <p><strong>Cursor</strong>, <strong>GitHub Copilot</strong>, <strong>OpenAI Codex</strong></p>
-    <p>Good mix of fast in-editor assistance, code generation, and review support for broad team adoption.</p>
-  </div>
-  <div class="ai-mini-card">
-    <h3>Custom workflow team</h3>
-    <p><strong>Cline</strong>, <strong>Continue</strong>, <strong>Roo Code</strong></p>
-    <p>Best fit when teams need provider choice, custom rules, and stronger control over prompts and local tooling.</p>
-  </div>
-</div>
+## Automation Risk Ladder
 
-## Tool Profiles
+Use this progression instead of enabling full autonomy on day one:
+
+1. **Read-only repository explanation** — no edits or shell mutations.
+2. **Plan/review workflow** — agent proposes changes or reviews an existing diff.
+3. **Interactive editing** — edits and commands require approval.
+4. **Scoped automation** — non-interactive mode with explicit allowed/denied tools and narrow repo access.
+5. **Broad automation** — only after sandbox, network, secret, MCP, rollback, and audit controls are documented.
+
+The safest tool is the one whose permissions your team actually configures and reviews.
+
+## Broader AI Coding Tool Ecosystem
 
 ### Terminal Agents and CLIs
 
-| Tool | Interface | Strongest fit | Watch-out | Team fit | Verification |
-| --- | --- | --- | --- | --- | --- |
-| Claude Code | CLI / IDE / web | Deep repo work, multi-step coding, strong edits and review | Permission modes need clear team defaults | Strong | Confirmed |
-| OpenAI Codex | CLI / app / cloud / IDE | Terminal-first OpenAI workflows and agentic execution | Review auth, permissions, and config policy | Strong | Confirmed |
-| Gemini CLI | CLI | Backup terminal workflow and vendor diversity | Capability depth varies by task and host setup | Medium | Confirmed |
-| Aider | CLI | Git-centric pair programming and commit-oriented work | Shell discipline and API-key handling matter | Medium | Confirmed |
-| OpenCode | CLI / desktop / IDE | Open-source hybrid workflows with multiple surfaces | Windows teams should validate WSL setup | Medium | Confirmed |
+| Tool | Primary fit | Repository/config anchor | Team note | Verification |
+| --- | --- | --- | --- | --- |
+| Claude Code | deep repo and terminal work | `CLAUDE.md` | strong permissions/customization surface | Documentation verified 2026-08-09 |
+| OpenAI Codex | terminal work, review, scripting | `AGENTS.md`, `.codex/config.toml` | strong local permission profiles and review path | Documentation verified 2026-08-09 |
+| Gemini CLI | Google-backed terminal workflows | `GEMINI.md`, `.gemini/settings.json` | sandbox, approval modes, skills | Documentation verified 2026-08-09 |
+| Aider | git-centric pair programming | `.aider.conf.yml` | simple terminal/git loop | Re-check dedicated page |
+| OpenCode | open-source hybrid workflows | `opencode.json` | validate current platform setup | Re-check dedicated page |
 
-### IDE Agents and Editor-Led Tools
+### IDE and Editor-Led Tools
 
-| Tool | Interface | Strongest fit | Watch-out | Team fit | Verification |
-| --- | --- | --- | --- | --- | --- |
-| Cursor | IDE / CLI | AI-first editor usage with strong coding assistance | Verify current CLI bootstrap and admin controls | Strong | Needs verification |
-| GitHub Copilot | IDE / CLI / PR tooling | GitHub-heavy orgs and code review workflows | Org policy and entitlements can limit behavior | Strong | Confirmed |
-| Windsurf | IDE / agent platform | IDE agent pilots with broader assistant workflows | Validate current admin and rollout model | Medium | Needs verification |
-| Roo Code | IDE extension | Custom mode-based workflows inside VS Code | Rules and config can sprawl without standards | Medium | Confirmed |
+| Tool | Primary fit | Repository/config anchor | Team note | Verification |
+| --- | --- | --- | --- | --- |
+| Cursor | AI-native editor + terminal agent | `.cursor/rules/`, `.cursor/cli.json` | multi-model, MCP, headless automation | Documentation verified 2026-08-09 |
+| GitHub Copilot | GitHub-native editor/CLI/review | `.github/copilot-instructions.md` | GitHub policy and customization stack | Documentation verified 2026-08-09 |
+| Windsurf | IDE/agent platform | product settings | validate current admin and rollout model | Needs verification |
+| Cline | provider-flexible editor/CLI | MCP/config files | review provider and MCP permissions | Re-check dedicated page |
+| Roo Code | mode-driven VS Code workflows | `.roorules` | configuration can sprawl without standards | Re-check dedicated page |
+| Continue | configurable open workflows | `config.yaml` | good fit when provider/config control matters | Re-check dedicated page |
 
-### Open and Provider-Flexible Workflows
+## Questions to Answer Before Standardizing
 
-| Tool | Interface | Strongest fit | Watch-out | Team fit | Verification |
-| --- | --- | --- | --- | --- | --- |
-| Cline | IDE extension / CLI | Provider-flexible VS Code usage with MCP workflows | Review model routing and MCP permissions carefully | Medium | Confirmed |
-| Continue | CLI / IDE | YAML-driven open workflows and custom assistants | Config consistency matters across teams | Medium | Confirmed |
-| Grok / xAI | Model / integration | Provider diversification through host tools or APIs | Standalone coding workflow depends on the host surface | Medium | Confirmed |
+### Workflow
 
-## Capability Snapshot
+- Is your team terminal-first, editor-first, or mixed?
+- Do you want the agent mainly for explanation/review or for implementation?
+- Do you need non-interactive CI/automation?
 
-| Tool | CLI | IDE | Multi-file edits | Repo understanding | PR review | MCP support | Config anchor |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Code | Yes | Yes | Strong | Strong | Strong | Yes | `CLAUDE.md` |
-| OpenAI Codex | Yes | Yes | Strong | Strong | Strong | Yes | `AGENTS.md` and app config |
-| Cursor | Yes | Yes | Strong | Strong | Strong | Yes | `.cursor/rules` |
-| GitHub Copilot | Yes | Yes | Moderate | Moderate | Strong | Varies | `copilot-instructions.md` |
-| Windsurf | Needs verification | Yes | Strong | Strong | Moderate | Yes | Product settings |
-| Cline | Yes | Yes | Strong | Model-dependent | Moderate | Yes | `~/.cline/mcp.json` |
-| Roo Code | Extension-first | Yes | Strong | Model-dependent | Moderate | Yes | `.roorules` |
-| Continue | Yes | Yes | Strong | Strong | Moderate | Yes | `config.yaml` |
-| Aider | Yes | Integrations | Strong | Strong | Moderate | Indirect | `.aider.conf.yml` |
-| Gemini CLI | Yes | Limited | Moderate | Moderate | Moderate | Tool-dependent | Tool settings |
-| OpenCode | Yes | Yes | Strong | Strong | Moderate | Yes | `opencode.json` |
-| Grok / xAI | Host-dependent | Via host | Host-dependent | Host-dependent | Host-dependent | Host-dependent | Host-dependent |
+### Security
 
-## Before You Standardize a Tool
+- Can the tool execute shell commands?
+- Which files must always remain unreadable or unwritable?
+- Is network access disabled, allowlisted, or open?
+- Which MCP servers, plugins, skills, or hooks are approved?
 
-- Confirm the current install path, supported platforms, and enterprise controls from vendor docs.
-- Decide whether the team standard is terminal-first, IDE-first, or mixed.
-- Set one approved rules/config file pattern per tool before broad rollout.
-- Define how MCP servers, secrets, shell permissions, and repo write access are reviewed.
-- Re-check tools marked `Needs verification` before adding them to a default engineering stack.
+### Instructions
 
-> Verification note: Re-check vendor docs before standardizing install commands, plan entitlements, or enterprise feature claims.
+- What is the canonical repository instruction file?
+- Which instructions are shared across tools versus tool-specific?
+- Who reviews instruction changes?
+
+### Operations
+
+- Which account/plan provides access?
+- How are updates rolled out?
+- What is the rollback path when an agent changes too much?
+- Which tests, lint checks, and CI gates remain mandatory?
+
+## Recommended Pilot
+
+For any tool, start with the same evaluation so the comparison is fair:
+
+1. Ask it to explain an unfamiliar repository without edits.
+2. Ask it to review a real diff.
+3. Ask it to plan a small bug fix.
+4. Let it implement the fix interactively.
+5. Compare correctness, diff quality, required steering, command behavior, permission friction, and validation results.
+6. Only then test MCP or non-interactive automation.
+
+Record results with the [Tool Evaluation Template](../templates/tool-evaluation-template.md).
+
+## Next Steps
+
+- [Claude Code Cheat Sheet](../tools/claude-code.md)
+- [OpenAI Codex Cheat Sheet](../tools/openai-codex.md)
+- [Cursor Cheat Sheet](../tools/cursor.md)
+- [GitHub Copilot Cheat Sheet](../tools/github-copilot.md)
+- [Gemini CLI Cheat Sheet](../tools/gemini-cli.md)
+- [Choosing the Right Tool](choosing-the-right-tool.md)
+- [Security and Permissions](../governance/security-and-permissions.md)
+- [Prompt Library](../prompts/README.md)
+
+> Verification note: flagship rows were re-checked against official vendor documentation on 2026-08-09. Re-check plan entitlements, model availability, installers, and enterprise policy before rollout.
