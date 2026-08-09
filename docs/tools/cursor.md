@@ -1,200 +1,250 @@
 # Cursor
 
-> AI-first editor and CLI workflow with rules, MCP, and agent-style automation.
+> AI-first editor plus terminal agent with rules, MCP, permissions, headless automation, and multi-model workflows.
 
 **Type:** IDE / CLI / agent  
-**Best for:** Daily coding inside the editor with optional terminal workflows  
+**Best for:** Daily editor-first coding with a capable terminal and automation path  
 **Official docs:** https://cursor.com/docs  
-**Last verified:** 2026-07-13  
+**Last verified:** 2026-08-09  
 **Status:** Documentation verified  
-**Verification scope:** Official Cursor docs for CLI, installation, rules, MCP, headless mode, authentication, configuration, permissions, and terminal tools were reviewed. No local Cursor install or login flow was executed in this repository.
+**Verification scope:** Official Cursor CLI installation, usage, headless mode, parameters, permissions, rules/MCP guidance, and the January 2026 CLI changelog were reviewed. No local Cursor install or login flow was executed in this repository.
 
-## Overview
+## 60-Second Cheat Sheet
 
-Cursor is positioned by its official docs as an AI development environment that spans the editor, agent workflows, rules, MCP, skills, and CLI usage. Its strongest fit in this repository is still IDE-first daily coding, but the docs now also show a substantial terminal and headless CLI surface.
+| Need | Command or file | Notes |
+| --- | --- | --- |
+| Install Cursor CLI | `curl https://cursor.com/install -fsS \| bash` | Official CLI installer |
+| Start the terminal agent | `agent` | Current primary entrypoint |
+| Backward-compatible entrypoint | `cursor-agent` | Still supported as an alias |
+| Ask without coding | `agent "explain this repo; do not write code"` | Good low-risk first task |
+| Run non-interactively | `agent -p "review these changes"` | Print/headless mode |
+| Apply writes in scripts | `agent -p --force "update the docs"` | High-impact; review permissions first |
+| List models | `agent models` | Current CLI model discovery |
+| Resume latest chat | `agent resume` | Continue prior context |
+| List chats | `agent ls` | Find previous sessions |
+| Manage MCP | `agent mcp` or `/mcp` | CLI and in-session management |
+| Manage rules | `/rules` | Create or edit rules from the CLI |
+| Project rules | `.cursor/rules/` | Same rules system as the IDE |
+| Agent instructions | `AGENTS.md` / `CLAUDE.md` | CLI reads these at project root |
+| User CLI permissions | `~/.cursor/cli-config.json` | Global CLI configuration |
+| Project CLI permissions | `.cursor/cli.json` | Repository-specific CLI configuration |
 
-## Best Suited For
+> **Safe default:** use interactive mode for implementation, explicitly say “do not write code” while planning, and treat `--force` as an automation permission decision rather than a convenience flag.
 
-- IDE-first engineering teams
-- developers who want rules and context to follow them inside the editor
-- mixed editor and terminal workflows
-- teams that want MCP and agent workflows without giving up editor ergonomics
+## Five Prompts Worth Bookmarking
 
-## Less Suited For
+### Understand a feature in the editor
 
-- organizations that want a strictly terminal-only standard
-- teams that will not maintain rules, permissions, or configuration conventions
-- environments where headless or API-key-backed automation is prohibited
+```text
+Trace this feature from UI entry point to data/API layer. Name the key files, explain the data flow, and identify the safest place to change behavior. Do not edit yet.
+```
 
-## Confirmed Capabilities
+### Plan before editing
 
-- editor-based agent workflows
-- CLI usage from the terminal
-- headless CLI mode for automation
-- rules at project, team, and user scope
-- MCP support
-- command execution through terminal integration
-- permissions and configuration controls documented for the CLI
+```text
+Read the relevant files and rules, then propose a focused implementation plan with files, tests, risks, and validation commands. Do not write code until I approve the plan.
+```
 
-## Limitations
+### Review a change
 
-- the broad feature surface means policy and configuration can drift quickly without a team standard
-- the docs confirm multiple rule scopes, which is powerful but makes precedence and review important
-- CLI automation paths deserve extra security review before rollout
-- this page is documentation-verified only; install and auth were not exercised locally
+```text
+Review the current changes for correctness, regressions, security issues, and missing tests. Prioritize concrete findings and cite the exact files involved.
+```
 
-## Supported Environments
+### Fix a bug
 
-- macOS
-- Linux
-- Windows
-- CLI
-- headless CLI
-- editor workflows
+```text
+Reproduce the bug from the existing code and tests, identify the root cause, implement the smallest fix, and run the narrowest relevant validation before broader checks.
+```
 
-The CLI installation docs explicitly describe a single-command install path for macOS, Linux, and Windows, while WSL still needs team-specific validation based on how you want the editor and terminal to interact.
+### Refactor with constraints
+
+```text
+Refactor this module without changing public behavior. Follow the repository rules, preserve APIs, keep the diff focused, and show test/build results before suggesting extra cleanup.
+```
+
+## What Cursor Is Best At
+
+- editor-first coding where context, diffs, terminal, and AI live in one workflow
+- teams that want both IDE agent behavior and terminal automation
+- project rules shared through `.cursor/rules/`
+- mixed instruction ecosystems using `AGENTS.md` or `CLAUDE.md`
+- multi-model workflows and model switching
+- MCP-backed integrations across editor and CLI
 
 ## Installation
 
-Use the official CLI installation guide for the current single-command installer and PATH setup instructions. The docs explicitly describe:
+The current CLI installer is:
 
-- macOS installation
-- Linux installation
-- Windows installation
-- post-install verification and PATH guidance
-
-Because the rendered docs are highly dynamic and this repository has not locally tested the installer, link contributors to the official page instead of copying a guessed command.
-
-## Authentication
-
-Cursor documents a dedicated CLI authentication flow and separate API-key-backed behavior for some automation scenarios. Use the normal interactive sign-in path for personal or team evaluation first, and keep headless or API-key-backed usage behind policy review.
-
-## First Working Example
-
-Open a repository in Cursor and ask the agent to explain the project before editing anything. If you are evaluating the terminal surface, start with the documented Cursor CLI overview path and submit a read-only repository question first.
-
-Example task:
-
-```text
-Explain the main packages in this repository, identify the build command, and point out one low-risk cleanup opportunity without changing files.
+```bash
+curl https://cursor.com/install -fsS | bash
 ```
 
-## Common Commands
+Verify the compatible CLI binary:
 
-The official Cursor CLI docs confirm:
+```bash
+cursor-agent --version
+```
 
-- a CLI overview surface
-- agent usage from the command line
-- headless mode
-- shell-mode support
-- slash commands and configuration references
+Cursor announced `agent` as the primary CLI entrypoint in January 2026. `cursor-agent` remains backward compatible, so older docs and scripts may still use it.
 
-Use the docs as the source of truth for the exact syntax on your installed version.
+The CLI installation docs explicitly cover macOS, Linux, and Windows through WSL. Native Windows users can still use the Cursor editor; validate your preferred terminal setup before standardizing CLI usage.
 
-## Repository Instructions
+## First Session
 
-Cursor documents multiple instruction systems:
+```bash
+cd /path/to/your/repository
+agent
+```
 
-- Project Rules
-- Team Rules
-- User Rules
-- `AGENTS.md`
+Start with a read-only request:
 
-The Rules docs explicitly describe project, team, and user rules plus `AGENTS.md`. That makes rule sprawl a real team concern, so define which layers your team is actually allowed to use.
+```text
+Explain the repository structure, build command, test command, and one low-risk improvement. Do not write any code.
+```
 
-## Configuration
+Cursor CLI asks for approval before terminal commands in interactive mode.
 
-Cursor documents dedicated CLI configuration and authentication references. Use them to define:
+## Daily CLI Commands
 
-- CLI behavior
-- auth and API-key usage
-- permission controls
-- MCP server usage
-- shell and terminal integration
+```bash
+agent
+agent "review the auth module"
+agent -p "summarize the current diff"
+agent models
+agent ls
+agent resume
+agent mcp
+```
 
-For team rollout, standardize which configuration belongs in the repository versus personal settings.
+The older `cursor-agent` spelling remains useful when following existing CLI reference pages:
+
+```bash
+cursor-agent -p "review these changes" --output-format text
+cursor-agent mcp list
+cursor-agent update
+```
+
+Useful in-session commands include:
+
+```text
+/models
+/rules
+/mcp
+/compress
+```
+
+Use the current CLI help for the exact command list installed on your machine.
+
+## Rules and Repository Instructions
+
+Cursor CLI supports the same rules system as the IDE through:
+
+```text
+.cursor/rules/
+```
+
+The CLI also reads project-root:
+
+```text
+AGENTS.md
+CLAUDE.md
+```
+
+For teams, pick a deliberate convention instead of maintaining the same instruction in three places.
+
+A practical pattern is:
+
+- use `.cursor/rules/` for Cursor-specific scoped rules
+- use `AGENTS.md` for cross-agent repository instructions
+- keep `CLAUDE.md` only when Claude-specific guidance is genuinely different
 
 ## Permission Model
 
-Cursor documents CLI permissions and a terminal tool surface. That means the tool can cross from chat assistance into command execution quickly.
+Cursor CLI documents permission tokens for:
 
-Treat these questions as mandatory before rollout:
+- `Shell(commandBase)`
+- `Read(pathOrGlob)`
+- `Write(pathOrGlob)`
 
-- Which commands can the agent run?
-- What approval model is required?
-- Is shell access on by default for all users?
-- Are MCP servers allowed for everyone or only specific roles?
-- Is headless automation allowed at all?
-
-## MCP / Integration Support
-
-Cursor docs confirm MCP support in both the main docs and CLI documentation. This is useful for external context, but it should not be approved casually. Every server expands the data and execution boundary.
-
-## Real Workflow Demonstration
-
-### Scenario
-
-A product engineer wants AI help inside the editor, but the team wants to keep the first evaluation low risk.
-
-### Repository context
-
-A normal local application repository opened in Cursor.
-
-### Request
+Permissions can be configured globally in:
 
 ```text
-Review the current feature module, explain how data flows through it, and suggest one refactor or test improvement before making any edits.
+~/.cursor/cli-config.json
 ```
 
-### Expected AI behavior
+or per project in:
 
-- reads the relevant files
-- explains the code in editor context
-- proposes a small improvement
-- waits for confirmation before applying changes if permissions require it
+```text
+.cursor/cli.json
+```
 
-### Human review checkpoint
+Deny rules take precedence over allow rules.
 
-- compare the explanation with the actual code
-- review any generated diff before accepting
-- verify that rules or team instructions are not over-constraining the response
+A useful baseline is to deny destructive shell commands, environment files, and private-key patterns even when normal source reads/writes are allowed.
 
-### Validation step
+## Headless and Automation Mode
 
-Run the relevant tests or build after the change.
+Use print mode for scripts and CI:
 
-## Team Adoption Guidance
+```bash
+agent -p "review this repository"
+```
 
-- define whether your team uses Project Rules only or also Team/User Rules
-- keep repository rules short, specific, and reviewable
-- pilot editor workflows before approving headless automation
-- document the approved MCP server set separately from general tool approval
+Historically documented examples use `cursor-agent -p`; the current primary entrypoint is `agent`.
 
-## Security Considerations
+Writing from print/headless automation can require `--force`:
 
-- terminal integration and CLI automation expand the tool from editor assistant to execution surface
-- rule layering can hide conflicting instructions if you do not document precedence
-- headless mode and API-key-backed workflows deserve a separate approval path from normal interactive editor use
-- review MCP servers and CLI permissions independently; both can widen exposure
+```bash
+agent -p --force "update generated documentation and run validation"
+```
 
-## Troubleshooting
+Treat `--force` as a separate approval tier. Automation should pair it with explicit CLI deny rules and a tightly scoped repository/task.
 
-- If installation or PATH behavior differs, follow the current official CLI installation page.
-- If agent behavior is inconsistent, inspect project rules, team rules, user rules, and `AGENTS.md` together.
-- If automation is needed, review headless mode requirements before copying interactive guidance into CI.
+## MCP and External Tools
+
+Cursor CLI can detect and use the MCP configuration shared with the editor. The current CLI also provides MCP management commands, including listing servers and tools.
+
+Review every server for:
+
+- read versus write capabilities
+- authentication and token storage
+- network access
+- destructive operations
+- whether the same MCP should be enabled in both IDE and automated CLI contexts
+
+## Team Adoption Checklist
+
+- [ ] choose one primary repository instruction pattern
+- [ ] define global and project CLI permission defaults
+- [ ] deny secrets and destructive commands explicitly
+- [ ] pilot interactive editor/CLI usage before `--force` automation
+- [ ] approve MCP servers separately from Cursor itself
+- [ ] document whether WSL is the supported Windows CLI path
+
+## Security Notes
+
+- editor assistance becomes an execution surface when terminal tools or CLI automation are enabled
+- `--force` can remove meaningful confirmation steps
+- rule layering can create hidden or conflicting guidance
+- MCP expands the data/tool boundary
+- API keys for automation should never be committed to the repository
 
 ## Alternatives
 
-- [GitHub Copilot](github-copilot.md) for GitHub-centered editor and CLI usage
-- [Claude Code](claude-code.md) or [OpenAI Codex](openai-codex.md) for stronger terminal-first defaults
-- [Cline](cline.md) or [Continue](continue.md) for more explicitly provider-flexible workflows
+- [GitHub Copilot](github-copilot.md) for GitHub-native editor, CLI, review, and repository workflows
+- [Claude Code](claude-code.md) for terminal-first work with a strong permissions and project-memory model
+- [OpenAI Codex](openai-codex.md) for terminal-first OpenAI workflows and dedicated local review
+- [Gemini CLI](gemini-cli.md) for a Google-backed terminal workflow with sandbox and context controls
+
+See the [Comparison Matrix](../getting-started/comparison-matrix.md) for a side-by-side shortlist.
 
 ## Verification Status
 
 - Status: Documentation verified
-- Last verified: 2026-07-13
-- Scope: official docs reviewed for CLI, rules, MCP, headless mode, and permissions
-- Not locally tested: installer command, sign-in flow, editor behavior, and team-admin settings
+- Last verified: 2026-08-09
+- Scope: CLI installation, current entrypoint, interactive/headless usage, rules, permissions, sessions, models, and MCP reviewed against official Cursor sources
+- Not locally tested: installer execution, sign-in flow, IDE behavior, model availability, and team-admin settings
 
 ## Sources
 
@@ -203,10 +253,7 @@ Run the relevant tests or build after the change.
 - https://cursor.com/docs/cli/installation
 - https://cursor.com/docs/cli/using
 - https://cursor.com/docs/cli/headless
-- https://cursor.com/docs/rules
-- https://cursor.com/docs/mcp
-- https://cursor.com/docs/cli/mcp
-- https://cursor.com/docs/cli/reference/authentication
-- https://cursor.com/docs/cli/reference/configuration
+- https://cursor.com/docs/cli/reference/parameters
 - https://cursor.com/docs/cli/reference/permissions
-- https://cursor.com/docs/agent/tools/terminal
+- https://cursor.com/changelog/cli-jan-08-2026
+- https://cursor.com/cli
