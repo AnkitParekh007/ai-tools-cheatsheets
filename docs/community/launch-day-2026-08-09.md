@@ -33,7 +33,7 @@ Do not substitute older growth-review values for analytics that were not capture
 
 ## Production Deployment Gate
 
-**Status: GREEN**
+Status: GREEN
 
 A temporary GitHub-hosted Actions check fetched the real public Pages homepage and verified that it contains the exact build marker for launch commit:
 
