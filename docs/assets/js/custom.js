@@ -216,7 +216,7 @@
 
   function isHomepage() {
     var path = window.location.pathname;
-    return path === "/" || path.endsWith("/index.html") && !path.includes("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/index.html");
+    return path === "/" || path === "/index.html" || path.endsWith("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/index.html");
   }
 
   function getSourcePath() {
