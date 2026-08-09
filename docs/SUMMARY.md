@@ -11,6 +11,7 @@
 * [Comparison Matrix](getting-started/comparison-matrix.md)
 * [Terminology](getting-started/terminology.md)
 * [Fork for Your Team](getting-started/fork-for-your-team.md)
+* [Contribute in 10 Minutes](getting-started/contribute-in-10-minutes.md)
 * [Social Preview and Promotion](getting-started/social-preview-and-promotion.md)
 
 ## Audience Paths

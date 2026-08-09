@@ -214,12 +214,54 @@
     paletteState.resultList = document.querySelector("#book-search-results .search-results-list");
   }
 
+  function isHomepage() {
+    var path = window.location.pathname;
+    return path === "/" || path === "/index.html" || path.endsWith("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/index.html");
+  }
+
+  function getSourcePath() {
+    var marker = "/ai-tools-cheatsheets/";
+    var path = decodeURIComponent(window.location.pathname);
+    var markerIndex = path.indexOf(marker);
+    var relative = markerIndex >= 0 ? path.slice(markerIndex + marker.length) : path.replace(/^\/+/, "");
+
+    if (!relative || relative === "index.html") return "docs/README.md";
+    if (relative.endsWith("/index.html")) return "docs/" + relative.replace(/index\.html$/, "README.md");
+    if (relative.endsWith(".html")) return "docs/" + relative.replace(/\.html$/, ".md");
+    return "docs/" + relative;
+  }
+
+  function decorateGrowthCta() {
+    var content = document.querySelector(".markdown-section");
+    if (!content || isHomepage()) return;
+    if (content.querySelector("[data-growth-cta]")) return;
+
+    var repoUrl = "https://github.com/AnkitParekh007/ai-tools-cheatsheets";
+    var pageUrl = window.location.href.split("#")[0];
+    var editUrl = repoUrl + "/edit/main/" + getSourcePath();
+    var shareUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("Useful AI coding cheat sheet") + "&url=" + encodeURIComponent(pageUrl);
+
+    var panel = document.createElement("div");
+    panel.className = "ai-panel";
+    panel.setAttribute("data-growth-cta", "true");
+    panel.innerHTML =
+      '<h2>Found this useful?</h2>' +
+      '<p>Star the handbook so you can find it again, fork it for your team, or improve this page for the next developer.</p>' +
+      '<div class="ai-home-actions">' +
+      '<a class="ai-home-action is-warm" href="' + repoUrl + '" target="_blank" rel="noopener">Star on GitHub</a>' +
+      '<a class="ai-home-action" href="' + repoUrl + '/fork" target="_blank" rel="noopener">Fork for Your Team</a>' +
+      '<a class="ai-home-action" href="' + editUrl + '" target="_blank" rel="noopener">Edit This Page</a>' +
+      '<a class="ai-home-action" href="' + shareUrl + '" target="_blank" rel="noopener">Share</a>' +
+      '</div>';
+
+    content.appendChild(panel);
+  }
+
   function decorateHomepage() {
     var page = document.querySelector(".page-wrapper");
     if (!page) return;
 
-    var isHome = window.location.pathname.endsWith("/") || /\/index\.html?$/.test(window.location.pathname);
-    document.body.classList.toggle("is-home", isHome);
+    document.body.classList.toggle("is-home", isHomepage());
   }
 
   function decorateSpecialPages() {
@@ -237,6 +279,7 @@
     bindSearchTrigger();
     decorateHomepage();
     decorateSpecialPages();
+    decorateGrowthCta();
   }
 
   if (document.readyState === "loading") {
@@ -253,6 +296,7 @@
       applyTheme(getSavedTheme());
       decorateHomepage();
       decorateSpecialPages();
+      decorateGrowthCta();
     });
   }
 })();

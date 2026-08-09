@@ -56,3 +56,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify deployed commit freshness
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          echo "Verifying ${PAGE_URL} contains build marker ${EXPECTED_SHA}"
+          for attempt in 1 2 3 4 5 6; do
+            html="$(curl --fail --silent --show-error --location --max-time 20 "${PAGE_URL}" || true)"
+            if printf '%s' "$html" | grep -Fq "name=\"ai-build-sha\" content=\"${EXPECTED_SHA}\""; then
+              echo "GitHub Pages is serving the expected commit."
+              exit 0
+            fi
+            echo "Attempt ${attempt}/6 did not see the expected commit marker yet."
+            sleep 10
+          done
+          echo "GitHub Pages deployment completed, but the public site is not serving ${EXPECTED_SHA}." >&2
+          exit 1
