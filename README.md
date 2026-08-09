@@ -57,9 +57,9 @@ Start with the practical handbook:
 
 ### 2. Move from tool usage into AI application architecture
 
-Follow the [Architecture Path](./docs/architecture-path/README.md):
+Follow the [Architecture Path](./docs/architecture-path/README.md).
 
-**AI coding tools → trustworthy frontend state → runnable Angular copilot UX → full-stack copilot platform → governed agent lifecycle → enterprise agent workspace**
+Architecture progression: AI coding tools → trustworthy frontend state → runnable Angular copilot UX → full-stack copilot platform → governed agent lifecycle → enterprise agent workspace.
 
 That path connects the handbook to runnable public architecture projects without duplicating their implementation docs.
 
