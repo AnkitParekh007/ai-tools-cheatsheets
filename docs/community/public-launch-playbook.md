@@ -46,12 +46,12 @@ Choosing between Claude Code, Codex, Cursor, Copilot, and Gemini CLI is now a wo
 
 ## Day 1 — Terminal Agent Comparison
 
-### Primary assets
+### Terminal comparison assets
 
 - [Claude Code](../tools/claude-code.md)
 - [OpenAI Codex](../tools/openai-codex.md)
 
-### Angle
+### Terminal comparison angle
 
 **Claude Code vs Codex for terminal-first development.**
 
@@ -61,12 +61,12 @@ Do not claim a universal winner.
 
 ## Day 2 — IDE Agent Comparison
 
-### Primary assets
+### IDE comparison assets
 
 - [Cursor](../tools/cursor.md)
 - [GitHub Copilot](../tools/github-copilot.md)
 
-### Angle
+### IDE comparison angle
 
 **Cursor vs Copilot for IDE-first teams.**
 
@@ -74,14 +74,14 @@ Compare repo context, instruction/config files, agent workflows, review boundari
 
 ## Day 3 — Repo Instructions
 
-### Primary assets
+### Repo instruction assets
 
 - [AGENTS.md](../configs/agents-md.md)
 - [CLAUDE.md](../configs/claude-md.md)
 - [GitHub Copilot Instructions](../configs/github-copilot-instructions.md)
 - [Cursor Rules](../configs/cursor-rules.md)
 
-### Angle
+### Repo instruction angle
 
 **Stop repeating repository context in every AI chat.**
 
@@ -89,13 +89,13 @@ Show developers how persistent repo instructions reduce repeated prompting and m
 
 ## Day 4 — MCP Security
 
-### Primary assets
+### MCP security assets
 
 - [MCP Overview](../mcp/README.md)
 - [Useful MCP Servers](../mcp/useful-mcp-servers.md)
 - [Security and Permissions](../governance/security-and-permissions.md)
 
-### Angle
+### MCP security angle
 
 **MCP is useful because it gives agents capabilities; that is also why permission review matters.**
 
@@ -103,12 +103,12 @@ Lead with read-only trials, least privilege, and clear mutation boundaries.
 
 ## Day 5 — Prompt/Workflow Utility
 
-### Primary assets
+### Prompt/workflow assets
 
 - [Prompt Library](../prompts/README.md)
 - [Workflow Library](../workflows/README.md)
 
-### Angle
+### Prompt/workflow angle
 
 Share one prompt/workflow pair that solves a common developer task such as code review, bug fixing, test generation, or migration.
 
@@ -116,12 +116,12 @@ The post should contain enough value to be useful even before the reader clicks.
 
 ## Day 7 — Contributor Invitation
 
-### Primary assets
+### Contributor invitation assets
 
 - [Contribute in 10 Minutes](../getting-started/contribute-in-10-minutes.md)
 - [Good First Issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
-### Angle
+### Contributor invitation angle
 
 Invite developers to improve one thing they actually use.
 
