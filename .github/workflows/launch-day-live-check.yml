@@ -1,0 +1,33 @@
+name: launch-day-live-check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live Pages serves launch commit
+        shell: bash
+        env:
+          PAGE_URL: https://ankitparekh007.github.io/ai-tools-cheatsheets/
+          EXPECTED_SHA: 0bb1fc1fb5b08b9531fc4f0e35944d46e369f111
+        run: |
+          set -euo pipefail
+          echo "Checking ${PAGE_URL} for launch marker ${EXPECTED_SHA}"
+          for attempt in 1 2 3 4 5 6; do
+            html="$(curl --fail --silent --show-error --location --max-time 20 "${PAGE_URL}" || true)"
+            if printf '%s' "$html" | grep -Fq "name=\"ai-build-sha\" content=\"${EXPECTED_SHA}\""; then
+              echo "Live GitHub Pages is serving the launch commit."
+              exit 0
+            fi
+            echo "Attempt ${attempt}/6 did not see the expected launch marker."
+            sleep 10
+          done
+          echo "Live GitHub Pages is not serving ${EXPECTED_SHA}." >&2
+          exit 1
