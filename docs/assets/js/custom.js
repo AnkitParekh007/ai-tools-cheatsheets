@@ -216,14 +216,14 @@
 
   function isHomepage() {
     var path = window.location.pathname;
-    return path.endsWith("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/index.html");
+    return path === "/" || path.endsWith("/index.html") && !path.includes("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/") || path.endsWith("/ai-tools-cheatsheets/index.html");
   }
 
   function getSourcePath() {
     var marker = "/ai-tools-cheatsheets/";
     var path = decodeURIComponent(window.location.pathname);
     var markerIndex = path.indexOf(marker);
-    var relative = markerIndex >= 0 ? path.slice(markerIndex + marker.length) : "";
+    var relative = markerIndex >= 0 ? path.slice(markerIndex + marker.length) : path.replace(/^\/+/, "");
 
     if (!relative || relative === "index.html") return "docs/README.md";
     if (relative.endsWith("/index.html")) return "docs/" + relative.replace(/index\.html$/, "README.md");
