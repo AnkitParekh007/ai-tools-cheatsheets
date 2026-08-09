@@ -36,6 +36,7 @@
       <tr><td>Connect tools through MCP</td><td><a href="mcp/README.md">MCP Overview</a> · <a href="mcp/useful-mcp-servers.md">Useful MCP Servers</a></td></tr>
       <tr><td>Copy reusable prompts</td><td><a href="prompts/README.md">Prompt Library</a> · <a href="prompts/master-prompts.md">Master Prompts</a></td></tr>
       <tr><td>Run a real engineering task</td><td><a href="workflows/README.md">Workflow Library</a></td></tr>
+      <tr><td>Make a small open-source contribution</td><td><a href="community/README.md">Community Hub</a> · <a href="getting-started/contribute-in-10-minutes.md">Contribute in 10 Minutes</a></td></tr>
     </tbody>
   </table>
 </div>
@@ -104,7 +105,10 @@ Use the public handbook as a neutral baseline, then customize approved tools, re
 A first contribution can be one corrected command, official source, validation step, prompt improvement, accessibility fix, or clearer example.
 
 - [Contribute in 10 Minutes](getting-started/contribute-in-10-minutes.md)
+- [Community Hub](community/README.md)
+- [Contributor Recognition](community/contributors.md)
 - [Full Contribution Guide](https://github.com/AnkitParekh007/ai-tools-cheatsheets/blob/main/CONTRIBUTING.md)
 - [Good First Issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+- [Help Wanted](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
-If the handbook saves you time, **star the repository** so you can find it again and more developers can discover it.
+The public issue queue is intentionally curated: starter issues should name the file, acceptance criteria, source expectations, and validation command. If the handbook saves you time, **star the repository** so you can find it again and more developers can discover it.
