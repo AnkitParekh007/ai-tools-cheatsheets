@@ -21,6 +21,15 @@
 * [For Engineering Leaders](for-engineering-leaders/README.md)
 * [For Platform and Security](for-platform-and-security/README.md)
 
+## Architecture Path
+
+* [From AI Tools to AI Application Architecture](architecture-path/README.md)
+* [Trustworthy AI Frontend State](architecture-path/trustworthy-ai-frontend-state.md)
+* [Runnable Angular Copilot UX](architecture-path/runnable-angular-copilot.md)
+* [Full-Stack Copilot Platform](architecture-path/full-stack-copilot-platform.md)
+* [Governed Agent Lifecycle](architecture-path/governed-agent-lifecycle.md)
+* [Enterprise Agent Workspace](architecture-path/enterprise-agent-workspace.md)
+
 ## Tools
 
 * [Tools Overview](tools/README.md)
