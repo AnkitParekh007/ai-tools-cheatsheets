@@ -2,9 +2,7 @@
 
 The handbook is the discovery layer for a wider set of open-source AI engineering projects. Use this map to choose the repository where your contribution will have the clearest technical impact.
 
-The ecosystem follows one progression:
-
-**Learn → Pattern → Run → Platform → Govern → Operate**
+The ecosystem follows one progression: Learn → Pattern → Run → Platform → Govern → Operate.
 
 ## Choose by the problem you want to solve
 
