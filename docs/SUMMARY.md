@@ -120,6 +120,12 @@
 * [Customize for Your Team](governance/customize-for-your-team.md)
 * [Troubleshooting](governance/troubleshooting.md)
 
+## Community
+
+* [Community Hub](community/README.md)
+* [Contributor Recognition](community/contributors.md)
+* [Launch and Sharing Kit](community/launch-kit.md)
+
 ## Reference
 
 * [Glossary](GLOSSARY.md)
