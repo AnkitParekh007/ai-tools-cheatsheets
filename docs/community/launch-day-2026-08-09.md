@@ -9,57 +9,134 @@ This page records the operational launch-day state for the `2026.08 Launch Editi
 - Phase 4 source is present on `main`
 - The Phase 4 working branch has been deleted
 
-## Day-0 Community Baseline
+## Day-0 Public Repository Baseline
+
+The public repository snapshot was captured from the GitHub REST API by a GitHub-hosted Actions runner on 2026-08-09.
 
 | Metric | Day-0 value |
 | --- | ---: |
+| GitHub stars | 0 |
+| GitHub forks | 0 |
+| Contributors returned by GitHub contributors API | 2 |
+| Subscribers / repository watchers | 0 |
 | Open curated issues | 13 |
 | Open `good first issue` items | 6 |
 | Open `help wanted` items | 7 |
 | First-time contributor PRs in launch window | 0 |
 | Merged community PRs in launch window | 0 |
-| GitHub stars | Not available through the current repository connector |
-| GitHub forks | Not available through the current repository connector |
-| Contributor count | Not available through the current repository connector |
-| GitHub Pages visits | No launch analytics value available through the current connector |
-| Repository click-throughs | Starts at launch; no UTM results yet |
-| Search clicks/impressions | No current Search Console snapshot available through the current connector |
-| Referring domains/backlinks | No launch snapshot available through the current connector |
+| GitHub Pages visits | No launch analytics value captured yet |
+| Repository click-throughs | 0 launch-attributed results recorded yet |
+| Search clicks/impressions | No fresh Search Console launch snapshot captured yet |
+| Referring domains/backlinks | No Day-0 launch snapshot captured yet |
 
-Unavailable values are intentionally not estimated from an older report. Capture them from GitHub Insights / Search Console immediately before or with the first public post if those dashboards are available.
+Do not substitute older growth-review values for analytics that were not captured on Day 0.
 
 ## Production Deployment Gate
 
-### Confirmed
+**Status: GREEN**
 
-- The launch files are merged to `main`.
-- The repository contains the deployment-freshness mechanism added in Phase 1.
-- The launch commit is the current latest commit observed on `main` during this execution pass.
+A temporary GitHub-hosted Actions check fetched the real public Pages homepage and verified that it contains the exact build marker for launch commit:
 
-### Not independently confirmed from this runtime
+```text
+0bb1fc1fb5b08b9531fc4f0e35944d46e369f111
+```
 
-The public web crawler available during this execution pass returned an older cached version of the GitHub Pages site. The runtime also cannot make a direct uncached network request to the Pages host.
+The successful verification run was `launch-day-live-check` run 4 (`31289903133`).
 
-Because of that limitation, the external launch remains gated on one final production check:
+This execution pass also found a false-negative bug in the permanent Pages freshness check. The workflow used `set -o pipefail` with `printf ... | grep -q`; when `grep` found the marker and exited early, `printf` could receive a broken pipe and cause the pipeline to report failure. The permanent deployment workflow is fixed in the launch-day baseline PR to use a pipe-free here-string match.
 
-1. Open `https://ankitparekh007.github.io/ai-tools-cheatsheets/` in a normal browser.
-2. Confirm the homepage shows the developer-first launch experience and Community / Launch Edition links.
-3. Open the Comparison Matrix and one flagship tool page.
-4. In GitHub Actions, confirm the Pages deployment for commit `0bb1fc1fb5b08b9531fc4f0e35944d46e369f111` succeeded, including the deployed-commit freshness verification.
+## Public Repository Metadata Audit
 
-Do not publish the first external launch post until this gate is green.
+### Current About description
 
-## GitHub Repository Settings Gate
+```text
+Open-source handbook for AI coding tools, coding agents, MCP servers, AGENTS.md, prompts, engineering workflows, security, and team adoption.
+```
 
-The current connector can read/write repository contents and issues/PRs, but it does not expose repository About/topics/social-preview mutation or GitHub Release creation.
+### Recommended About description
 
-Before the first external post, verify manually:
+```text
+Open-source AI coding cheat sheets for Claude Code, Codex, Cursor, Copilot, Gemini CLI, MCP, AGENTS.md, CLAUDE.md, prompts, workflows, and team security.
+```
 
-- About text matches the recommendation in `Social Preview and Promotion`
-- Website points to the GitHub Pages handbook
-- recommended repository topics are applied
-- social preview image is configured and renders correctly
-- `2026.08 Launch Edition` GitHub Release is published using the prepared release notes
+**Status:** update recommended. The current text is accurate, but the recommended text has stronger flagship-tool and search-intent signals.
+
+### Website
+
+```text
+https://ankitparekh007.github.io/ai-tools-cheatsheets/
+```
+
+**Status:** correct.
+
+### Current topics
+
+```text
+agents-md
+ai-coding
+ai-tools
+cheatsheet
+claude-code
+claude-md
+coding-agents
+cursor
+developer-productivity
+developer-tools
+documentation
+gemini-cli
+github-copilot
+github-pages
+grok
+honkit
+mcp
+model-context-protocol
+openai-codex
+prompt-engineering
+```
+
+### Topic changes recommended before the main launch push
+
+Replace these implementation/product-specific topics:
+
+```text
+developer-productivity
+github-pages
+grok
+honkit
+```
+
+with these higher-intent discovery topics:
+
+```text
+ai-agents
+coding-assistant
+software-engineering
+ai-development
+```
+
+This brings the repository topic set in line with the Phase 3 recommendation.
+
+## Release Audit
+
+The GitHub API returned one published release:
+
+```text
+v1.0.0 — Public Handbook Launch
+```
+
+The `2026.08 Launch Edition` is **not yet published** as a GitHub Release.
+
+Recommended release title:
+
+```text
+2026.08 Launch Edition — AI Coding Cheat Sheets, MCP, Prompts and Workflows
+```
+
+Use [2026.08 Launch Edition release notes](release-2026-08.md) as the release body.
+
+## Social Preview
+
+The current GitHub API/connector surface does not expose the repository social-preview configuration. Confirm the configured preview manually in repository settings before broad social distribution.
 
 ## Release Package
 
@@ -69,12 +146,6 @@ Use:
 - [Public Launch Playbook](public-launch-playbook.md)
 - [Wave 1 Campaign Copy](launch-wave-1-copy.md)
 - [30-Day Launch Scorecard](launch-scorecard.md)
-
-Recommended GitHub Release title:
-
-```text
-2026.08 Launch Edition — AI Coding Cheat Sheets, MCP, Prompts and Workflows
-```
 
 ## First Public Asset
 
@@ -90,14 +161,16 @@ https://ankitparekh007.github.io/ai-tools-cheatsheets/getting-started/comparison
 
 ## Day-0 Publishing Order
 
-After the deployment/settings gates are green:
+With production freshness green, complete the remaining manual GitHub settings/release actions and then publish in this order:
 
-1. Publish the GitHub Release.
-2. Publish a GitHub Discussion using the prepared release-announcement copy.
-3. Publish the primary LinkedIn comparison post.
-4. Publish the X/short-form comparison post later as a separate channel test, not an identical simultaneous blast.
-5. Consider Hacker News only after the production links and release are stable; use the prepared `Show HN` framing and stay available for technical discussion.
-6. Do not cross-post generic promotional text into Reddit communities. Adapt only where the comparison directly answers a real discussion and community rules permit it.
+1. Apply the recommended About text and topic replacements.
+2. Confirm the repository social preview.
+3. Publish the `2026.08 Launch Edition` GitHub Release.
+4. Publish a GitHub Discussion using the prepared release-announcement copy.
+5. Publish the primary LinkedIn comparison post.
+6. Publish the X/short-form comparison post later as a separate channel test, not an identical simultaneous blast.
+7. Consider Hacker News only after the release and production links are stable; use the prepared `Show HN` framing and stay available for technical discussion.
+8. Use Reddit only where the comparison directly answers a real discussion and the community rules permit self-promotion.
 
 ## Launch Guardrails
 
@@ -113,7 +186,11 @@ After the deployment/settings gates are green:
 
 **Source readiness:** green  
 **Contributor queue:** green — 13 curated issues, split 6 starter / 7 deeper tasks  
-**Production freshness:** pending independent live confirmation  
-**GitHub Release:** pending manual publication  
-**About/topics/social preview:** pending manual confirmation  
-**External distribution:** hold until production freshness is green
+**Production freshness:** green — exact launch SHA verified from GitHub-hosted runner  
+**Day-0 GitHub baseline:** captured — 0 stars / 0 forks / 2 contributors returned  
+**Website setting:** green  
+**About text:** optimization pending  
+**Topics:** optimization pending — four replacements identified  
+**Social preview:** manual confirmation pending  
+**GitHub Release:** pending — only `v1.0.0` currently published  
+**External distribution:** ready after the remaining manual GitHub settings/release steps
