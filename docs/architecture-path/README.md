@@ -4,6 +4,10 @@ This handbook helps you use AI engineering tools well. The next architecture pro
 
 Use this path to move from **tool adoption** to **trustworthy frontend state**, **runnable AI UX**, **full-stack copilot boundaries**, **governed agent lifecycle**, and finally **enterprise agent operations**.
 
+![Learn to Operate AI architecture ecosystem](../assets/images/social/ecosystem-architecture.png)
+
+The shareable card above is also available as an [editable SVG source](../assets/images/social/ecosystem-architecture.svg). It maps the public portfolio without claiming that prototype or production-shaped repositories are deployed production systems. If you want to contribute at one of these layers, use the [Ecosystem Contribution Map](../community/ecosystem-contribution-map.md).
+
 ```text
 AI coding tools and workflows
         ↓
