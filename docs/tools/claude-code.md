@@ -1,69 +1,83 @@
 # Claude Code
 
-> Terminal-first coding agent with strong repo reasoning, permissions, and MCP workflows.
+> Terminal-first coding agent with strong repo reasoning, permission controls, project instructions, skills, plugins, and MCP workflows.
 
 **Type:** CLI / IDE / web / desktop  
-**Best for:** Deep repo tasks, refactors, review, automation  
+**Best for:** Deep repository work, refactors, review, automation, and terminal-first engineering  
 **Official docs:** https://code.claude.com/docs/en/quickstart  
-**Last verified:** 2026-07-13  
+**Last verified:** 2026-08-09  
 **Status:** Documentation verified  
-**Verification scope:** Official quickstart, overview, authentication, permissions, memory, MCP, CLI reference, and best-practices docs were reviewed. Commands were not executed locally in this repository.
+**Verification scope:** Official Claude Code quickstart, CLI reference, commands, permissions, tools, and MCP docs were reviewed. Commands were not executed locally in this repository.
 
-## Overview
+## 60-Second Cheat Sheet
 
-Claude Code is an agentic coding tool that can read your repository, edit files, run commands, and work across terminal and IDE surfaces. The official docs position it as available in the terminal CLI, desktop app, web, VS Code, JetBrains, Slack, and CI integrations.
+| Need | Command or file | Notes |
+| --- | --- | --- |
+| Install on macOS/Linux/WSL | `curl -fsSL https://claude.ai/install.sh \| bash` | Native installer; auto-updates |
+| Install on Windows PowerShell | `irm https://claude.ai/install.ps1 \| iex` | Native Windows path |
+| Start an interactive session | `claude` | Run from the repository root |
+| Start with a task | `claude "explain this project"` | Opens an interactive session with the prompt |
+| One-shot output | `claude -p "explain this function"` | Prints a response and exits |
+| Start in plan mode | `claude --permission-mode plan` | Analyze and plan before implementation |
+| Continue latest conversation | `claude -c` | Continues the latest conversation in the current directory |
+| Resume a named/session thread | `claude -r "<session>"` | Resume by ID or name |
+| Create repo instructions | `/init` | Generates a starter `CLAUDE.md` |
+| Inspect/edit project memory | `/memory` | Manage `CLAUDE.md` and memory |
+| Manage permissions | `/permissions` | Review allow, ask, and deny rules |
+| Manage MCP connections | `/mcp` or `claude mcp` | External tools and context |
+| Shared repo instructions | `CLAUDE.md` | Keep build, test, conventions, and safety guidance here |
+| Shared MCP config | `.mcp.json` | Project-scoped MCP servers can be committed |
 
-## Best Suited For
+> **Safe default:** begin unfamiliar or high-impact work in plan mode, review proposed commands and edits, and widen permissions only for the specific task that needs them.
 
-- terminal-first engineering work
+## Five Prompts Worth Bookmarking
+
+### Understand a repository
+
+```text
+Map this repository. Identify the main packages, entry points, build and test commands, and the safest first area to change. Do not edit files yet.
+```
+
+### Plan a feature
+
+```text
+Read the relevant implementation and tests, then propose a step-by-step implementation plan with files to change, validation commands, risks, and rollback points. Wait for approval before editing.
+```
+
+### Review a diff
+
+```text
+Review the current changes for correctness, regressions, security issues, and missing tests. List findings by severity and cite the affected files. Do not rewrite code unless I ask.
+```
+
+### Fix a failing test
+
+```text
+Reproduce the failing test, identify the smallest root-cause fix, explain why it failed, implement only that fix, and rerun the narrowest relevant validation first.
+```
+
+### Refactor safely
+
+```text
+Refactor this area without changing externally observable behavior. Preserve public APIs, add or update tests first where useful, and show the validation results before proposing follow-up cleanup.
+```
+
+## What Claude Code Is Best At
+
+- terminal-first repository exploration and implementation
+- multi-file tasks that benefit from planning and iteration
 - repository onboarding and architecture explanation
-- multi-file refactors with human review
-- review-heavy workflows where permissions matter
-- teams that want both project memory and permission controls
-
-## Less Suited For
-
-- organizations that have not defined approval or secrets-handling rules
-- teams that want a purely editor-first workflow with minimal terminal usage
-- environments where shell access is prohibited outright
-
-## Confirmed Capabilities
-
-- reads and reasons over repository files
-- edits files across a project
-- runs terminal commands with approval controls
-- supports multiple surfaces beyond the terminal
-- supports `CLAUDE.md` project memory and user-level configuration
-- connects to external systems through MCP
-
-## Limitations
-
-- usefulness depends heavily on how clearly the repository conventions are expressed
-- terminal and filesystem access require careful permission choices
-- project memory improves consistency but does not replace enforcement; the docs explicitly distinguish memory from blocking controls
-- hosted or managed rollout details vary by team, enterprise, or cloud-provider setup
-
-## Supported Environments
-
-- macOS
-- Linux
-- Windows PowerShell
-- Windows CMD
-- WSL
-- terminal CLI
-- desktop app
-- web
-- VS Code and JetBrains according to the official quickstart and interface docs
+- review-heavy workflows with explicit permission controls
+- reusable project instructions through `CLAUDE.md`
+- extending local workflows with skills, plugins, hooks, subagents, and MCP
 
 ## Installation
 
-### Native install
+### macOS, Linux, and WSL
 
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
 ```
-
-Use this on macOS, Linux, and WSL.
 
 ### Windows PowerShell
 
@@ -77,183 +91,140 @@ irm https://claude.ai/install.ps1 | iex
 curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 ```
 
-### Additional documented install paths
+The official quickstart also documents Homebrew, WinGet, and Linux package-manager paths. Native installations automatically update; package-manager installs should be updated through their package manager.
 
-The official quickstart also documents Homebrew and WinGet as supported install methods. Prefer the official quickstart page over copying mirrors or third-party install instructions.
-
-## Authentication
-
-Claude Code supports multiple authentication methods. The official authentication docs describe:
-
-- individual sign-in with a Claude account
-- team or enterprise login paths
-- cloud-provider-backed options for some organizational setups
-
-For a personal pilot, the normal path is to start `claude` and complete the login flow when prompted.
-
-## First Working Example
+## First Session
 
 ```bash
+cd /path/to/your/repository
 claude
 ```
 
-From your repository root, ask one low-risk question first:
+A good first request is read-only:
 
 ```text
-Explain the structure of this repository and identify the safest first page to improve.
+What does this project do, where are the main entry points, and which commands build and test it? Do not edit anything.
 ```
 
-Expected behavior:
+Claude Code reads project files as needed, so you normally do not need to manually attach the repository.
 
-- Claude maps the repo structure
-- references files it inspected
-- avoids editing until you ask for a change
-- stays inside the current project boundary unless you broaden access
-
-## Common Commands
-
-### Terminal entry points
+## Daily CLI Commands
 
 ```bash
 claude
-claude --version
+claude "fix the build error"
+claude -p "explain this function"
+claude -c
+claude -r "auth-refactor" "finish the review"
 claude --permission-mode plan
 ```
 
-### In-session commands
+Useful in-session commands include:
 
 ```text
 /help
-/login
-/resume
+/init
+/memory
+/model
 /permissions
-/sandbox
-/context
+/mcp
+/agents
+/clear
+/resume
 ```
 
-Use `/help` for the current command set on your installed version. The CLI reference confirms that permission-mode values can be set at launch and that command names are available inside a session.
+Use `/help` or `/` on your installed version for the authoritative current command list.
 
 ## Repository Instructions
 
-Claude Code uses project memory and shared configuration to keep sessions consistent.
+Use `CLAUDE.md` for durable repository guidance such as:
 
-Use:
+- build, test, lint, and format commands
+- repository architecture and important directories
+- coding and review conventions
+- files or directories that should not be edited casually
+- validation expectations before a task is considered complete
 
-- `CLAUDE.md` for repository-specific instructions
-- repo-committed settings when you want a team baseline
-- personal configuration under `~/.claude` when the setting should not be shared
+Run `/init` for a starter file and `/memory` to inspect or refine memory and instruction files.
 
-## Configuration
-
-Official docs describe a split between:
-
-- project files checked into the repo
-- personal configuration under `~/.claude`
-
-The `.claude` directory docs specifically call out that most users edit:
-
-- `CLAUDE.md`
-- `settings.json`
-
-On Windows, `~/.claude` resolves under `%USERPROFILE%\\.claude`.
+Keep `CLAUDE.md` concise enough that developers can review it like code. Context is guidance, not a security boundary.
 
 ## Permission Model
 
-Claude Code documents both permission modes and lower-level controls.
+Claude Code separates model guidance from enforcement.
 
-Important points from the official docs:
+Current official docs describe:
 
-- read-only actions have a narrower default trust profile
-- editing files, running modifying commands, and network access can require approval
-- permission modes control how often approval is requested
-- sandbox settings can enforce OS-level file and command boundaries
-- managed MCP policies can restrict which MCP servers are available to users
+- allow, ask, and deny permission rules
+- permission modes including `default`, `acceptEdits`, `plan`, `auto`, `dontAsk`, and `bypassPermissions`
+- OS-level sandboxing for Bash filesystem and network access
+- project-distributed permission settings
 
-For most teams, start with a review-heavy mode and broaden only after you understand the repo and workflow.
+A practical team starting point is:
 
-## MCP / Integration Support
+1. use `plan` for unfamiliar, broad, or risky work
+2. keep sensitive files and dangerous commands denied
+3. allow only repeatable low-risk commands that your workflow genuinely needs
+4. use sandboxing as defense in depth rather than relying on prompt instructions alone
 
-Official docs confirm MCP support and provide both a conceptual guide and a quickstart for connecting servers. Claude Code can use MCP servers to access issue trackers, databases, browsers, and other tools without relying on pasted context alone.
+Avoid `--dangerously-skip-permissions` / `bypassPermissions` as a normal developer default.
 
-That is useful, but it also expands the security boundary. Treat each MCP server as a separate approval decision.
+## MCP and External Tools
 
-## Real Workflow Demonstration
+Claude Code supports project and user-scoped MCP servers.
 
-### Scenario
+A project-scoped server can be configured with `claude mcp` and stored in `.mcp.json` so the team shares the same server definition. Claude Code prompts before using project-scoped servers from a repository.
 
-You are evaluating whether Claude Code is suitable for repository onboarding and low-risk review work in an unfamiliar codebase.
+Treat every MCP server as a separate security decision because it can expand access beyond the local repository.
 
-### Repository context
+Review:
 
-A medium-sized documentation or application repository with build scripts already installed.
+- authentication method
+- data exposed to the server
+- available tools and write operations
+- network boundary
+- revocation path
 
-### Request
+## Team Adoption Checklist
 
-```text
-Map this repository, list the main sections, identify the build command, and tell me which page or module looks thinnest before making any edits.
-```
+- [ ] standardize where `CLAUDE.md` lives and who reviews it
+- [ ] document the default permission mode for normal work
+- [ ] define deny rules for secrets and destructive commands
+- [ ] approve MCP servers separately from Claude Code itself
+- [ ] require project tests or build validation before merge
+- [ ] keep bypass-permission workflows restricted to explicitly controlled automation
 
-### Expected AI behavior
+## Security Notes
 
-- reads files in the current repository
-- identifies structure from the source tree
-- points to likely weak spots with file references
-- does not change files unless asked
-
-### Human review checkpoint
-
-- check whether the files cited were actually inspected
-- verify that the suggested weak spots match your own reading
-- confirm no broader permissions were granted than needed
-
-### Validation step
-
-Run the build or test command yourself before trusting any proposed edit plan.
-
-## Team Adoption Guidance
-
-- standardize where `CLAUDE.md` should live and what belongs in it
-- define a default permission mode for pilots
-- document which MCP servers are approved and which are prohibited
-- require human review for edits, commands, and commits until the pilot is stable
-
-## Security Considerations
-
-- Claude Code can read repository files and run commands, so repo secrets and local environment exposure matter immediately
-- memory files are context, not enforcement; use permissions, sandboxing, and hooks when you need hard boundaries
-- MCP can expose external systems directly to the tool, so read-only adoption first is the safer default
-- use the narrowest permission scope that lets the task continue
-
-## Troubleshooting
-
-- If installation guidance differs across blogs and screenshots, trust the official quickstart page only.
-- If behavior seems inconsistent, review `CLAUDE.md`, project settings, and personal `~/.claude` settings together.
-- If Claude keeps asking for approval too often, adjust the permission mode rather than granting broad unrestricted access by default.
+- shell and filesystem access are the primary local risk boundary
+- permission rules and sandboxing are complementary controls
+- project instructions can improve behavior but do not enforce policy
+- MCP servers expand the tool and data boundary
+- keep credentials out of repository instructions and prompts
 
 ## Alternatives
 
-- [OpenAI Codex](openai-codex.md) for OpenAI-centered terminal workflows
-- [Cursor](cursor.md) for IDE-centered teams
-- [Aider](aider.md) for a more explicitly git-centric CLI loop
+- [OpenAI Codex](openai-codex.md) for OpenAI-centered terminal and multi-surface workflows
+- [Cursor](cursor.md) for IDE-first teams with a growing terminal agent surface
+- [GitHub Copilot](github-copilot.md) for GitHub-native editor, CLI, review, and repository workflows
+- [Gemini CLI](gemini-cli.md) for a Google-backed terminal alternative with sandbox and workspace-context controls
+
+See the [Comparison Matrix](../getting-started/comparison-matrix.md) for a side-by-side shortlist.
 
 ## Verification Status
 
 - Status: Documentation verified
-- Last verified: 2026-07-13
-- Scope: official docs reviewed for install, auth, memory, permissions, CLI commands, MCP, and surfaces
-- Not locally tested: binary installation, account login, desktop/web surfaces, and enterprise policy rollout
+- Last verified: 2026-08-09
+- Scope: install, CLI commands, project instructions, permissions, tools, and MCP reviewed against current official docs
+- Not locally tested: installer execution, account login, IDE/web/desktop behavior, and enterprise policy rollout
 
 ## Sources
 
 - https://code.claude.com/docs/en/quickstart
-- https://code.claude.com/docs/en/overview
-- https://code.claude.com/docs/en/authentication
+- https://code.claude.com/docs/en/cli-usage
+- https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/permissions
-- https://code.claude.com/docs/en/permission-modes
-- https://code.claude.com/docs/en/settings
-- https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/tools-reference
 - https://code.claude.com/docs/en/mcp
-- https://code.claude.com/docs/en/mcp-quickstart
-- https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/settings
 - https://code.claude.com/docs/en/best-practices
-- https://code.claude.com/docs/en/security
