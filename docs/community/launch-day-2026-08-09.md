@@ -59,7 +59,7 @@ Open-source handbook for AI coding tools, coding agents, MCP servers, AGENTS.md,
 Open-source AI coding cheat sheets for Claude Code, Codex, Cursor, Copilot, Gemini CLI, MCP, AGENTS.md, CLAUDE.md, prompts, workflows, and team security.
 ```
 
-**Status:** update recommended. The current text is accurate, but the recommended text has stronger flagship-tool and search-intent signals.
+Assessment: update recommended. The current text is accurate, but the recommended text has stronger flagship-tool and search-intent signals.
 
 ### Website
 
@@ -67,7 +67,7 @@ Open-source AI coding cheat sheets for Claude Code, Codex, Cursor, Copilot, Gemi
 https://ankitparekh007.github.io/ai-tools-cheatsheets/
 ```
 
-**Status:** correct.
+Assessment: correct.
 
 ### Current topics
 
