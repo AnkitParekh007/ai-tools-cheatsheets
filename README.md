@@ -34,6 +34,8 @@
 
 > Stop searching across dozens of AI coding docs. This repository organizes practical cheat sheets, comparisons, repo instruction files, MCP guidance, prompts, templates, security notes, and repeatable engineering workflows in one source-backed handbook.
 
+**2026.08 Launch Edition:** [Release notes](./docs/community/release-2026-08.md) · [Public launch playbook](./docs/community/public-launch-playbook.md) · [30-day scorecard](./docs/community/launch-scorecard.md) · [Good first issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
 ## Start With the Most Useful Pages
 
 | Need | Start here |
@@ -142,6 +144,7 @@ The public issue backlog is intentionally kept small and contributor-ready. `goo
 - [Community Hub](./docs/community/README.md)
 - [Contributor Recognition](./docs/community/contributors.md)
 - [Launch and Sharing Kit](./docs/community/launch-kit.md)
+- [Public Launch Playbook](./docs/community/public-launch-playbook.md)
 - [GitHub Discussions](https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions)
 - [Good First Issues](https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
