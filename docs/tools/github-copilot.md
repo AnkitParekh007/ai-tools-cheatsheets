@@ -1,250 +1,266 @@
 # GitHub Copilot
 
-> GitHub-native assistant spanning IDE, CLI, code review, and cloud-agent workflows.
+> GitHub-native AI coding platform spanning IDE, CLI, repository instructions, MCP, plugins, skills, code review, and cloud-agent workflows.
 
 **Type:** IDE assistant / CLI / PR tooling / cloud agent  
-**Best for:** GitHub-heavy organizations that want one platform across editor, repo, review, and task flows  
+**Best for:** GitHub-heavy teams that want one platform across editor, terminal, repository, review, and agent workflows  
 **Official docs:** https://docs.github.com/en/copilot  
-**Last verified:** 2026-07-13  
+**Last verified:** 2026-08-09  
 **Status:** Documentation verified  
-**Verification scope:** Official GitHub Docs for Copilot CLI, installation, getting started, configuration, tool approvals, custom instructions, and supported customization types were reviewed. Commands were not executed locally in this repository.
+**Verification scope:** Official GitHub Docs for Copilot CLI installation, command reference, plan mode, tool approvals, MCP, plugins, skills, custom instructions, and repository initialization were reviewed. Commands were not executed locally in this repository.
 
-## Overview
+## 60-Second Cheat Sheet
 
-GitHub Copilot now spans more than inline completion. The official docs document IDE chat, repository custom instructions, Copilot CLI, tool approvals, code review customization, and cloud-agent workflows on GitHub.com.
+| Need | Command or file | Notes |
+| --- | --- | --- |
+| Install with npm | `npm install -g @github/copilot` | Requires Node.js 22+ |
+| Install on Windows | `winget install GitHub.Copilot` | Official WinGet path |
+| Install with Homebrew | `brew install --cask copilot-cli` | macOS/Linux |
+| Start Copilot CLI | `copilot` | Interactive terminal agent |
+| Authenticate | `copilot login` or `/login` | GitHub OAuth/device flow |
+| Initialize repo guidance | `copilot init` or `/init` | Generates/improves `.github/copilot-instructions.md` |
+| Plan before coding | `/plan <prompt>` | Structured implementation planning |
+| Resume latest session | `copilot --continue` | Reopens the most recent local session |
+| Run one prompt | `copilot -p "review these changes"` | Programmatic/non-interactive mode |
+| Inspect permissions | `/permissions` | View/reset session approvals |
+| Select model | `/model` | Choose model or Auto |
+| Manage MCP | `copilot mcp` | First-class MCP configuration |
+| Manage plugins/skills | `/plugins` | Plugin, MCP, and skill dashboard |
+| Repo-wide instructions | `.github/copilot-instructions.md` | Standard GitHub repository guidance |
+| Path-specific instructions | `.github/instructions/**/*.instructions.md` | Scoped guidance |
+| Cross-agent instructions | `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` | CLI can merge these too |
 
-## Best Suited For
+> **Safe default:** use plan mode for broad work, approve mutation tools narrowly, and prefer `--allow-tool` / `--deny-tool` over `--allow-all-tools` when automation needs extra permissions.
 
-- GitHub-first organizations
-- teams already using VS Code, JetBrains, or GitHub.com review flows
-- organizations that want a single GitHub-centered path for editor, CLI, and review usage
-- teams that want repository custom instructions under `.github/`
+## Five Prompts Worth Bookmarking
 
-## Less Suited For
+### Understand a repository
 
-- teams that prioritize provider flexibility over GitHub integration
-- organizations that do not want GitHub to be the control plane for AI usage
-- environments where organization policy has not yet approved Copilot CLI access
+```text
+Give me an overview of this repository: architecture, entry points, build/test commands, important GitHub workflows, and one safe first improvement. Do not edit files.
+```
 
-## Confirmed Capabilities
+### Plan a feature
 
-- IDE and chat usage across supported environments
-- Copilot CLI interactive and programmatic usage
-- repository-wide custom instructions via `.github/copilot-instructions.md`
-- path-specific custom instructions via `.github/instructions/**/*.instructions.md`
-- tool approval flags for CLI sessions
-- GitHub-integrated workflows such as code review and repository-centric tasks
+```text
+Analyze the relevant code and tests, then create an implementation plan with files to change, validation commands, risks, and rollback points. Do not write code until the plan is approved.
+```
 
-## Limitations
+### Review a pull request
 
-- some features depend on plan, editor, or organization policy
-- if Copilot is provisioned through an organization, CLI usage can be blocked by org policy
-- customization support differs by product surface
-- tool approval shortcuts are powerful and should not be used casually
+```text
+Review the current diff for correctness, regressions, security issues, and missing tests. List actionable findings by severity and cite the affected files.
+```
 
-## Supported Environments
+### Prepare repository instructions
 
-GitHub docs explicitly describe Copilot CLI support for:
+```text
+Review this repository and propose concise Copilot instructions covering architecture, build/test/lint commands, coding conventions, risky directories, and validation expectations. Keep repository-specific facts only.
+```
 
-- Linux
-- macOS
-- Windows from PowerShell
-- WSL
+### Debug CI
 
-The broader Copilot platform also documents supported IDE and editor integrations.
+```text
+Inspect the failing workflow/check logs, identify the first root-cause failure rather than downstream noise, propose the smallest fix, and list the exact validation needed before changing anything.
+```
+
+## What GitHub Copilot Is Best At
+
+- organizations already centered on GitHub repositories and pull requests
+- one workflow spanning editor, CLI, code review, and GitHub.com agent surfaces
+- repository initialization through generated custom instructions
+- plan-first terminal workflows
+- MCP, plugins, skills, custom agents, hooks, and GitHub integrations
+- teams that want organization policy to gate AI capabilities centrally
 
 ## Installation
 
-### Cross-platform npm install
+### npm
 
 ```bash
 npm install -g @github/copilot
 ```
 
-Prerequisite from the GitHub docs: Node.js 22 or later.
+GitHub currently documents Node.js 22 or later as the prerequisite for npm installation.
 
-### Windows (WinGet)
+### Windows
 
 ```powershell
 winget install GitHub.Copilot
 ```
 
-### macOS and Linux (Homebrew)
+### macOS and Linux
 
 ```bash
 brew install --cask copilot-cli
 ```
 
-The installation docs also describe an install script path for macOS and Linux.
+GitHub also documents additional install paths. Use the current GitHub Docs installation page as the source of truth for platform-specific updates.
 
-## Authentication
-
-The GitHub CLI quickstart instructs you to:
-
-1. move into the project directory
-2. run `copilot`
-3. use `/login`
-4. complete GitHub authentication
-5. confirm that you trust the files in the current directory for AI use
-
-That final trust prompt is a meaningful review checkpoint and should not be skipped casually.
-
-## First Working Example
+## First Session
 
 ```bash
+cd /path/to/your/repository
 copilot
 ```
 
-Then start with a read-only task such as:
+Then authenticate if needed:
 
 ```text
-Summarize this repository, identify the build command, and review the current changes without editing files.
+/login
 ```
 
-Expected behavior:
+Copilot asks you to confirm that you trust the current directory for AI use. During a session it may read, modify, and execute files in and below that directory, subject to approvals and configuration.
 
-- Copilot analyzes the repository context
-- keeps the first turn low risk
-- asks for approval if the session would require tools outside the current policy
+Start safely:
 
-## Common Commands
+```text
+Give me an overview of this project and its build/test commands. Do not modify files.
+```
 
-### CLI entry points
+## Daily CLI Commands
 
 ```bash
 copilot
-copilot --version
-copilot -p "Suggest improvements to the test setup"
+copilot -p "summarize the current diff"
+copilot --continue
+copilot init
+copilot mcp
+copilot help permissions
 ```
 
-### Approval-related examples
+Useful in-session commands include:
 
-GitHub docs explicitly describe command-line options such as:
+```text
+/plan
+/model
+/permissions
+/init
+/instructions
+/plugins
+/ide
+/help
+```
 
-- `--allow-all-tools`
-- `--excluded-tools=...`
+GitHub's current CLI also includes parallel subagent execution with `/fleet`, plugins, skills, custom agents, hooks, and remote/session capabilities. Use the CLI reference for the exact version installed in your environment.
 
-Use these only when you understand exactly which tools are being widened and why.
+## Plan Mode
+
+Copilot CLI has a dedicated plan mode for analyzing a task and building a structured implementation plan before writing code.
+
+Use:
+
+```text
+/plan Implement the new authentication flow with tests and migration notes
+```
+
+This is a useful default for:
+
+- cross-cutting changes
+- unfamiliar repositories
+- migrations
+- production-impacting changes
+- work that needs agreement on scope before implementation
 
 ## Repository Instructions
 
-GitHub's official customization docs confirm repository-wide instructions at:
+The CLI can initialize repository instructions with:
+
+```bash
+copilot init
+```
+
+or inside a session:
+
+```text
+/init
+```
+
+The standard repository-wide file is:
 
 ```text
 .github/copilot-instructions.md
 ```
 
-The docs also confirm support for:
+Path-specific instructions can live under:
 
-- path-specific instructions under `.github/instructions/**/*.instructions.md`
-- `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` for some cloud-agent scenarios
+```text
+.github/instructions/**/*.instructions.md
+```
 
-That means teams should define which instruction systems they support, instead of allowing all of them to appear organically.
+Current Copilot CLI also loads and merges several instruction formats, including `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` in supported locations.
 
-## Configuration
-
-GitHub docs provide dedicated setup and configuration sections for Copilot CLI, including:
-
-- installation method
-- authentication
-- trusted directories
-- tool approval behavior
-- LSP server integration
-
-Use those docs as the source of truth rather than older `gh copilot` extension articles; GitHub explicitly documents that the old GitHub CLI Copilot extension is retired and replaced by Copilot CLI.
+For teams, decide which formats are canonical so the same rule is not duplicated across files.
 
 ## Permission Model
 
-Copilot CLI can operate in interactive and programmatic modes. Official docs also describe command-line options that allow tools to be used without manual approval.
+Copilot asks before using tools that can modify or execute files unless permissions have already been granted for the session or configured through CLI flags/settings.
 
-Important implications:
+Important automation flags include:
 
-- org policy can control whether users can use Copilot CLI at all
-- trusted-directory prompts matter because repository content becomes AI context
-- `--allow-all-tools` is a broad permission decision, not a convenience flag
-- excluded-tool patterns can be safer when you want to deny web or shell behavior explicitly
+- `--allow-tool` — pre-approve a specific tool or command pattern
+- `--deny-tool` — block a tool; deny takes precedence
+- `--allow-all-tools` — broadly removes per-tool approval prompts
 
-## MCP / Integration Support
+Prefer narrow patterns such as a specific `git` or test command over broad shell access.
 
-MCP support is not a single universal Copilot capability. The right phrasing for this page is that integration and instruction support vary by Copilot surface. Treat MCP or external-tool expectations as product-surface-specific until the relevant GitHub docs confirm them directly.
+Do not use `--allow-all-tools` as a normal developer default: GitHub explicitly warns that this can give Copilot the same local file and shell access as the user account running it.
 
-## Real Workflow Demonstration
+## MCP, Plugins, and Skills
 
-### Scenario
+Copilot CLI now has first-class support for:
 
-A GitHub-heavy team wants a first AI workflow for repository review without approving broad automation.
+- MCP servers
+- plugins and plugin marketplaces
+- agent skills
+- custom agents
+- hooks
 
-### Repository context
+Persistent MCP configuration can be managed through the CLI, while `/plugins` provides a dashboard for plugins, MCP servers, and skills.
 
-A code repository already hosted on GitHub with existing review conventions.
+Treat every extension mechanism as a separate trust decision. A base Copilot approval does not automatically mean every MCP server, skill, plugin, or hook should be approved.
 
-### Request
+## Team Adoption Checklist
 
-```text
-Review the current repository and suggest the top three code-review risks before proposing any edits.
-```
+- [ ] enable Copilot CLI through organization policy only after review
+- [ ] standardize `.github/copilot-instructions.md`
+- [ ] decide whether `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` are also supported
+- [ ] default complex work to plan mode
+- [ ] define allowed/denied tools for automated usage
+- [ ] review MCP servers, plugins, skills, and hooks separately
+- [ ] keep CI and PR validation as the final enforcement layer
 
-### Expected AI behavior
+## Security Notes
 
-- explains repository-level risks
-- stays within the current trusted directory
-- avoids silent file changes unless the session policy allows them
-- provides a review-oriented output rather than a speculative rewrite
-
-### Human review checkpoint
-
-- compare the suggestions with the actual diff
-- verify whether any repository custom instructions influenced the output
-- confirm that no broad tool-approval flags were used unnecessarily
-
-### Validation step
-
-Run tests, lint, or the relevant CI checks after any accepted change.
-
-## Team Adoption Guidance
-
-- define a standard for `.github/copilot-instructions.md`
-- decide whether path-specific instructions are allowed
-- enable Copilot CLI only after reviewing organization policy implications
-- document whether `AGENTS.md` or other agent-instruction files are part of your GitHub workflow
-
-## Security Considerations
-
-- repository trust prompts matter because they determine when local files are treated as AI context
-- org policy can and should be used to gate CLI usage
-- broad tool-approval flags can remove meaningful review checkpoints
-- repository-wide instructions are powerful; keep them short, specific, and reviewable
-
-## Troubleshooting
-
-- If install guidance conflicts, use the current GitHub Docs install page only.
-- If the CLI is unavailable, check whether organization policy is blocking it.
-- If responses feel inconsistent, inspect repository-wide and path-specific instruction files together.
-- If you find references to the old GitHub CLI Copilot extension, replace them with the current Copilot CLI docs.
+- trusting a directory makes its content available to the CLI workflow
+- session approvals can widen command access significantly
+- `--allow-all-tools` removes important checkpoints
+- multiple instruction files are merged, so conflicting guidance can be difficult to notice
+- MCP/plugins/skills/hooks expand the execution and data boundary
+- organization policy should gate features that are not ready for broad use
 
 ## Alternatives
 
-- [Cursor](cursor.md) for IDE-first teams that want more toolchain flexibility
-- [OpenAI Codex](openai-codex.md) or [Claude Code](claude-code.md) for stronger terminal-first defaults
-- [Continue](continue.md) or [Cline](cline.md) for more provider-flexible setups
+- [Cursor](cursor.md) for a more editor-first multi-model environment
+- [OpenAI Codex](openai-codex.md) for OpenAI-centered terminal, local review, and automation workflows
+- [Claude Code](claude-code.md) for terminal-first work with strong permission and project-memory patterns
+- [Gemini CLI](gemini-cli.md) for a Google-backed terminal workflow with sandbox and context controls
+
+See the [Comparison Matrix](../getting-started/comparison-matrix.md) for a side-by-side shortlist.
 
 ## Verification Status
 
 - Status: Documentation verified
-- Last verified: 2026-07-13
-- Scope: official docs reviewed for CLI install, auth, approvals, custom instructions, and supported surfaces
-- Not locally tested: CLI installation, login, org policy toggles, and editor-specific behavior
+- Last verified: 2026-08-09
+- Scope: CLI install, authentication, plan mode, custom instructions, approvals, MCP, plugins, skills, and command reference reviewed against current GitHub Docs
+- Not locally tested: CLI installation, login, organization policy changes, editor behavior, plugin installation, and cloud-agent workflows
 
 ## Sources
 
 - https://docs.github.com/en/copilot
-- https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-getting-started
+- https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference
 - https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/configure-copilot-cli
-- https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools
-- https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview
-- https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot
-- https://docs.github.com/en/copilot/reference/custom-instructions-support
-- https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices
-- https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli
+- https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview
+- https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions
