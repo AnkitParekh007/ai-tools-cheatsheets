@@ -136,6 +136,8 @@
 * [Contributor Recognition](community/contributors.md)
 * [Launch and Sharing Kit](community/launch-kit.md)
 * [2026.08 Launch Edition](community/release-2026-08.md)
+* [2026.08 Ecosystem Launch Kit](community/ecosystem-launch-2026-08.md)
+* [2026.08 Ecosystem Release Manifest](community/ecosystem-release-manifest-2026-08.md)
 * [Public Launch Playbook](community/public-launch-playbook.md)
 * [30-Day Launch Scorecard](community/launch-scorecard.md)
 * [Launch Day — 2026-08-09](community/launch-day-2026-08-09.md)

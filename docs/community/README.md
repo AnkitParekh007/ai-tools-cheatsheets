@@ -9,10 +9,16 @@ You do not need to add a new product or rewrite a whole section to contribute. A
 The handbook now has a repeatable public-launch system instead of relying on one-off promotion.
 
 - [2026.08 Launch Edition](release-2026-08.md)
+- [2026.08 Ecosystem Launch Kit](ecosystem-launch-2026-08.md)
+- [2026.08 Ecosystem Release Manifest](ecosystem-release-manifest-2026-08.md)
 - [Public Launch Playbook](public-launch-playbook.md)
 - [30-Day Launch Scorecard](launch-scorecard.md)
 - [Wave 1 Campaign Copy](launch-wave-1-copy.md)
 - [Launch and Sharing Kit](launch-kit.md)
+
+### Learn → Pattern → Run → Platform → Govern → Operate
+
+Use the ecosystem launch kit when sharing the portfolio as an AI Frontend Architect / Agent Systems Architect body of work rather than promoting one repository in isolation. The release manifest contains the final six-repository release order, titles, public-proof links, GitHub settings checklist, and manual release-publishing steps.
 
 The launch principle is simple: share one useful developer artifact first, link directly to the page that solves the problem, and let the repository earn the star.
 
@@ -74,4 +80,4 @@ Contributors should receive visible credit for accepted work. See [Contributor R
 
 If a page saves you time, share that specific page rather than only the repository homepage. Developers are more likely to discover the project through a useful comparison, cheat sheet, prompt, or workflow.
 
-Use the [Launch and Sharing Kit](launch-kit.md) for canonical links and evergreen share angles, then use the [Public Launch Playbook](public-launch-playbook.md) and [Wave 1 Campaign Copy](launch-wave-1-copy.md) for the active launch campaign.
+Use the [Launch and Sharing Kit](launch-kit.md) for canonical links and evergreen share angles, the [2026.08 Ecosystem Launch Kit](ecosystem-launch-2026-08.md) for the six-project architecture story, the [2026.08 Ecosystem Release Manifest](ecosystem-release-manifest-2026-08.md) for publishing order/settings, then use the [Public Launch Playbook](public-launch-playbook.md) and [Wave 1 Campaign Copy](launch-wave-1-copy.md) for the active launch campaign.
