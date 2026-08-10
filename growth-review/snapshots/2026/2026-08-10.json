@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "repository": "AnkitParekh007/ai-tools-cheatsheets",
+  "collectedAt": "2026-08-10T04:10:39.729Z",
+  "reportDate": "2026-08-10",
+  "period": {
+    "start": "2026-08-03T04:10:39.729Z",
+    "end": "2026-08-10T04:10:39.729Z",
+    "days": 7,
+    "timezone": "Asia/Kolkata"
+  },
+  "sourceInfo": {
+    "githubRestBaseUrl": "https://api.github.com",
+    "githubGraphqlPath": "/graphql",
+    "trafficRetentionDays": 14,
+    "maintainerAssociations": [
+      "OWNER",
+      "MEMBER",
+      "COLLABORATOR"
+    ]
+  },
+  "repositoryMetrics": {
+    "defaultBranch": "main",
+    "stars": 0,
+    "forks": 0,
+    "subscribers": 0,
+    "watchers": 0,
+    "openIssues": 13,
+    "openPullRequests": 1,
+    "sizeKb": 3905,
+    "pushedAt": "2026-08-10T00:30:05Z",
+    "latestRelease": {
+      "tagName": "v1.0.1",
+      "name": "2026.08 Launch Edition",
+      "publishedAt": "2026-08-09T02:25:37Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.1"
+    },
+    "totalReleases": 2,
+    "contributorCount": 3
+  },
+  "issueMetrics": {
+    "newIssues": 3,
+    "closedIssues": 45,
+    "openIssues": 13,
+    "goodFirstIssueOpen": 6,
+    "helpWantedOpen": 7,
+    "issueComments": 1,
+    "mostActiveIssues": [
+      {
+        "number": 68,
+        "title": "Create an ecosystem architecture social preview asset",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/68",
+        "comments": 1,
+        "updatedAt": "2026-08-09T07:19:04Z",
+        "labels": []
+      },
+      {
+        "number": 10,
+        "title": "Add Gemini CLI install notes",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/10",
+        "comments": 0,
+        "updatedAt": "2026-08-09T01:01:18Z",
+        "labels": [
+          "documentation",
+          "verification",
+          "tool-page"
+        ]
+      },
+      {
+        "number": 45,
+        "title": "Add comparison matrix missing fields",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/45",
+        "comments": 0,
+        "updatedAt": "2026-08-09T01:01:24Z",
+        "labels": [
+          "documentation",
+          "comparison"
+        ]
+      },
+      {
+        "number": 48,
+        "title": "Fix broken internal links in HonKit docs",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/48",
+        "comments": 0,
+        "updatedAt": "2026-08-09T01:01:37Z",
+        "labels": [
+          "documentation",
+          "good first issue",
+          "broken-link"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Verify Claude Code install commands for Linux",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/issues/4",
+        "comments": 0,
+        "updatedAt": "2026-08-09T01:01:03Z",
+        "labels": [
+          "documentation",
+          "good first issue",
+          "verification",
+          "linux"
+        ]
+      }
+    ],
+    "openIssuesWithoutMaintainerResponse": 0,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {
+      "OWNER": 15
+    }
+  },
+  "pullRequestMetrics": {
+    "newPullRequests": 11,
+    "mergedPullRequests": 10,
+    "closedWithoutMerge": 0,
+    "openPullRequests": 1,
+    "firstTimeContributors": 0,
+    "repeatContributors": 1,
+    "averageTimeToMergeHours": 0.3,
+    "awaitingReview": 1,
+    "openPullRequestsWithoutMaintainerResponse": 0,
+    "averageHoursToFirstMaintainerResponse": null,
+    "firstMaintainerResponseByAssociation": {
+      "OWNER": 11
+    },
+    "mostActivePullRequests": [
+      {
+        "number": 71,
+        "title": "Add the 2026.08 ecosystem launch and release manifest",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/71",
+        "comments": 1,
+        "additions": 268,
+        "deletions": 1,
+        "mergedAt": null
+      },
+      {
+        "number": 70,
+        "title": "Complete ecosystem architecture social preview",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/70",
+        "comments": 1,
+        "additions": 66,
+        "deletions": 16,
+        "mergedAt": "2026-08-09T07:19:03Z"
+      },
+      {
+        "number": 69,
+        "title": "Automate handbook visual-proof source capture",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/69",
+        "comments": 1,
+        "additions": 98,
+        "deletions": 0,
+        "mergedAt": "2026-08-09T06:46:04Z"
+      },
+      {
+        "number": 67,
+        "title": "Turn the handbook into the ecosystem discovery and contribution entry point",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/67",
+        "comments": 1,
+        "additions": 159,
+        "deletions": 9,
+        "mergedAt": "2026-08-09T05:33:16Z"
+      },
+      {
+        "number": 66,
+        "title": "Add architecture bridge from AI tools to governed agent platforms",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/pull/66",
+        "comments": 1,
+        "additions": 273,
+        "deletions": 0,
+        "mergedAt": "2026-08-09T04:10:25Z"
+      }
+    ]
+  },
+  "contributorMetrics": {
+    "currentContributorCount": 3,
+    "commitsDuringPeriod": 32,
+    "newContributors": 1,
+    "repeatContributors": 1,
+    "acceptedContributors": [
+      {
+        "login": "AnkitParekh007",
+        "mergedPullRequests": 10,
+        "commits": 31,
+        "acceptedActivity": 41,
+        "firstContributionAt": "2026-08-09T00:47:37Z",
+        "isFirstTime": false
+      },
+      {
+        "login": "github-actions[bot]",
+        "mergedPullRequests": 0,
+        "commits": 1,
+        "acceptedActivity": 1,
+        "firstContributionAt": "2026-08-09T07:02:33Z",
+        "isFirstTime": true
+      }
+    ],
+    "commitAuthors": [
+      {
+        "login": "AnkitParekh007",
+        "commits": 31
+      },
+      {
+        "login": "github-actions[bot]",
+        "commits": 1
+      }
+    ]
+  },
+  "releaseMetrics": {
+    "releasesPublished": 1,
+    "latestRelease": {
+      "tagName": "v1.0.1",
+      "name": "2026.08 Launch Edition",
+      "publishedAt": "2026-08-09T02:25:37Z",
+      "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/releases/tag/v1.0.1"
+    },
+    "totalReleases": 2,
+    "daysSinceLastRelease": 1,
+    "tagsCreated": null
+  },
+  "discussionMetrics": {
+    "newDiscussions": 0,
+    "newComments": 0,
+    "answeredDiscussions": 0,
+    "unansweredQuestions": 0,
+    "mostActiveDiscussions": [
+      {
+        "number": 54,
+        "title": "Help Build the Open-Source Handbook for AI Coding Tools",
+        "url": "https://github.com/AnkitParekh007/ai-tools-cheatsheets/discussions/54",
+        "comments": 2,
+        "isAnswered": null
+      }
+    ]
+  },
+  "trafficMetrics": {
+    "status": "disabled",
+    "views": null,
+    "clones": null,
+    "topReferrers": [],
+    "topPaths": []
+  },
+  "externalMetrics": {
+    "websiteAnalytics": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    },
+    "searchConsole": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    },
+    "linkedinCampaigns": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config."
+    }
+  },
+  "availability": {
+    "discussionMetrics": {
+      "status": "available",
+      "source": "github-graphql"
+    },
+    "trafficMetrics": {
+      "status": "disabled",
+      "reason": "GitHub traffic disabled in config."
+    },
+    "repositoryMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "issueMetrics": {
+      "status": "available",
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
+    },
+    "pullRequestMetrics": {
+      "status": "available",
+      "source": "github-search-rest",
+      "maintainerResponseSource": "available"
+    },
+    "contributorMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "releaseMetrics": {
+      "status": "available",
+      "source": "github-rest"
+    },
+    "externalMetrics": {
+      "status": "disabled",
+      "reason": "External analytics are disabled in config.",
+      "adapters": {
+        "websiteAnalytics": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        },
+        "searchConsole": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        },
+        "linkedinCampaigns": {
+          "status": "disabled",
+          "reason": "External analytics are disabled in config."
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "errors": []
+}
