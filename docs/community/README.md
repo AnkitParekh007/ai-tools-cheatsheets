@@ -16,11 +16,9 @@ The handbook now has a repeatable public-launch system instead of relying on one
 - [Wave 1 Campaign Copy](launch-wave-1-copy.md)
 - [Launch and Sharing Kit](launch-kit.md)
 
-The ecosystem launch kit introduces the six-project architecture path as one coherent story:
+### Learn → Pattern → Run → Platform → Govern → Operate
 
-**Learn → Pattern → Run → Platform → Govern → Operate**
-
-Use it when sharing the portfolio as an AI Frontend Architect / Agent Systems Architect body of work rather than promoting one repository in isolation. The release manifest contains the final six-repository release order, titles, public-proof links, GitHub settings checklist, and manual release-publishing steps.
+Use the ecosystem launch kit when sharing the portfolio as an AI Frontend Architect / Agent Systems Architect body of work rather than promoting one repository in isolation. The release manifest contains the final six-repository release order, titles, public-proof links, GitHub settings checklist, and manual release-publishing steps.
 
 The launch principle is simple: share one useful developer artifact first, link directly to the page that solves the problem, and let the repository earn the star.
 
