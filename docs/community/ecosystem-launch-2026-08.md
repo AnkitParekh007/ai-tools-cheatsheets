@@ -4,7 +4,7 @@ This launch kit introduces the six-repository architecture path as one coherent 
 
 ## Core story
 
-**Learn → Pattern → Run → Platform → Govern → Operate**
+### Learn → Pattern → Run → Platform → Govern → Operate
 
 | Layer | Project | Public proof |
 | --- | --- | --- |
